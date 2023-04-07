@@ -1,8 +1,41 @@
+.main-container {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#gameCanvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
 .head-container {
-    grid-template-rows: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    width: 800px;
+    height: 280px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 30%;
+    z-index: 1;
 }
 
 .head-container * {
-    grid-column: 3;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Lemon', cursive;  
+    font-size: 150%
 }
