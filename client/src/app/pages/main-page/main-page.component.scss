@@ -1,0 +1,8 @@
+.head-container {
+    grid-template-rows: auto;
+}
+
+.head-container * {
+    grid-column: 3;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
