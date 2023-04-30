@@ -11,11 +11,11 @@ async function bootstrap() {
 
   // Load the SSL certificate files
   const privateKey = fs.readFileSync(
-    '/etc/letsencrypt/archive/rlmap.ca/privkey.pem',
+    '/etc/letsencrypt/live/rlmap.ca/privkey.pem',
     'utf8',
   );
   const certificate = fs.readFileSync(
-    '/etc/letsencrypt/archive/rlmap.ca/fullchain.pem',
+    '/etc/letsencrypt/live/rlmap.ca/fullchain.pem',
     'utf8',
   );
 
