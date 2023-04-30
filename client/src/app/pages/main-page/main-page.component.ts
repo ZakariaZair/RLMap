@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -16,6 +17,7 @@ import { ReplayLoaderService } from 'src/app/services/replay-loader-service/repl
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit, OnDestroy {
+  @Input() replayActive = false;
   @ViewChild('gameCanvas', { static: true })
   gameCanvas!: ElementRef<HTMLCanvasElement>;
 
