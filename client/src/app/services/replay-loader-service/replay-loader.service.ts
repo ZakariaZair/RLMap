@@ -10,7 +10,7 @@ export class ReplayLoaderService {
   loadReplay() {}
 
   runScript() {
-    const commandPath = './command/rrrocket.exe';
+    const commandPath = './command/rrrocket';
     const command = commandPath;
     this.http.post('https://ec2-35-183-116-195.ca-central-1.compute.amazonaws.com:3000/run', { command }).subscribe(
       (response) => {
