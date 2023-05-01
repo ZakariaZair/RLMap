@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ReplayLoaderService {
+  private replayData: any;
   constructor(private http: HttpClient) {}
 
   loadReplay() {}
@@ -15,10 +16,15 @@ export class ReplayLoaderService {
     this.http.post('https://ec2-35-183-116-195.ca-central-1.compute.amazonaws.com:3000/run', { command }).subscribe(
       (response) => {
         console.log('Script executed:', response);
+        this.replayData = response;
       },
       (error) => {
         console.error('Error executing script:', error);
       }
     );
+  }
+
+  getReplayData() {
+    return this.replayData;
   }
 }
