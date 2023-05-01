@@ -9,6 +9,9 @@ async function bootstrap() {
   const server = express();
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
+  // Enable CORS
+  app.enableCors();
+
   // Load the SSL certificate files
   const privateKey = fs.readFileSync(
     '/home/ec2-user/RLMap/server/certificates/privkey.pem',
