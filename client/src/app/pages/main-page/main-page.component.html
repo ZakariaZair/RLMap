@@ -2,10 +2,10 @@
   <div class="game-container">
     <canvas #gameCanvas></canvas>
   </div>
-  <div class="head-container">
+  <div class="head-container" *ngIf="!replayActive">
     <p>RLMap</p>
     <p>Put you replay here</p>
     <input type="file" />
-    <button class="replay-assessment" (click)="runReplay()" routerLink="/replay">Let's Go !!!</button>
+    <button class="replay-assessment" routerLinkActive="active" (click)="runReplay()">Let's Go !!!</button>
   </div>
 </div>

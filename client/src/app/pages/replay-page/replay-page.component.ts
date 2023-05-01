@@ -13,6 +13,6 @@ export class ReplayPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.test = this.replayLoaderService.getReplayData().network_frames.length;
-    console.log(this.test);
+    console.log("lol");
   }
 }
