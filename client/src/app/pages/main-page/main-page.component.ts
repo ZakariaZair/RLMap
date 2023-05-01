@@ -9,6 +9,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { ReplayLoaderService } from 'src/app/services/replay-loader-service/replay-loader.service';
 
 @Component({
@@ -22,10 +23,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
   gameCanvas!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
-  private tileSizeX = 128;
-  private tileSizeY = 112;
-  private mapWidth = 20;
-  private mapHeight = 20;
+  private tileSizeX = 24;
+  private tileSizeY = 24;
+  private mapWidth = 40;
+  private mapHeight = 40;
   private characterX = 0;
   private characterY = 0;
   private animationFrameId: number = 0;
@@ -36,7 +37,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.handleKeyDown(event);
   }
 
-  constructor(private readonly replayLoaderService: ReplayLoaderService) {}
+  constructor(
+    private readonly replayLoaderService: ReplayLoaderService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.ctx = this.gameCanvas.nativeElement.getContext(
@@ -50,7 +54,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   runReplay(): void {
     this.replayLoaderService.runScript();
-    console.log('runReplay');
+    this.router.navigate(['/replay']);
   }
 
   loadCharacterImage(): void {
