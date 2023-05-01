@@ -18,7 +18,6 @@ import { ReplayLoaderService } from 'src/app/services/replay-loader-service/repl
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit, OnDestroy {
-  @Input() replayActive = false;
   @ViewChild('gameCanvas', { static: true })
   gameCanvas!: ElementRef<HTMLCanvasElement>;
 
@@ -52,8 +51,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.updateCanvasSize();
   }
 
-  runReplay(): void {
-    this.replayLoaderService.runScript();
+  async runReplay(): Promise<void> {
+    await this.replayLoaderService.runScript();
     this.router.navigate(['/replay']);
   }
 

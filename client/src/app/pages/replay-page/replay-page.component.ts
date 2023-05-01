@@ -7,12 +7,11 @@ import { ReplayLoaderService } from 'src/app/services/replay-loader-service/repl
   styleUrls: ['./replay-page.component.scss'],
 })
 export class ReplayPageComponent implements OnInit {
-  test: string = 'test';
+  test: number = 0;
 
   constructor(private readonly replayLoaderService: ReplayLoaderService) {}
 
   ngOnInit(): void {
-    this.test = this.replayLoaderService.getReplayData().network_frames.length;
-    console.log("lol");
+    this.test = this.replayLoaderService.getReplayData().network_frames.frames[0];
   }
 }

@@ -10,18 +10,21 @@ export class ReplayLoaderService {
 
   loadReplay() {}
 
-  runScript() {
+  async runScript() {
     const commandPath = './command/rrrocket';
     const command = commandPath;
-    this.http.post('https://ec2-35-183-116-195.ca-central-1.compute.amazonaws.com:3000/run', { command }).subscribe(
-      (response) => {
-        console.log('Script executed:', response);
-        this.replayData = response;
-      },
-      (error) => {
-        console.error('Error executing script:', error);
-      }
-    );
+    try {
+      const response = await this.http
+        .post(
+          'https://ec2-35-183-116-195.ca-central-1.compute.amazonaws.com:3000/run',
+          { command }
+        )
+        .toPromise();
+      console.log('Script executed:', response);
+      this.replayData = response;
+    } catch (error) {
+      console.error('Error executing script:', error);
+    }
   }
 
   getReplayData() {
