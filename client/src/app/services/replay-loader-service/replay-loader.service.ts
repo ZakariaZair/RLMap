@@ -16,7 +16,7 @@ export class ReplayLoaderService {
     try {
       const response = await this.http
         .post(
-          'https://ec2-35-183-116-195.ca-central-1.compute.amazonaws.com:3000/run',
+          'https://api.rlmap.ca:3000/run',
           { command }
         )
         .toPromise();
