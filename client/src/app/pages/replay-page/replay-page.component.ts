@@ -12,6 +12,11 @@ export class ReplayPageComponent implements OnInit {
   constructor(private readonly replayLoaderService: ReplayLoaderService) {}
 
   ngOnInit(): void {
-    this.test = this.replayLoaderService.getReplayData().network_frames.frames[0];
+    this.test =
+      this.replayLoaderService.getReplayData().network_frames.frames[0].new_actors[1].location.x;
+    console.log(
+      this.replayLoaderService.getReplayData().network_frames.frames[0]
+        .new_actors[1].location.x
+    );
   }
 }
