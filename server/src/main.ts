@@ -32,7 +32,7 @@ async function bootstrap() {
   await app.init();
   httpsServer.listen(PORT, () => {
     console.log(
-      `Server is running on https://ec2-35-183-116-195.ca-central-1.compute.amazonaws.com:${PORT}`,
+      `Server is running on https://api.rlmap.ca:${PORT}`,
     );
   });
 }
