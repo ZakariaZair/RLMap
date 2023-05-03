@@ -13,10 +13,10 @@ export class ReplayPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.test =
-      this.replayLoaderService.getReplayData().network_frames.frames[0].new_actors[1].location.x;
+      this.replayLoaderService.getReplayData().network_frames.frames[0].new_actors[1].initial_trajectory.location.x;
     console.log(
       this.replayLoaderService.getReplayData().network_frames.frames[0]
-        .new_actors[1].location.x
+        .new_actors[1].initial_trajectory.location.x
     );
   }
 }
