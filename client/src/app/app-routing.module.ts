@@ -6,8 +6,9 @@ import { ReplayPageComponent } from './pages/replay-page/replay-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: AppComponent },
-  { path: 'home', component: MainPageComponent },
+  { path: 'map', component: MainPageComponent },
   { path: 'replay', component: ReplayPageComponent },
 ];
 
