@@ -49,6 +49,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.gameLoop();
     document.addEventListener('keydown', this.handleKeyDown);
     this.updateCanvasSize();
+    this.router.navigate(['/replay']);
   }
 
   async runReplay(): Promise<void> {
