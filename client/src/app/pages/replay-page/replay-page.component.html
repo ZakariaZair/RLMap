@@ -1,7 +1,14 @@
 <div>
   <div class="replay-container">
-    <canvas #mapCanvas></canvas>
+    <canvas #mapCanvas id="canvas" height="503" width="398"></canvas>
   </div>
-  <p>This is a test: {{ test }}</p>
+  <ul> <h2>Player 1 Pos: </h2>
+    <li>x = {{ player1.position.x }}</li>
+    <li>y = {{ player1.position.y }}</li>
+  </ul>
+
   <button class="replay-assessment" (click)="constructMap()">Construct !</button>
+  <div class="slide-container">
+    <input type="range" min="1" [max]="getReplayLength()" value="0" class="slider" id="myRange">
+  </div>
 </div>
