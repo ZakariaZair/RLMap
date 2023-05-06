@@ -1,13 +1,20 @@
 .replay-container {
+  margin: auto;
+  margin-top: 3em;
+  border: 30px;
+  border-radius: inherit;
+  border-style: dotted;
+  border-image: 
+    linear-gradient(
+      to bottom, 
+      rgb(255, 128, 0), 
+      rgb(0, 153, 255)
+    ) 2 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 100%;
-  background-color: #000;
-  color: #000000;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.5rem;
-  overflow: hidden;
+  height: 503px;
+  width: 398px;
+  background-color: #558152;
 }
