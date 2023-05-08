@@ -1,10 +1,7 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
-  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -49,6 +46,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.gameLoop();
     document.addEventListener('keydown', this.handleKeyDown);
     this.updateCanvasSize();
+    this.runReplay();
   }
 
   async runReplay(): Promise<void> {
