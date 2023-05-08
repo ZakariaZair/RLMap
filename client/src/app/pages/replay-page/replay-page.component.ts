@@ -10,33 +10,27 @@ import { ReplayLoaderService } from 'src/app/services/replay-loader-service/repl
 export class ReplayPageComponent implements OnInit {
   @ViewChild('mapCanvas', { static: true })
   mapCanvas!: ElementRef<HTMLCanvasElement>;
+  replayValue: number;
   player1: Player;
 
   private ctx!: CanvasRenderingContext2D;
+  private replayFrames: any;
 
   constructor(private readonly replayLoaderService: ReplayLoaderService) {
-    this.player1 = {
-      position: {
-        x: 0,
-        y: 0,
-      },
-    };
+    this.player1 = { position: { x: 0, y: 0 } };
+    this.replayValue = 0;
   }
 
   ngOnInit(): void {
     this.ctx = this.mapCanvas.nativeElement.getContext(
       '2d'
     ) as CanvasRenderingContext2D;
+    this.replayFrames =
+      this.replayLoaderService.getReplayData().network_frames.frames;
   }
 
   constructMap() {
-    this.player1.position.x =
-      this.replayLoaderService.getReplayData().network_frames.frames[0].new_actors[1].initial_trajectory.location.x;
-    this.player1.position.y =
-      this.replayLoaderService.getReplayData().network_frames.frames[0].new_actors[1].initial_trajectory.location.y;
     this.ctx.beginPath();
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(200, 100);
     this.ctx.fillStyle = '#FFE53D';
     this.ctx.arc(
       Math.abs(this.player1.position.x) / 10,
@@ -49,8 +43,23 @@ export class ReplayPageComponent implements OnInit {
     this.ctx.stroke();
   }
 
+  changeReplayValue(event: Event): void {
+    this.replayValue = (event.target as HTMLInputElement)
+      .value as unknown as number;
+  }
+
   getReplayLength(): number {
-    return this.replayLoaderService.getReplayData().network_frames.frames
-      .length;
+    return this.replayFrames.length;
+  }
+
+  searchOnePlayer(): void {
+    this.player1.position.x =
+      this.replayFrames[
+        this.replayValue
+      ].new_actors[1].initial_trajectory.location.x;
+    this.player1.position.y =
+      this.replayFrames[
+        this.replayValue
+      ].new_actors[1].initial_trajectory.location.y;
   }
 }

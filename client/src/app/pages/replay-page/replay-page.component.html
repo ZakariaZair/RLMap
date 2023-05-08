@@ -6,9 +6,9 @@
     <li>x = {{ player1.position.x }}</li>
     <li>y = {{ player1.position.y }}</li>
   </ul>
-
   <button class="replay-assessment" (click)="constructMap()">Construct !</button>
+  <span>{{ replayValue }}</span>
   <div class="slide-container">
-    <input type="range" min="1" [max]="getReplayLength()" value="0" class="slider" id="myRange">
+    <input type="range" min="1" [max]="getReplayLength()" value="0" class="slider" id="myRange" (input)="changeReplayValue($event)">
   </div>
 </div>
