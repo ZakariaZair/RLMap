@@ -63,3 +63,4 @@ export class ReplayPageComponent implements OnInit {
       ].new_actors[1].initial_trajectory.location.y;
   }
 }
+
