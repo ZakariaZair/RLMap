@@ -3,35 +3,53 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
   background: url("../../../assets/layered-waves.svg") no-repeat center bottom/cover;
 }
 
 .high-container h1 {
-  margin-bottom: 50vh;
-  font-size: 700%;
-  padding-top: 1vh;
+  margin-bottom: 35vh;
+  font-size: 500%;
+  padding-top: 5vh;
 }
 
 .button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background-color: rgb(238, 95, 95);
-  border-radius: 50%;
+  border: 10px;
+  border-color: #f98d2e;
+  border-style: solid;
+  border-top-left-radius: 30%;
+  border-bottom-right-radius: 30%;
+  border-top-right-radius: 10%;
+  border-bottom-left-radius: 10%;
+  padding: 25px;
+  background-color: rgb(255, 255, 255);
+  font-family: "Lemon", cursive;
+}
+
+button:hover {
+  background-color: #575757;
+}
+
+button:active {
+  background-color: #fad269;
 }
 
 .low-container {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
   height: 100vh;
   background: url("../../../assets/waves-rocky-lava.svg") no-repeat center top/cover;
 }
 
 .features {
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
+  justify-content: space-evenly;
+  width: 80%;
   margin-bottom: 10vh;
 }
 
@@ -47,9 +65,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 10vh;
 }
 
 .feature * {
   font-size: 200%;
   margin-bottom: 10vh;
+  text-align: center;
+}
+
+input[type="file"] {
+  display: none;
 }

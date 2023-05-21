@@ -15,13 +15,15 @@ import { ReplayLoaderService } from 'src/app/services/replay-loader-service/repl
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit, OnDestroy {
-
   constructor(
     private readonly replayLoaderService: ReplayLoaderService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  createNewMap(): void {
+    this.router.navigate(['/map-editor']);
   }
 
   async runReplay(): Promise<void> {
@@ -29,7 +31,5 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/replay']);
   }
 
-
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }
