@@ -175,6 +175,10 @@ export class MapPageComponent implements AfterViewInit {
     });
   }
 
+  option1(){
+    
+  }
+
   loadImage(url: string): Promise<fabric.Image> {
     return new Promise((resolve) => {
       fabric.Image.fromURL(url, (img) => {
