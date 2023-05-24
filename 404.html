@@ -9,16 +9,5 @@
     <meta http-equiv="refresh" content="0;URL='/index.html'">
   </head>
   <body>
-    <h1>Redirecting...</h1>
-    <a href="/index.html">Click here if you are not redirected.</a>
-    <script>
-      (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect != location.href) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
-    </script>
   </body>
 </html>
