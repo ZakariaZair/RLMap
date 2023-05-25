@@ -18,10 +18,22 @@
 }
 
 .high-container * {
-    background: scroll;
-    width: fit-content;
-    font-size: 200%;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    margin-right: 3vw;
+    margin-left: 3vw;
+    background:rgba(245, 245, 220, 0.5);
+    font-size: 150%;
     font-family: "Lemon", cursive;;
+    border-radius: 20%;
+}
+
+.high-container button :hover{
+    background:rgba(245, 245, 220, 0.8);
+    border: 1px solid black;
+    border-radius: 20%;
+    opacity: 0.2;
+    visibility: hidden;
 }
 
 .map-container {
@@ -47,11 +59,35 @@
     align-items: center;
 }
 
-.low-container * {
+.low-container div {
+    position: relative;
+}
+
+.low-container div :hover {
+    border: 2px solid black;
+    background-color: rgb(132, 117, 107);
+    border: 1px;
+    border-radius: 20%;
+    opacity: 0.2;
+}
+
+
+.low-container div img {
+    height: 6vh;
+    position: relative;
+    border: 1px;
+    border-radius: 20%;
+    z-index: 1;
+}
+
+.low-container div button {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    border: 2%;
-    border-style: dashed;
+    opacity: 0;
+    z-index: 2;
 }
 
 .map {
