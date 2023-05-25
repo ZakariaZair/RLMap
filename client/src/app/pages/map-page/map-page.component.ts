@@ -18,12 +18,12 @@ export class MapPageComponent implements AfterViewInit {
   private fabricCanvas!: fabric.Canvas;
   private mapWidth: number;
   private mapHeight: number;
-  private objects: fabric.Image[];
+  private objects: Map<string, fabric.Image>;
 
   constructor(private renderer: Renderer2) {
     this.mapWidth = 0;
     this.mapHeight = 0;
-    this.objects = [];
+    this.objects = new Map<string, fabric.Image>();
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -131,13 +131,13 @@ export class MapPageComponent implements AfterViewInit {
 
   createObjects() {
     const imageUrls = [
-      '../../../assets/nobg_2.png',
-      '../../../assets/nobg_2.png',
-      '../../../assets/nobg_2.png',
-      '../../../assets/nobg_1.png',
-      '../../../assets/nobg_2.png',
-      '../../../assets/nobg_2.png',
-      '../../../assets/nobg_2.png',
+      '../../../assets/blue1.png',
+      '../../../assets/blue1.png',
+      '../../../assets/blue1.png',
+      '../../../assets/ball1.png',
+      '../../../assets/orange1.png',
+      '../../../assets/orange1.png',
+      '../../../assets/orange1.png',
     ];
 
     const imagePromises = imageUrls.map((url) => this.loadImage(url));
@@ -151,8 +151,9 @@ export class MapPageComponent implements AfterViewInit {
           originY: 'center',
           hasRotatingPoint: true,
           hasBorders: false,
-          scaleX: 0.15,
-          scaleY: 0.15,
+          scaleX: img.getSrc().includes('ball') ? 0.15 : 0.1,
+          scaleY: img.getSrc().includes('ball') ? 0.15 : 0.1,
+          type: img.getSrc().includes('ball') ? 'ball' : 'player',
         });
 
         img.setControlsVisibility({
@@ -168,18 +169,41 @@ export class MapPageComponent implements AfterViewInit {
         });
 
         this.fabricCanvas.add(img);
-        this.objects.push(img);
+        if (img.getSrc().includes('ball')) {
+          this.objects.set('ball', img);
+        } else if (img.getSrc().includes('blue')) {
+          this.objects.set('blue', img);
+        } else if ( img.getSrc().includes('orange')) {
+          this.objects.set('orange', img);
+        }
+
       });
 
       this.fabricCanvas.renderAll();
     });
   }
 
-  option1(){
-    
+  option1() {}
+
+  toggleBall() {
+    this.objects.forEach((obj) => {
+      if (obj.get('type') === 'ball') {
+        obj.set('visible', !obj.get('visible'));
+      }
+    });
+    this.fabricCanvas.renderAll();
   }
 
-  loadImage(url: string): Promise<fabric.Image> {
+  togglePlayers() {
+    this.objects.forEach((obj) => {
+      if (obj.get('type') === 'player') {
+        obj.set('visible', !obj.get('visible'));
+      }
+    });
+    this.fabricCanvas.renderAll();
+  }
+
+  private loadImage(url: string): Promise<fabric.Image> {
     return new Promise((resolve) => {
       fabric.Image.fromURL(url, (img) => {
         resolve(img);
