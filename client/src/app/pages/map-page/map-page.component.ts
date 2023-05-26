@@ -19,57 +19,18 @@ export class MapPageComponent implements AfterViewInit {
   private mapWidth: number;
   private mapHeight: number;
   private objects: Map<string, fabric.Image>;
+  private optionChosen: number;
 
   constructor(private renderer: Renderer2) {
     this.mapWidth = 0;
     this.mapHeight = 0;
     this.objects = new Map<string, fabric.Image>();
+    this.optionChosen = 3;
   }
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    const selectedObject = this.fabricCanvas.getActiveObject() as fabric.Image;
-    if (selectedObject) {
-      let position = selectedObject.getCenterPoint();
-      let currentAngle = selectedObject.angle || 0;
-      let angleChange = 0;
-      let positionChange = new fabric.Point(0, 0);
-
-      switch (event.key) {
-        case 'ArrowLeft':
-          angleChange = -22.5;
-          break;
-        case 'ArrowRight':
-          angleChange = 22.5;
-          break;
-        case 'ArrowUp':
-          currentAngle = 0;
-          break;
-        case 'ArrowDown':
-          currentAngle = 180;
-          break;
-        case 'a':
-          positionChange.x = -10; // Move left by 10 pixels
-          break;
-        case 'd':
-          positionChange.x = 10; // Move right by 10 pixels
-          break;
-        case 'w':
-          positionChange.y = -10; // Move up by 10 pixels
-          break;
-        case 's':
-          positionChange.y = 10; // Move down by 10 pixels
-          break;
-      }
-
-      selectedObject.set({
-        angle: currentAngle + angleChange,
-        left: position.x + positionChange.x,
-        top: position.y + positionChange.y,
-      });
-
-      this.fabricCanvas.renderAll();
-    }
+    this.setupInputs(event.key);
   }
 
   ngAfterViewInit() {
@@ -131,10 +92,10 @@ export class MapPageComponent implements AfterViewInit {
 
   createObjects() {
     const imageUrls = [
-      '../../../assets/blue1.png',
-      '../../../assets/blue1.png',
-      '../../../assets/blue1.png',
       '../../../assets/ball1.png',
+      '../../../assets/blue1.png',
+      '../../../assets/blue1.png',
+      '../../../assets/blue1.png',
       '../../../assets/orange1.png',
       '../../../assets/orange1.png',
       '../../../assets/orange1.png',
@@ -156,6 +117,26 @@ export class MapPageComponent implements AfterViewInit {
           type: img.getSrc().includes('ball') ? 'ball' : 'player',
         });
 
+        img.on('mouseover', () => {
+          img.set(
+            'shadow',
+            new fabric.Shadow({
+              color: img.getSrc().includes('orange')
+                ? 'orange'
+                : img.getSrc().includes('ball')
+                ? 'white'
+                : 'blue',
+              blur: 30,
+              offsetX: 0,
+              offsetY: 0,
+            })
+          );
+        });
+
+        img.on('mouseout', () => {
+          img.set('shadow', undefined);
+        });
+
         img.setControlsVisibility({
           bl: false,
           br: false,
@@ -172,18 +153,48 @@ export class MapPageComponent implements AfterViewInit {
         if (img.getSrc().includes('ball')) {
           this.objects.set('ball', img);
         } else if (img.getSrc().includes('blue')) {
-          this.objects.set('blue', img);
-        } else if ( img.getSrc().includes('orange')) {
-          this.objects.set('orange', img);
+          this.objects.set('blue' + index, img);
+        } else if (img.getSrc().includes('orange')) {
+          this.objects.set('orange' + index, img);
         }
-
       });
 
       this.fabricCanvas.renderAll();
     });
   }
 
-  option1() {}
+  option1() {
+    this.centerBall();
+    this.objects.get('blue1')?.set('visible', true);
+    this.objects.get('blue2')?.set('visible', false);
+    this.objects.get('blue3')?.set('visible', false);
+    this.objects.get('orange4')?.set('visible', true);
+    this.objects.get('orange5')?.set('visible', false);
+    this.objects.get('orange6')?.set('visible', false);
+    this.optionChosen = 1;
+    this.fabricCanvas.renderAll();
+  }
+
+  option2() {
+    this.centerBall();
+    this.objects.get('blue1')?.set('visible', true);
+    this.objects.get('blue2')?.set('visible', true);
+    this.objects.get('blue3')?.set('visible', false);
+    this.objects.get('orange4')?.set('visible', true);
+    this.objects.get('orange5')?.set('visible', true);
+    this.objects.get('orange6')?.set('visible', false);
+    this.optionChosen = 2;
+    this.fabricCanvas.renderAll();
+  }
+
+  option3() {
+    this.centerBall();
+    this.objects.forEach((obj) => {
+      obj.set('visible', true);
+    });
+    this.optionChosen = 3;
+    this.fabricCanvas.renderAll();
+  }
 
   toggleBall() {
     this.objects.forEach((obj) => {
@@ -200,6 +211,25 @@ export class MapPageComponent implements AfterViewInit {
         obj.set('visible', !obj.get('visible'));
       }
     });
+    if (this.optionChosen === 1) {
+      this.objects.get('blue2')?.set('visible', false);
+      this.objects.get('blue3')?.set('visible', false);
+      this.objects.get('orange5')?.set('visible', false);
+      this.objects.get('orange6')?.set('visible', false);
+    } else if (this.optionChosen === 2) {
+      this.objects.get('blue3')?.set('visible', false);
+      this.objects.get('orange6')?.set('visible', false);
+    }
+    this.fabricCanvas.renderAll();
+  }
+
+  private centerBall() {
+    this.objects.get('ball')?.set({
+      left: (this.fabricCanvas.width as number) / 2,
+      top: (this.fabricCanvas.height as number) / 2,
+      originX: 'center',
+      originY: 'center',
+    });
     this.fabricCanvas.renderAll();
   }
 
@@ -209,6 +239,51 @@ export class MapPageComponent implements AfterViewInit {
         resolve(img);
       });
     });
+  }
+
+  private setupInputs(eventKey: string) {
+    const selectedObject = this.fabricCanvas.getActiveObject() as fabric.Image;
+    if (selectedObject) {
+      let position = selectedObject.getCenterPoint();
+      let currentAngle = selectedObject.angle || 0;
+      let angleChange = 0;
+      let positionChange = new fabric.Point(0, 0);
+
+      switch (eventKey) {
+        case 'ArrowLeft':
+          angleChange = -22.5;
+          break;
+        case 'ArrowRight':
+          angleChange = 22.5;
+          break;
+        case 'ArrowUp':
+          currentAngle = 0;
+          break;
+        case 'ArrowDown':
+          currentAngle = 180;
+          break;
+        case 'a':
+          positionChange.x = -10; // Move left by 10 pixels
+          break;
+        case 'd':
+          positionChange.x = 10; // Move right by 10 pixels
+          break;
+        case 'w':
+          positionChange.y = -10; // Move up by 10 pixels
+          break;
+        case 's':
+          positionChange.y = 10; // Move down by 10 pixels
+          break;
+      }
+
+      selectedObject.set({
+        angle: currentAngle + angleChange,
+        left: position.x + positionChange.x,
+        top: position.y + positionChange.y,
+      });
+
+      this.fabricCanvas.renderAll();
+    }
   }
 
   private setUpCanvas() {
