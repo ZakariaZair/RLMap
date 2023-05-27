@@ -41,53 +41,32 @@ export class MapPageComponent implements AfterViewInit {
   }
 
   createMap() {
-    const pathData = `
-    M ${(this.fabricCanvas.width as number) / 6} 10
-    L 10 ${(this.fabricCanvas.height as number) / 5}
-    L 10 ${((this.fabricCanvas.height as number) * 2) / 5}
-    L 0 ${((this.fabricCanvas.height as number) * 2) / 5}
-    L 0 ${((this.fabricCanvas.height as number) * 3) / 5}
-    L 10 ${((this.fabricCanvas.height as number) * 3) / 5}
-    L 10 ${((this.fabricCanvas.height as number) * 4) / 5}
-    L ${(this.fabricCanvas.width as number) / 6} ${
-      (this.fabricCanvas.height as number) - 10
-    }
-    L ${((this.fabricCanvas.width as number) * 5) / 6} ${
-      (this.fabricCanvas.height as number) - 10
-    }
-    L ${(this.fabricCanvas.width as number) - 10} ${
-      ((this.fabricCanvas.height as number) * 4) / 5
-    }
-    L ${(this.fabricCanvas.width as number) - 10} ${
-      ((this.fabricCanvas.height as number) * 3) / 5
-    }
-    L ${this.fabricCanvas.width as number} ${
-      ((this.fabricCanvas.height as number) * 3) / 5
-    }
-    L ${this.fabricCanvas.width as number} ${
-      ((this.fabricCanvas.height as number) * 2) / 5
-    }
-    L ${(this.fabricCanvas.width as number) - 10} ${
-      ((this.fabricCanvas.height as number) * 2) / 5
-    }
-    L ${(this.fabricCanvas.width as number) - 10} ${
-      (this.fabricCanvas.height as number) / 5
-    }
-    L ${((this.fabricCanvas.width as number) * 5) / 6} 10
-    L ${(this.fabricCanvas.width as number) / 6} 10
-    Z
-  `;
-    const path = new fabric.Path(pathData, {
-      left: -2.75,
-      top: 10,
-      fill: 'transparent',
-      stroke: 'black',
-      strokeWidth: 5,
-      selectable: false,
-      evented: false,
-    });
+    fabric.loadSVGFromURL(
+      '../../../assets/q6NlCWk01.svg',
+      (objects, options) => {
+        const obj = fabric.util.groupSVGElements(objects, options);
+        obj.set({
+          opacity: 0.2,
+          left: -112,
+          top: 0,
+          fill: 'transparent',
+          stroke: 'black',
+          strokeWidth: 5,
+          selectable: false,
+          evented: false,
+          scaleX:
+            obj && obj.width
+              ? ((this.fabricCanvas.width as number) / obj.width) * 1.21
+              : 1,
+          scaleY:
+            obj && obj.height
+              ? ((this.fabricCanvas.height as number) / obj.height) * 0.98
+              : 1,
+        });
 
-    this.fabricCanvas.add(path);
+        this.fabricCanvas.add(obj).renderAll();
+      }
+    );
   }
 
   createObjects() {
