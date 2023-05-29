@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'RLMap';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, ) {}
 
   ngOnInit() {
     this.router.navigate(['/home']);

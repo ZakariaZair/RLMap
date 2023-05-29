@@ -31,5 +31,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/replay']);
   }
 
+  donate(): void {
+    const width = 900;
+    const height = 600;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+    window.open(
+      'https://donate.stripe.com/7sIaHhcgE9bhh20144',
+      'Popup',
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+  }
+
   ngOnDestroy(): void {}
 }

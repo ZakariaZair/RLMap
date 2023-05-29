@@ -39,7 +39,8 @@ button:active {
 .low-container {
   display: flex;
   justify-content: center;
-  align-items: baseline;
+  align-items: center;
+  flex-direction: column;
   height: 100vh;
   background: url("../../../assets/waves-rocky-lava.svg") no-repeat center top/cover;
 }
@@ -76,4 +77,20 @@ button:active {
 
 input[type="file"] {
   display: none;
+}
+
+.donate {
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.donate-btn {
+  font-size: 230%;
+  width: 20vw;
+  text-align: center;
+  box-shadow: #f98d2e;
 }
