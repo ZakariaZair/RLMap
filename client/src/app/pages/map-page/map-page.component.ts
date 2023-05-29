@@ -151,7 +151,7 @@ export class MapPageComponent implements AfterViewInit {
     this.objects.get('orange5')?.set('visible', false);
     this.objects.get('orange6')?.set('visible', false);
     this.optionChosen = 1;
-    this.fabricCanvas.renderAll();
+    this.ensureObjChanges();
   }
 
   option2() {
@@ -163,7 +163,7 @@ export class MapPageComponent implements AfterViewInit {
     this.objects.get('orange5')?.set('visible', true);
     this.objects.get('orange6')?.set('visible', false);
     this.optionChosen = 2;
-    this.fabricCanvas.renderAll();
+    this.ensureObjChanges();
   }
 
   option3() {
@@ -172,7 +172,7 @@ export class MapPageComponent implements AfterViewInit {
       obj.set('visible', true);
     });
     this.optionChosen = 3;
-    this.fabricCanvas.renderAll();
+    this.ensureObjChanges();
   }
 
   toggleBall() {
@@ -206,8 +206,13 @@ export class MapPageComponent implements AfterViewInit {
     this.objects.get('ball')?.set({
       left: (this.fabricCanvas.width as number) / 2,
       top: (this.fabricCanvas.height as number) / 2,
-      originX: 'center',
-      originY: 'center',
+    });
+    this.fabricCanvas.renderAll();
+  }
+
+  private ensureObjChanges(){
+    this.objects.forEach((obj) => {
+      obj.setCoords();
     });
     this.fabricCanvas.renderAll();
   }
