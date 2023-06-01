@@ -17,6 +17,8 @@ export class MapPageComponent implements AfterViewInit {
   @ViewChild('map', { static: true }) mapCanvas!: ElementRef<HTMLCanvasElement>;
   drawingMode: boolean = false;
   gridMode: boolean = false;
+  playersMode: boolean = false;
+  ballMode: boolean = false;
   frames: number[];
   private fabricCanvas!: fabric.Canvas;
   private mapWidth: number;
@@ -189,6 +191,7 @@ export class MapPageComponent implements AfterViewInit {
         obj.set('visible', !obj.get('visible'));
       }
     });
+    this.ballMode = !this.ballMode;
     this.fabricCanvas.renderAll();
   }
 
@@ -207,6 +210,7 @@ export class MapPageComponent implements AfterViewInit {
       this.objects.get('blue3')?.set('visible', false);
       this.objects.get('orange6')?.set('visible', false);
     }
+    this.playersMode = !this.playersMode;
     this.fabricCanvas.renderAll();
   }
 
