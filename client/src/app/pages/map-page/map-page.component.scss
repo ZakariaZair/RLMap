@@ -66,6 +66,7 @@
     border: 1px solid black;
     border-radius: 25% 5% 25% 5%;
     background-color: rgba(245, 245, 245, 0.875);
+    margin-bottom: 0.3vh;
 }
 
 .bar button:hover {
@@ -84,17 +85,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: inherit;
+    height: 8%;
 }
   
 .draw-button-container button {
     font-size: 200%;
     font-style: bold;
-    width: inherit;
-    height: inherit;
+    
+    width: 30%;
+    height: 100%;
     border: 1px solid black;
     border-radius: 25% 5% 25% 5%;
     background-color: rgba(245, 245, 245, 0.875);
 }
+
 .extra-buttons-container {
     display: flex;
     flex-direction: column;
@@ -106,7 +111,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 80%;
+    font-size: 30%;
+}
+
+.extra-buttons button {
+    width: 2vw;
+    height: 2vh;
 }
 
 
