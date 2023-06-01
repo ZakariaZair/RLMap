@@ -16,11 +16,13 @@ import { fabric } from 'fabric';
 export class MapPageComponent implements AfterViewInit {
   @ViewChild('map', { static: true }) mapCanvas!: ElementRef<HTMLCanvasElement>;
   drawingMode: boolean = false;
+  gridMode: boolean = false;
   frames: number[];
   private fabricCanvas!: fabric.Canvas;
   private mapWidth: number;
   private mapHeight: number;
   private objects: Map<string, fabric.Image>;
+  private mapBackground: fabric.Image;
   private optionChosen: number;
   private configurationIterator: number;
 
@@ -28,6 +30,7 @@ export class MapPageComponent implements AfterViewInit {
     this.mapWidth = 0;
     this.mapHeight = 0;
     this.objects = new Map<string, fabric.Image>();
+    this.mapBackground = {} as fabric.Image;
     this.optionChosen = 3;
     this.frames = [0];
     this.configurationIterator = 0;
@@ -69,6 +72,7 @@ export class MapPageComponent implements AfterViewInit {
         });
 
         this.fabricCanvas.add(obj).renderAll();
+        this.mapBackground = this.fabricCanvas.getObjects()[0] as fabric.Image;
       }
     );
   }
@@ -209,6 +213,12 @@ export class MapPageComponent implements AfterViewInit {
   toggleDrawingMode() {
     this.drawingMode = !this.drawingMode;
     this.fabricCanvas.isDrawingMode = this.drawingMode;
+  }
+
+  toggleGrid() {
+    this.gridMode = !this.gridMode;
+    this.mapBackground.set('visible', !this.gridMode);
+    this.fabricCanvas.renderAll();
   }
 
   addFrame() {
