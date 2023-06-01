@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <button>▒</button>
+            <button [ngClass]="{'selected': gridMode}" (click)="toggleGrid()">▒</button>
         </div>     
     </div> 
     <div class="low-container"> 
