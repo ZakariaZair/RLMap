@@ -4,8 +4,32 @@
         <button (click)="option2()"> 2s </button>
         <button (click)="option3()"> 3s </button>
     </div> 
-    <div class="map-container" #mapContainer>
-        <canvas #map class="map"></canvas>
+    <div class="middle-container">
+        <div class="bar">
+            <button *ngFor="let item of frames; index as i"> {{i}}</button>
+            <button (click)="addFrame()">✚</button>
+        </div>
+        <div class="map-container" #mapContainer>
+            <canvas #map class="map"></canvas>
+        </div>
+        <div class="bar">
+            <div class="draw-button-container">
+              <button class="draw-button" [ngClass]="{'selected': drawingMode}" (click)="toggleDrawingMode()" #drawButton>✎</button>
+                <div class="extra-buttons-container">
+                    <div class="extra-buttons" *ngIf="drawingMode">
+                        <button>🔴</button>
+                        <button>🔵</button>
+                        <button>🟢</button>
+                    </div>
+                    <div class="extra-buttons" *ngIf="drawingMode">
+                        <button>◦</button>
+                        <button>∙</button>
+                        <button>•</button>
+                    </div>
+                </div>
+            </div>
+            <button>▒</button>
+        </div>     
     </div> 
     <div class="low-container"> 
         <div>
