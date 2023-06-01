@@ -15,17 +15,22 @@ import { fabric } from 'fabric';
 })
 export class MapPageComponent implements AfterViewInit {
   @ViewChild('map', { static: true }) mapCanvas!: ElementRef<HTMLCanvasElement>;
+  drawingMode: boolean = false;
+  frames: number[];
   private fabricCanvas!: fabric.Canvas;
   private mapWidth: number;
   private mapHeight: number;
   private objects: Map<string, fabric.Image>;
   private optionChosen: number;
+  private configurationIterator: number;
 
   constructor(private renderer: Renderer2) {
     this.mapWidth = 0;
     this.mapHeight = 0;
     this.objects = new Map<string, fabric.Image>();
     this.optionChosen = 3;
+    this.frames = [0];
+    this.configurationIterator = 0;
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -37,7 +42,6 @@ export class MapPageComponent implements AfterViewInit {
     this.setUpCanvas();
     this.createMap();
     this.createObjects();
-    this.fabricCanvas.renderAll();
   }
 
   createMap() {
@@ -202,6 +206,15 @@ export class MapPageComponent implements AfterViewInit {
     this.fabricCanvas.renderAll();
   }
 
+  toggleDrawingMode() {
+    this.drawingMode = !this.drawingMode;
+    this.fabricCanvas.isDrawingMode = this.drawingMode;
+  }
+
+  addFrame() {
+    this.frames.push(this.frames.length);
+  }
+
   private centerBall() {
     this.objects.get('ball')?.set({
       left: (this.fabricCanvas.width as number) / 2,
@@ -283,5 +296,7 @@ export class MapPageComponent implements AfterViewInit {
     this.fabricCanvas = new fabric.Canvas(canvasEl, {
       renderOnAddRemove: false,
     });
+    this.fabricCanvas.freeDrawingBrush.color = "red";
+    this.fabricCanvas.freeDrawingBrush.width = 5;
   }
 }
