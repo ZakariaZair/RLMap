@@ -1,8 +1,13 @@
 <div class="container">
     <div class="high-container">
-        <button (click)="option1()"> 1s </button>
-        <button (click)="option2()"> 2s </button>
-        <button (click)="option3()"> 3s </button>
+        <div class="back">
+            <button routerLink="/home">Back</button>
+        </div>
+        <div class="options-container">
+            <button [ngClass]="{'selected': optionChosen === 1}" (click)="option1()"> 1s </button>
+            <button [ngClass]="{'selected': optionChosen === 2}" (click)="option2()"> 2s </button>
+            <button [ngClass]="{'selected': optionChosen === 3}" (click)="option3()"> 3s </button>
+        </div>
     </div> 
     <div class="middle-container">
         <div class="bar">
@@ -17,14 +22,14 @@
               <button class="draw-button" [ngClass]="{'selected': drawingMode}" (click)="toggleDrawingMode()" #drawButton>✎</button>
                 <div class="extra-buttons-container">
                     <div class="extra-buttons" *ngIf="drawingMode">
-                        <button>🔴</button>
-                        <button>🔵</button>
-                        <button>🟢</button>
+                        <button class="draw-button" [ngClass]="{'selected': brushColor.includes('red')}" (click)="changeBrushColor('red')">🔴</button>
+                        <button class="draw-button" [ngClass]="{'selected': brushColor.includes('blue')}" (click)="changeBrushColor('blue')">🔵</button>
+                        <button class="draw-button" [ngClass]="{'selected': brushColor.includes('green')}" (click)="changeBrushColor('green')">🟢</button>
                     </div>
                     <div class="extra-buttons" *ngIf="drawingMode">
-                        <button>◦</button>
-                        <button>∙</button>
-                        <button>•</button>
+                        <button class="draw-button" [ngClass]="{'selected': brushSize === 2}" (click)="changeBrushWidth(2)">◦</button>
+                        <button class="draw-button" [ngClass]="{'selected': brushSize === 8}" (click)="changeBrushWidth(8)">∙</button>
+                        <button class="draw-button" [ngClass]="{'selected': brushSize === 16}" (click)="changeBrushWidth(16)">•</button>
                     </div>
                 </div>
             </div>
