@@ -13,10 +13,7 @@ export class AppController {
   }
 
   @Post('run')
-  async runScript(@Body('file') file: string): Promise<any> {
-    if (!file) {
-      throw new Error('No file provided');
-    }
+  async runScript(): Promise<any> {
 
     const args = [
       '-i',
@@ -27,6 +24,7 @@ export class AppController {
     const command = 'rattletrap';
 
     return new Promise((resolve, reject) => {
+      console.log();
       const childProcess = spawn(command, args);
       let stderr = '';
 

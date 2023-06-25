@@ -11,11 +11,9 @@ export class ReplayLoaderService {
   loadReplay() {}
 
   async runScript() {
-    const commandPath = './command/rrrocket';
-    const command = commandPath;
     try {
       const response = await this.http
-        .post('https://api.rlmap.ca:3000/run', { command })
+        .post('https://api.rlmap.ca:3000/run', {})
         .toPromise();
       console.log('Script executed:', response);
       this.replayData = response;
