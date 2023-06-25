@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { spawn } from 'child_process';
+import * as fs from 'fs';
 
 @Controller()
 export class AppController {
@@ -20,17 +21,14 @@ export class AppController {
       '-n',
       '-p',
       './assets/replays/00DA647E452FB993FF10598678FDBB67.replay',
+      '--output', // specify output file
+      './output.json',
     ];
 
     return new Promise((resolve, reject) => {
       const childProcess = spawn(command, args);
 
-      let stdout = '';
       let stderr = '';
-
-      childProcess.stdout.on('data', (data) => {
-        stdout += data;
-      });
 
       childProcess.stderr.on('data', (data) => {
         stderr += data;
@@ -48,7 +46,13 @@ export class AppController {
           reject(`Error executing command: ${stderr}`);
           return;
         }
-        resolve(stdout);
+        try {
+          const data = fs.readFileSync('./output.json', 'utf8');
+          resolve(data);
+        } catch (err) {
+          console.error(`Error reading file: ${err}`);
+          reject(`Error reading file: ${err}`);
+        }
       });
     });
   }
