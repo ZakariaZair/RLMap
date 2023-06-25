@@ -18,9 +18,12 @@ export class AppController {
       throw new Error('No file provided');
     }
 
-    file = './assets/replays/00DA647E452FB993FF10598678FDBB67.replay';
-
-    const args = ['-i', file, '-o', './assets/replays/output.json'];
+    const args = [
+      '-i',
+      'server/assets/replays/00DA647E452FB993FF10598678FDBB67.replay',
+      '-o',
+      './assets/replays/output.json',
+    ];
     const command = 'rattletrap';
 
     return new Promise((resolve, reject) => {
