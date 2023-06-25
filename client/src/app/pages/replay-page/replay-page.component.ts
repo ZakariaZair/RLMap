@@ -25,8 +25,6 @@ export class ReplayPageComponent implements OnInit {
     this.ctx = this.mapCanvas.nativeElement.getContext(
       '2d'
     ) as CanvasRenderingContext2D;
-    this.replayFrames =
-      this.replayLoaderService.getReplayData().network_frames.frames;
   }
 
   constructMap() {
@@ -49,18 +47,10 @@ export class ReplayPageComponent implements OnInit {
   }
 
   getReplayLength(): number {
-    return this.replayFrames.length;
+    return this.replayFrames.length ? this.replayFrames.length : 0;
   }
 
   searchOnePlayer(): void {
-    this.player1.position.x =
-      this.replayFrames[
-        this.replayValue
-      ].new_actors[1].initial_trajectory.location.x;
-    this.player1.position.y =
-      this.replayFrames[
-        this.replayValue
-      ].new_actors[1].initial_trajectory.location.y;
   }
 }
 
