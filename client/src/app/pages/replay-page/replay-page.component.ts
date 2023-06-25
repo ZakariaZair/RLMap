@@ -47,7 +47,8 @@ export class ReplayPageComponent implements OnInit {
   }
 
   getReplayLength(): number {
-    return this.replayFrames.length ? this.replayFrames.length : 0;
+    return 115;
+    // return this.replayFrames.length ? this.replayFrames.length : 0;
   }
 
   searchOnePlayer(): void {
