@@ -46,6 +46,7 @@ export class AppController {
             'utf8',
           );
           resolve(data);
+          spawn('rm', ['./assets/replays/output.json']);
         } catch (error) {
           reject(`Error reading output file: ${error}`);
         }
