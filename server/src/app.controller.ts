@@ -19,6 +19,7 @@ export class AppController {
       './assets/replays/00DA647E452FB993FF10598678FDBB67.replay',
       '-o',
       './assets/replays/output.json',
+      '-c',
     ];
     const command = 'rattletrap';
 
