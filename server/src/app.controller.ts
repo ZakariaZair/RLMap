@@ -14,7 +14,6 @@ export class AppController {
 
   @Post('run')
   async runScript(): Promise<any> {
-
     const args = [
       '-i',
       './assets/replays/00DA647E452FB993FF10598678FDBB67.replay',
@@ -42,7 +41,10 @@ export class AppController {
           return;
         }
         try {
-          const data = await fs.readFile('./output.json', 'utf8');
+          const data = await fs.readFile(
+            './assets/replays/output.json',
+            'utf8',
+          );
           resolve(data);
         } catch (error) {
           reject(`Error reading output file: ${error}`);
