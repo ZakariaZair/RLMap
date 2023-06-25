@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { spawn } from 'child_process';
-import * as fs from 'fs';
+import { promises as fs } from 'fs';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
@@ -13,21 +13,16 @@ export class AppController {
   }
 
   @Post('run')
-  async runScript(@Body('command') command: string): Promise<any> {
-    if (!command) {
-      throw new Error('No command provided');
+  async runScript(@Body('file') file: string): Promise<any> {
+    if (!file) {
+      throw new Error('No file provided');
     }
-    const args = [
-      '-n',
-      '-p',
-      './assets/replays/00DA647E452FB993FF10598678FDBB67.replay',
-      '--output', // specify output file
-      './output.json',
-    ];
+
+    const args = ['-i', file, '-o', './output.json'];
+    const command = 'rattletrap';
 
     return new Promise((resolve, reject) => {
       const childProcess = spawn(command, args);
-
       let stderr = '';
 
       childProcess.stderr.on('data', (data) => {
@@ -35,23 +30,19 @@ export class AppController {
       });
 
       childProcess.on('error', (error) => {
-        console.error(`Error executing command: ${error}`);
         reject(`Error executing command: ${error}`);
       });
 
-      childProcess.on('close', (code) => {
+      childProcess.on('close', async (code) => {
         if (code !== 0) {
-          console.error(`Command exited with code ${code}`);
-          console.error(`stderr: ${stderr}`);
           reject(`Error executing command: ${stderr}`);
           return;
         }
         try {
-          const data = fs.readFileSync('./output.json', 'utf8');
+          const data = await fs.readFile('./output.json', 'utf8');
           resolve(data);
-        } catch (err) {
-          console.error(`Error reading file: ${err}`);
-          reject(`Error reading file: ${err}`);
+        } catch (error) {
+          reject(`Error reading output file: ${error}`);
         }
       });
     });
