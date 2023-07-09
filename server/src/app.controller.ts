@@ -15,13 +15,10 @@ export class AppController {
   @Post('run')
   async runScript(): Promise<any> {
     const args = [
-      '-i',
+      './command/rlParser/RocketLeagueReplayParser.Console.dll',
       './assets/replays/00DA647E452FB993FF10598678FDBB67.replay',
-      '-o',
-      './assets/replays/output.json',
-      '-c',
     ];
-    const command = 'rattletrap';
+    const command = 'dotnet';
 
     return new Promise((resolve, reject) => {
       console.log();
