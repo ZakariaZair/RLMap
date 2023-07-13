@@ -23,31 +23,9 @@ export class AppController {
     return new Promise((resolve, reject) => {
       console.log();
       const childProcess = spawn(command, args);
-      let stderr = '';
 
       childProcess.stderr.on('data', (data) => {
-        stderr += data;
-      });
-
-      childProcess.on('error', (error) => {
-        reject(`Error executing command: ${error}`);
-      });
-
-      childProcess.on('close', async (code) => {
-        if (code !== 0) {
-          reject(`Error executing command: ${stderr}`);
-          return;
-        }
-        try {
-          const data = await fs.readFile(
-            './assets/replays/output.json',
-            'utf8',
-          );
-          resolve(data);
-          spawn('rm', ['./assets/replays/output.json']);
-        } catch (error) {
-          reject(`Error reading output file: ${error}`);
-        }
+        resolve(data);
       });
     });
   }
