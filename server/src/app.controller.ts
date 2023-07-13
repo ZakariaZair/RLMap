@@ -24,8 +24,12 @@ export class AppController {
       const childProcess = spawn(command, args);
 
       childProcess.stdout.on('data', (data) => {
-        console.log('Script resolved');
         resolve(data);
+      });
+
+      childProcess.on('error', (error) => {
+        console.error('Error occurred:', error);
+        reject(error);
       });
 
       childProcess.on('close', (code) => {
