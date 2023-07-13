@@ -24,7 +24,8 @@ export class AppController {
       console.log('Running script...');
       const childProcess = spawn(command, args);
 
-      childProcess.stderr.on('data', (data) => {
+      childProcess.stdout.on('data', (data) => {
+        console.log('Script resolved');
         resolve(data);
       });
     });
