@@ -1,6 +1,5 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Get } from '@nestjs/common';
 import { spawn } from 'child_process';
-import { promises as fs } from 'fs';
 import { AppService } from './app.service';
 
 @Controller()
@@ -27,6 +26,15 @@ export class AppController {
       childProcess.stdout.on('data', (data) => {
         console.log('Script resolved');
         resolve(data);
+      });
+
+      childProcess.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+        if (code !== 0) {
+          reject(`Process exited with code ${code}`);
+        } else {
+          resolve('Process exited on close successfully');
+        }
       });
     });
   }
