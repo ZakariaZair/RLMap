@@ -21,7 +21,7 @@ export class AppController {
     const command = 'dotnet';
 
     return new Promise((resolve, reject) => {
-      console.log();
+      console.log('Running script...');
       const childProcess = spawn(command, args);
 
       childProcess.stderr.on('data', (data) => {
