@@ -20,11 +20,13 @@ export class AppController {
     const command = 'dotnet';
 
     return new Promise((resolve, reject) => {
-      console.log('Running script...');
+      let output = '';
+
       const childProcess = spawn(command, args);
 
       childProcess.stdout.on('data', (data) => {
-        resolve(data);
+        console.log('Output:', data.toString());
+        output += data.toString();
       });
 
       childProcess.on('error', (error) => {
@@ -37,7 +39,8 @@ export class AppController {
         if (code !== 0) {
           reject(`Process exited with code ${code}`);
         } else {
-          resolve('Process exited on close successfully');
+          console.log('Script resolved');
+          resolve(output);
         }
       });
     });
