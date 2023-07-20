@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Player } from 'src/app/interfaces/interfaces';
-import { ReplayLoaderService } from 'src/app/services/replay-loader-service/replay-loader.service';
+import { ReplayFetcherService } from 'src/app/services/replay-fetcher-service/replay-fetcher.service';
 
 @Component({
   selector: 'app-replay-page',
-  templateUrl: './replay-page.component.html',
-  styleUrls: ['./replay-page.component.scss'],
+  templateUrl: './replay.component.html',
+  styleUrls: ['./replay.component.scss'],
 })
 export class ReplayPageComponent implements OnInit {
   @ViewChild('mapCanvas', { static: true })
@@ -16,7 +16,7 @@ export class ReplayPageComponent implements OnInit {
   private ctx!: CanvasRenderingContext2D;
   private replayFrames: any;
 
-  constructor(private readonly replayLoaderService: ReplayLoaderService) {
+  constructor(private readonly replayFetcherService: ReplayFetcherService) {
     this.player1 = { position: { x: 0, y: 0 } };
     this.replayValue = 0;
   }
@@ -51,7 +51,5 @@ export class ReplayPageComponent implements OnInit {
     // return this.replayFrames.length ? this.replayFrames.length : 0;
   }
 
-  searchOnePlayer(): void {
-  }
+  searchOnePlayer(): void {}
 }
-

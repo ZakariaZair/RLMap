@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class ReplayLoaderService {
+export class ReplayFetcherService {
   private replayData: any;
   constructor(private http: HttpClient) {}
 

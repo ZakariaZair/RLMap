@@ -10,8 +10,8 @@ import { fabric } from 'fabric';
 
 @Component({
   selector: 'app-map-page',
-  templateUrl: './map-page.component.html',
-  styleUrls: ['./map-page.component.scss'],
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
 })
 export class MapPageComponent implements AfterViewInit {
   @ViewChild('map', { static: true }) mapCanvas!: ElementRef<HTMLCanvasElement>;
@@ -321,10 +321,8 @@ export class MapPageComponent implements AfterViewInit {
                   mtr: false,
                 });
 
-                
-
                 this.objects.set(key, img);
-              } 
+              }
             } else if (obj.type === 'group') {
               obj.set({
                 opacity: 0.2,
@@ -334,7 +332,7 @@ export class MapPageComponent implements AfterViewInit {
                 stroke: 'black',
                 strokeWidth: 5,
                 selectable: false,
-                evented: false
+                evented: false,
               });
               this.mapBackground = obj as fabric.Image;
             }

@@ -1,38 +1,49 @@
+.all-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url(../../../assets/rlBack2.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .high-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url("../../../assets/layered-waves.svg") no-repeat center bottom/cover;
 }
 
 .high-container h1 {
-  margin-bottom: 35vh;
   font-size: 500%;
-  padding-top: 5vh;
+  color: rgb(255, 255, 255);
+  text-shadow: -2px -2px 0 #363636, 1px -1px 0 #000, -2px 1px 0 #000, 1px 2px 0 #000;
+}
+
+p {
+  color: aliceblue;
 }
 
 .button {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 10px;
-  border-color: #f98d2e;
   border-style: solid;
-  border-top-left-radius: 30%;
-  border-bottom-right-radius: 30%;
-  border-top-right-radius: 10%;
-  border-bottom-left-radius: 10%;
-  padding: 25px;
-  background-color: rgb(255, 255, 255);
-  font-family: "Lemon", cursive;
+  width: 20vw;
+  padding: 40px 40px 40px 40px;
+  color: aliceblue;
+  background-color: rgb(33, 31, 31);
+  font-family: 'Kanit', sans-serif;
 }
 
-button:hover {
+.button:hover {
   background-color: #575757;
 }
 
-button:active {
+.button:active {
   background-color: #fad269;
 }
 
@@ -41,9 +52,8 @@ button:active {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  height: 60vh;
   width: 100vw;
-  background: url("../../../assets/waves-rocky-lava.svg") no-repeat center top/cover;
 }
 
 .features {
@@ -51,8 +61,8 @@ button:active {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  width: 100%;
-  padding-bottom: 40vh;
+  width: 60%;
+  padding-bottom: 10vh;
 }
 
 @media (max-width: 600px) {
@@ -91,7 +101,7 @@ input[type="file"] {
 
 .donate-btn {
   font-size: 200%;
-  width: 25vw;
+  width: 60%;
   text-align: center;
-  box-shadow: 0px 0px 30px 0px #f98d2e;
+  box-shadow: 0px 0px 30px 0px;
 }

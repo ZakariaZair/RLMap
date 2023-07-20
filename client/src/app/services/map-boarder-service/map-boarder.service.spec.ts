@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReplayLoaderService } from './replay-loader.service';
+import { MapBoarderService } from './map-boarder.service';
 
-describe('ReplayLoaderService', () => {
-  let service: ReplayLoaderService;
+describe('MapBoarderService', () => {
+  let service: MapBoarderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ReplayLoaderService);
+    service = TestBed.inject(MapBoarderService);
   });
 
   it('should be created', () => {

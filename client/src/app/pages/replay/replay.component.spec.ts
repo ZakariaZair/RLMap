@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReplayPageComponent } from './replay-page.component';
+import { ReplayPageComponent } from './replay.component';
 
 describe('ReplayPageComponent', () => {
   let component: ReplayPageComponent;
@@ -8,9 +8,8 @@ describe('ReplayPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReplayPageComponent ]
-    })
-    .compileComponents();
+      declarations: [ReplayPageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ReplayPageComponent);
     component = fixture.componentInstance;

@@ -1,0 +1,101 @@
+<div class="back">
+    <button routerLink="/home">Back</button>
+</div>
+<div class="container">
+  <div class="high-container">
+    <div class="options-container">
+      <button [ngClass]="{ selected: optionChosen === 1 }" (click)="option1()">
+        1s
+      </button>
+      <button [ngClass]="{ selected: optionChosen === 2 }" (click)="option2()">
+        2s
+      </button>
+      <button [ngClass]="{ selected: optionChosen === 3 }" (click)="option3()">
+        3s
+      </button>
+    </div>
+  </div>
+  <div class="middle-container">
+    <div class="bar">
+      <button *ngFor="let item of frames; index as i">{{ i }}</button>
+      <button (click)="addFrame()">✚</button>
+    </div>
+    <div class="map-container" #mapContainer>
+      <canvas #map class="map"></canvas>
+    </div>
+    <div class="bar">
+      <div class="draw-button-container">
+        <button
+          class="draw-button"
+          [ngClass]="{ selected: drawingMode }"
+          (click)="toggleDrawingMode()"
+          #drawButton
+        >
+          ✎
+        </button>
+        <div class="extra-buttons-container">
+          <div class="extra-buttons" *ngIf="drawingMode">
+            <button
+              class="draw-button"
+              [ngClass]="{ selected: brushColor.includes('red') }"
+              (click)="changeBrushColor('red')"
+            >
+              🔴
+            </button>
+            <button
+              class="draw-button"
+              [ngClass]="{ selected: brushColor.includes('blue') }"
+              (click)="changeBrushColor('blue')"
+            >
+              🔵
+            </button>
+            <button
+              class="draw-button"
+              [ngClass]="{ selected: brushColor.includes('green') }"
+              (click)="changeBrushColor('green')"
+            >
+              🟢
+            </button>
+          </div>
+          <div class="extra-buttons" *ngIf="drawingMode">
+            <button
+              class="draw-button"
+              [ngClass]="{ selected: brushSize === 2 }"
+              (click)="changeBrushWidth(2)"
+            >
+              ◦
+            </button>
+            <button
+              class="draw-button"
+              [ngClass]="{ selected: brushSize === 8 }"
+              (click)="changeBrushWidth(8)"
+            >
+              ∙
+            </button>
+            <button
+              class="draw-button"
+              [ngClass]="{ selected: brushSize === 16 }"
+              (click)="changeBrushWidth(16)"
+            >
+              •
+            </button>
+          </div>
+        </div>
+      </div>
+      <button [ngClass]="{ selected: gridMode }" (click)="toggleGrid()">
+        ▒
+      </button>
+      <div class="draw-button-container">
+        <button [ngClass]="{ selected: ballMode }" (click)="toggleBall()">
+          <img src="../../../assets/ball1.png" />
+        </button>
+      </div>
+      <div class="draw-button-container">
+        <button [ngClass]="{ selected: playersMode }" (click)="togglePlayers()">
+          <img src="../../../assets/car.png" />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="low-container"></div>
+</div>

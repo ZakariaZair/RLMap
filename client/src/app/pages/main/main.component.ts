@@ -7,16 +7,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ReplayLoaderService } from 'src/app/services/replay-loader-service/replay-loader.service';
+import { ReplayFetcherService } from 'src/app/services/replay-fetcher-service/replay-fetcher.service';
 
 @Component({
   selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss'],
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
 })
 export class MainPageComponent implements OnInit, OnDestroy {
   constructor(
-    private readonly replayLoaderService: ReplayLoaderService,
+    private readonly replayFetcherService: ReplayFetcherService,
     private router: Router
   ) {}
 
@@ -27,7 +27,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   async runReplay(): Promise<void> {
-    // await this.replayLoaderService.runScript();
+    await this.replayFetcherService.runScript();
     this.router.navigate(['/replay']);
   }
 
