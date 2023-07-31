@@ -27,3 +27,36 @@ export interface Ball {
   height: number;
   radius: number;
 }
+
+export const CORNERS = {
+  1: { x: 0, y: 0 },
+  2: { x: 0, y: 0 },
+  3: { x: 0, y: 0 },
+  4: { x: 0, y: 0 },
+  5: { x: 0, y: 0 },
+  6: { x: 0, y: 0 },
+  7: { x: 0, y: 0 },
+  8: { x: 0, y: 0 },
+};
+
+export const BOOSTS = {
+  1: { x: 0, y: 0 },
+  2: { x: 0, y: 0 },
+  3: { x: 0, y: 0 },
+  4: { x: 0, y: 0 },
+  5: { x: 0, y: 0 },
+  6: { x: 0, y: 0 },
+  7: { x: 0, y: 0 },
+  8: { x: 0, y: 0 },
+};
+
+export const START_POSITIONS = {
+  1: { x: 0, y: 0 },
+  2: { x: 0, y: 0 },
+  3: { x: 0, y: 0 },
+  4: { x: 0, y: 0 },
+  5: { x: 0, y: 0 },
+  6: { x: 0, y: 0 },
+  7: { x: 0, y: 0 },
+  8: { x: 0, y: 0 },
+};
