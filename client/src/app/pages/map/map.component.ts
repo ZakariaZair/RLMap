@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   HostListener,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { fabric } from 'fabric';
@@ -30,16 +29,6 @@ export class MapPageComponent implements AfterViewInit {
     this.frames = [0];
   }
 
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    const eventKey = event.key.toLowerCase();
-    if ((event.ctrlKey || event.metaKey) && eventKey === 'z') {
-      // this.undo();
-      event.preventDefault();
-      return;
-    }
-    this.setupInputs(event.key);
-  }
 
   ngAfterViewInit() {
   }
@@ -202,49 +191,4 @@ export class MapPageComponent implements AfterViewInit {
   //   this.states.push(this.fabricCanvas.toJSON());
   //   this.currentStateIndex++;
   // }
-
-  private setupInputs(eventKey: string) {
-    const selectedObject = this.fabricCanvas.getActiveObject() as fabric.Image;
-    if (selectedObject) {
-      let position = selectedObject.getCenterPoint();
-      let currentAngle = selectedObject.angle || 0;
-      let angleChange = 0;
-      let positionChange = new fabric.Point(0, 0);
-
-      switch (eventKey) {
-        case 'ArrowLeft':
-          angleChange = -22.5;
-          break;
-        case 'ArrowRight':
-          angleChange = 22.5;
-          break;
-        case 'ArrowUp':
-          currentAngle = 0;
-          break;
-        case 'ArrowDown':
-          currentAngle = 180;
-          break;
-        case 'a':
-          positionChange.x = -10; // Move left by 10 pixels
-          break;
-        case 'd':
-          positionChange.x = 10; // Move right by 10 pixels
-          break;
-        case 'w':
-          positionChange.y = -10; // Move up by 10 pixels
-          break;
-        case 's':
-          positionChange.y = 10; // Move down by 10 pixels
-          break;
-      }
-
-      selectedObject.set({
-        angle: currentAngle + angleChange,
-        left: position.x + positionChange.x,
-        top: position.y + positionChange.y,
-      });
-
-      this.fabricCanvas.renderAll();
-    }
-  }
 }

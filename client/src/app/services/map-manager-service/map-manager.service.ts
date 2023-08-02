@@ -19,58 +19,23 @@ export class MapManagerService {
 
   constructor() {}
 
-  setUpCanvas(
-    fabricCanvas: fabric.Canvas,
-    mapCanvas: ElementRef<HTMLCanvasElement>
-  ) {
-    const canvasEl: HTMLCanvasElement = mapCanvas.nativeElement;
-    const parentDiv = canvasEl.parentElement
-      ? canvasEl.parentElement
-      : canvasEl;
-    canvasEl.width = parentDiv.offsetWidth;
-    canvasEl.height = parentDiv.offsetHeight;
-    // this.mapWidth = canvasEl.width;
-    // this.mapHeight = canvasEl.height;
-
-    fabricCanvas = new fabric.Canvas(canvasEl, {
-      renderOnAddRemove: false,
-    });
-    fabricCanvas.freeDrawingBrush.color = 'red';
-    fabricCanvas.freeDrawingBrush.width = 2;
-
-    // fabricCanvas.on('path:created', () => {
-    //   this.saveState();
-    // });
-
-    // this.fabricCanvas.on('object:modified', () => {
-    //   this.saveState();
-    // });
-  }
-
   createMap(mapPath: string, fabricCanvas: fabric.Canvas) {
     fabric.loadSVGFromURL(mapPath, (objects, options) => {
       const obj = fabric.util.groupSVGElements(objects, options);
+      obj.scaleToHeight(fabricCanvas.height as number);
       obj.set({
-        opacity: 0.2,
-        left: -112,
-        top: 0,
-        fill: 'transparent',
+        opacity: 0.04,
+        originX: 'center',
+        originY: 'center',
         stroke: 'black',
         strokeWidth: 5,
         selectable: false,
         evented: false,
-        scaleX:
-          obj && obj.width
-            ? ((fabricCanvas.width as number) / obj.width) * 1.21
-            : 1,
-        scaleY:
-          obj && obj.height
-            ? ((fabricCanvas.height as number) / obj.height) * 0.98
-            : 1,
+        scaleX: 3,
       });
       const img = obj as fabric.Image;
 
-      fabricCanvas.add(img).renderAll();
+      fabricCanvas.add(img).centerObject(img).renderAll();
     });
   }
 

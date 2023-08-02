@@ -1,18 +1,12 @@
 <div class="back">
-    <button routerLink="/home">Back</button>
+  <button routerLink="/home">Back</button>
 </div>
 <div class="container">
   <div class="high-container">
     <div class="options-container">
-      <button [ngClass]="{ selected: optionChosen === 1 }">
-        1s
-      </button>
-      <button [ngClass]="{ selected: optionChosen === 2 }">
-        2s
-      </button>
-      <button [ngClass]="{ selected: optionChosen === 3 }">
-        3s
-      </button>
+      <button [ngClass]="{ selected: optionChosen === 1 }">1s</button>
+      <button [ngClass]="{ selected: optionChosen === 2 }">2s</button>
+      <button [ngClass]="{ selected: optionChosen === 3 }">3s</button>
     </div>
   </div>
   <div class="middle-container">
@@ -75,9 +69,7 @@
           </div>
         </div>
       </div>
-      <button [ngClass]="{ selected: gridMode }">
-        ▒
-      </button>
+      <button [ngClass]="{ selected: gridMode }">▒</button>
       <div class="draw-button-container">
         <button [ngClass]="{ selected: ballMode }">
           <img src="../../../assets/ball1.png" />
