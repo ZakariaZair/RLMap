@@ -1,13 +1,15 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { fabric } from 'fabric';
+import { START_POSITIONS } from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapManagerService {
-  mapWidth: number = 0;
-  mapheight: number = 0;
+  mapWidth: number;
+  mapHeight: number;
   objects: Map<string, fabric.Image>;
+  mapBackground!: fabric.Image;
   fabricCanvas!: fabric.Canvas;
   private imageUrls = [
     '../../../assets/ball1.png',
@@ -21,6 +23,8 @@ export class MapManagerService {
 
   constructor() {
     this.objects = new Map<string, fabric.Image>();
+    this.mapWidth = 5102 * 2;
+    this.mapHeight = 4079 * 2;
   }
 
   createMap(mapPath: string) {
@@ -36,7 +40,7 @@ export class MapManagerService {
         scaleX: 3.1,
       });
       const img = obj as fabric.Image;
-      this.objects.set('mapBackground', img);
+      this.mapBackground = img;
 
       this.fabricCanvas.add(img).centerObject(img).renderAll();
     });
@@ -108,9 +112,7 @@ export class MapManagerService {
   }
 
   toggleGrid(gridMode: boolean) {
-    this.objects.get('mapBackground')
-      ? this.objects.get('mapBackground')?.set('visible', gridMode)
-      : null;
+    this.mapBackground.set('visible', gridMode);
     this.ensureObjChanges();
   }
 
@@ -151,6 +153,7 @@ export class MapManagerService {
     this.objects.get('orange4')?.set('visible', true);
     this.objects.get('orange5')?.set('visible', false);
     this.objects.get('orange6')?.set('visible', false);
+    this.changeStartPositions();
     this.ensureObjChanges();
   }
 
@@ -162,18 +165,54 @@ export class MapManagerService {
     this.objects.get('orange4')?.set('visible', true);
     this.objects.get('orange5')?.set('visible', true);
     this.objects.get('orange6')?.set('visible', false);
+    this.changeStartPositions();
     this.ensureObjChanges();
   }
 
   option3() {
     this.centerBall();
-    this.objects.get('blue1')?.set('visible', true);
-    this.objects.get('blue2')?.set('visible', true);
-    this.objects.get('blue3')?.set('visible', true);
-    this.objects.get('orange4')?.set('visible', true);
-    this.objects.get('orange5')?.set('visible', true);
-    this.objects.get('orange6')?.set('visible', true);
+    this.objects.forEach((obj) => {
+      obj.set('visible', true);
+    });
+    this.changeStartPositions();
     this.ensureObjChanges();
+  }
+
+  changeStartPositions() {
+    if (!this.fabricCanvas.width) return;
+    if (!this.fabricCanvas.height) return;
+    const fCW = this.fabricCanvas.width;
+    const fCH = this.fabricCanvas.height;
+    const randomOrder = this.generateRandomOrder();
+    const oppTeamOrder: number[] = [];
+    this.objects.forEach((obj) => {
+      if (obj.getSrc().includes('blue')) {
+        let i: keyof typeof START_POSITIONS =
+          randomOrder[0] as keyof typeof START_POSITIONS;
+        obj.set('left', (START_POSITIONS[i].x * fCW) / this.mapWidth);
+        obj.set('top', (START_POSITIONS[i].y * fCH) / this.mapHeight);
+        randomOrder.shift();
+        oppTeamOrder.push(i);
+      }
+    });
+
+    this.objects.forEach((obj) => {
+      if (obj.getSrc().includes('orange')) {
+        let i: keyof typeof START_POSITIONS =
+          oppTeamOrder[0] as keyof typeof START_POSITIONS;
+        obj.set('left', ((this.mapWidth - START_POSITIONS[i].x) * fCW) / this.mapWidth);
+        obj.set('top', ((this.mapHeight - START_POSITIONS[i].y) * fCH) / this.mapHeight);
+        oppTeamOrder.shift();
+      }
+    });
+
+    this.ensureObjChanges();
+  }
+
+  private generateRandomOrder(): number[] {
+    const array = [1, 2, 3];
+    const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
+    return shuffledArray;
   }
 
   private loadImage(url: string): Promise<fabric.Image> {
