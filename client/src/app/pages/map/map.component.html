@@ -4,9 +4,15 @@
 <div class="container">
   <div class="high-container">
     <div class="options-container">
-      <button [ngClass]="{ selected: optionChosen === 1 }">1s</button>
-      <button [ngClass]="{ selected: optionChosen === 2 }">2s</button>
-      <button [ngClass]="{ selected: optionChosen === 3 }">3s</button>
+      <button [ngClass]="{ selected: optionChosen === 1 }" (click)="option1()">
+        1s
+      </button>
+      <button [ngClass]="{ selected: optionChosen === 2 }" (click)="option2()">
+        2s
+      </button>
+      <button [ngClass]="{ selected: optionChosen === 3 }" (click)="option3()">
+        3s
+      </button>
     </div>
   </div>
   <div class="middle-container">
@@ -14,12 +20,14 @@
       <button *ngFor="let item of frames; index as i">{{ i }}</button>
       <button>✚</button>
     </div>
-    <div class="map-container" #mapContainer>
-      <canvas #map class="map"></canvas>
-    </div>
+    <app-board-map />
     <div class="bar">
       <div class="draw-button-container">
         <button
+          (click)="
+            this.mapManagerService.toggleDrawingMode(this.drawingMode);
+            this.drawingMode = !this.drawingMode
+          "
           class="draw-button"
           [ngClass]="{ selected: drawingMode }"
           #drawButton
@@ -29,18 +37,30 @@
         <div class="extra-buttons-container">
           <div class="extra-buttons" *ngIf="drawingMode">
             <button
+              (click)="
+                this.mapManagerService.changeBrushColor('red');
+                this.brushColor = 'red'
+              "
               class="draw-button"
               [ngClass]="{ selected: brushColor.includes('red') }"
             >
               🔴
             </button>
             <button
+              (click)="
+                this.mapManagerService.changeBrushColor('blue');
+                this.brushColor = 'blue'
+              "
               class="draw-button"
               [ngClass]="{ selected: brushColor.includes('blue') }"
             >
               🔵
             </button>
             <button
+              (click)="
+                this.mapManagerService.changeBrushColor('green');
+                this.brushColor = 'green'
+              "
               class="draw-button"
               [ngClass]="{ selected: brushColor.includes('green') }"
             >
@@ -49,18 +69,27 @@
           </div>
           <div class="extra-buttons" *ngIf="drawingMode">
             <button
+              (click)="
+                this.mapManagerService.changeBrushSize(2); this.brushSize = 2
+              "
               class="draw-button"
               [ngClass]="{ selected: brushSize === 2 }"
             >
               ◦
             </button>
             <button
+              (click)="
+                this.mapManagerService.changeBrushSize(8); this.brushSize = 8
+              "
               class="draw-button"
               [ngClass]="{ selected: brushSize === 8 }"
             >
               ∙
             </button>
             <button
+              (click)="
+                this.mapManagerService.changeBrushSize(16); this.brushSize = 16
+              "
               class="draw-button"
               [ngClass]="{ selected: brushSize === 16 }"
             >
@@ -69,18 +98,32 @@
           </div>
         </div>
       </div>
-      <button [ngClass]="{ selected: gridMode }">▒</button>
-      <div class="draw-button-container">
+      <button
+        (click)="this.mapManagerService.toggleGrid(this.gridMode)"
+        (click)="this.gridMode = !this.gridMode"
+        [ngClass]="{ selected: gridMode }"
+      >
+        ▒
+      </button>
+      <div (click)="toggleBall()" class="draw-button-container">
         <button [ngClass]="{ selected: ballMode }">
           <img src="../../../assets/ball1.png" />
         </button>
       </div>
       <div class="draw-button-container">
-        <button [ngClass]="{ selected: playersMode }">
+        <button (click)="togglePlayers()" [ngClass]="{ selected: playersMode }">
           <img src="../../../assets/car.png" />
         </button>
       </div>
     </div>
   </div>
-  <div class="low-container"></div>
+  <div class="low-container">
+    <div class="donate">
+      <button class="donate-btn button" (click)="donate()">Donate</button>
+      <p>
+        * All funds received through donations will be invested directly into
+        the ongoing development of our website *
+      </p>
+    </div>
+  </div>
 </div>

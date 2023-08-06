@@ -1,216 +1,222 @@
-
 .container {
-    height: 100vh;
-    width: 100vw;
-    background-image: url(../../../assets/rlBack.jpeg); 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: rgba(55, 55, 55, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-image: url(../../../assets/rlBack.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba(55, 55, 55, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .high-container {
-    height: 13vh;
-    font-size: 200%;
-    display: flex;
-    margin-bottom: 1vh;
-    margin-top: 1vh;
-    flex-direction: row;
+  height: 13vh;
+  font-size: 200%;
+  display: flex;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+  flex-direction: row;
 }
 
-
 .options-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-end;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100%;
 }
 
 .high-container button {
-    width: 10vw;
-    font-size: 100%;
-    font-family: 'Kanit', sans-serif;
-    border: 1px solid black;
-    background: #c7c7c7;
+  width: 10vw;
+  font-size: 100%;
+  font-family: "Kanit", sans-serif;
+  border: 1px solid black;
+  background: #c7c7c7;
+  -webkit-transition: background-color .2s ease-out;
+  -moz-transition: background-color .2s ease-out;
+  -o-transition: background-color .2s ease-out;
+  transition: background-color .2s ease-out;
 }
 
-.high-container button:hover{
-    background:rgba(103, 103, 103, 0.732);
-    color: white;
+.high-container button:hover {
+  background: rgba(103, 103, 103, 0.732);
+  color: white;
 }
 
 .high-container button.selected {
-    border: 3px solid rgba(245, 245, 220, 0.875);
-    background:rgba(103, 103, 103, 0.732);
-    color: white;
+  border: 1px solid rgb(0, 0, 0);
+  background: rgba(103, 103, 103, 0.732);
+  color: white;
 }
 
 .middle-container {
-    height: 65vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2vh;
+  height: 65vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2vh;
 }
 
 .bar {
-    padding: 2%;
-    height: 65vh;
-    width: 13.5vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgba(243, 243, 243, 0.4);
-    margin-right: 2vw;
-    margin-left: 2vw;
+  padding: 2%;
+  height: 65vh;
+  width: 13.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(243, 243, 243, 0.4);
+  margin-right: 2vw;
+  margin-left: 2vw;
 }
 
 .bar button {
-    font-size: 200%;
-    font-style: bold;
-    width: 30%;
-    height: 8%;
-    border: 1px solid black;
-    background-color: rgba(245, 245, 245, 0.875);
-    margin-bottom: 0.3vh;
+  font-size: 200%;
+  font-style: bold;
+  width: 30%;
+  height: 8%;
+  border: 1px solid black;
+  background-color: rgba(245, 245, 245, 0.875);
+  margin-bottom: 0.3vh;
+  
+  -webkit-transition: background-color .2s ease-out;
+  -moz-transition: background-color .2s ease-out;
+  -o-transition: background-color .2s ease-out;
+  transition: background-color .2s ease-out;
 }
 
 .bar button:hover {
-    border: 3px solid rgba(245, 245, 220, 0.8);
-    background-color: rgb(132, 117, 107, 0.2);
-    color: white;
+  border: 3px solid rgba(245, 245, 220, 0.8);
+  background-color: rgb(132, 117, 107, 0.2);
+  color: white;
 }
 
 .bar button.selected {
-    border: 3px solid rgba(245, 245, 220, 0.8);
-    background-color: rgb(132, 117, 107, 0.2);
-    color: white;
+  border: 3px solid rgba(245, 245, 220, 0.8);
+  background-color: rgb(132, 117, 107, 0.2);
+  color: white;
 }
 
 .draw-button-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: inherit;
-    height: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: 8%;
 }
-  
+
 .draw-button-container button {
-    font-size: 200%;
-    font-style: bold;
-    width: 30%;
-    height: 100%;
-    border: 1px solid black;
-    background-color: rgba(245, 245, 245, 0.875);
+  font-size: 200%;
+  font-style: bold;
+  width: 30%;
+  height: 100%;
+  border: 1px solid black;
+  background-color: rgba(245, 245, 245, 0.875);
 }
 
 .draw-button-container img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .extra-buttons-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .extra-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30%;
 }
 
 .extra-buttons button {
-    width: 2vw;
-    height: 2vh;
+  width: 2vw;
+  height: 2vh;
 }
 
 .low-container {
-    height: 6vh;
-    margin: 7vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 6vh;
+  margin: 7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.low-container div button:hover {
+  border: 2px solid black;
+  background-color: rgb(132, 117, 107);
 }
 
 .low-container div {
-    position: relative;
-}
-
-.low-container div :hover {
-    border: 2px solid black;
-    background-color: rgb(132, 117, 107);
-    border: 1px;
-    border-radius: 20%;
-    opacity: 0.2;
-}
-
-.low-container div img {
-    height: 6vh;
-    position: relative;
-    border: 1px;
-    border-radius: 20%;
-    z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .low-container div button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: 2;
+  border-style: solid;
+  width: 25vw;
+  padding: 20px 40px 20px 40px;
+  color: aliceblue;
+  font-size: 180%;
+  letter-spacing: 0.3em;
+  background-color: rgb(33, 31, 31);
+  font-family: "Kanit", sans-serif;
+  -webkit-transition: background-color .2s ease-out;
+  -moz-transition: background-color .2s ease-out;
+  -o-transition: background-color .2s ease-out;
+  transition: background-color .2s ease-out;
 }
 
 .back {
-    font-size: 180%;
+  font-size: 180%;
 }
 
 .back button {
-    position: absolute;
-    top: 2vh;
-    left: 6vw;
-    width: 11vw;
-    font-size: 100%;
-    font-family: 'Kanit', sans-serif;
-    border: 1px solid black;
-    background: #c7c7c7;
-    height: 7vh;
+  position: absolute;
+  top: 2vh;
+  left: 6vw;
+  width: 11vw;
+  font-size: 100%;
+  font-family: "Kanit", sans-serif;
+  border: 1px solid black;
+  background: #c7c7c7;
+  height: 7vh;
+  -webkit-transition: background-color .2s ease-out;
+  -moz-transition: background-color .2s ease-out;
+  -o-transition: background-color .2s ease-out;
+  transition: background-color .2s ease-out;
 }
 
 .back button:hover {
-    background:rgba(103, 103, 103, 0.732);
-    color: white;
+  background: rgba(103, 103, 103, 0.732);
+  color: white;
 }
 
 .map-container {
-    position: relative;
-    height: 65vh;
-    width: 57vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  height: 65vh;
+  width: 57vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map {
-    background-color: rgba(245, 245, 220, 1);
-    width: 100%;
-    height: 100%;
-    border-radius: 10%;
-    overflow: hidden;
-    box-shadow: 15px 0px 30px 0px rgba(0, 0, 0, 0.75), 
+  background-color: rgba(245, 245, 220, 1);
+  width: 100%;
+  height: 100%;
+  border-radius: 10%;
+  overflow: hidden;
+  box-shadow: 15px 0px 30px 0px rgba(0, 0, 0, 0.75),
     -15px 0px 30px 0px rgba(0, 0, 0, 0.75);
 }
-
-  

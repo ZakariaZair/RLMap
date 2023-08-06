@@ -7,6 +7,8 @@ import { fabric } from 'fabric';
 export class MapManagerService {
   mapWidth: number = 0;
   mapheight: number = 0;
+  objects: Map<string, fabric.Image>;
+  fabricCanvas!: fabric.Canvas;
   private imageUrls = [
     '../../../assets/ball1.png',
     '../../../assets/blue1.png',
@@ -17,39 +19,35 @@ export class MapManagerService {
     '../../../assets/orange1.png',
   ];
 
-  constructor() {}
+  constructor() {
+    this.objects = new Map<string, fabric.Image>();
+  }
 
-  createMap(mapPath: string, fabricCanvas: fabric.Canvas) {
+  createMap(mapPath: string) {
     fabric.loadSVGFromURL(mapPath, (objects, options) => {
       const obj = fabric.util.groupSVGElements(objects, options);
-      obj.scaleToHeight(fabricCanvas.height as number);
+      obj.scaleToHeight(this.fabricCanvas.height as number);
       obj.set({
-        opacity: 0.04,
+        opacity: 0.08,
         originX: 'center',
         originY: 'center',
-        stroke: 'black',
-        strokeWidth: 5,
         selectable: false,
         evented: false,
-        scaleX: 3,
+        scaleX: 3.1,
       });
       const img = obj as fabric.Image;
+      this.objects.set('mapBackground', img);
 
-      fabricCanvas.add(img).centerObject(img).renderAll();
+      this.fabricCanvas.add(img).centerObject(img).renderAll();
     });
   }
 
-  createObjects(
-    fabricCanvas: fabric.Canvas,
-    objects: Map<string, fabric.Image>
-  ) {
+  createObjects() {
     const imagePromises = this.imageUrls.map((url) => this.loadImage(url));
 
     Promise.all(imagePromises).then((images) => {
       images.forEach((img, index) => {
         img.set({
-          left: ((fabricCanvas.width as number) * (index + 1)) / 8,
-          top: (fabricCanvas.height as number) / 2,
           originX: 'center',
           originY: 'center',
           hasRotatingPoint: true,
@@ -65,7 +63,7 @@ export class MapManagerService {
               color: img.getSrc().includes('orange')
                 ? 'orange'
                 : img.getSrc().includes('ball')
-                ? 'white'
+                ? 'grey'
                 : 'blue',
               blur: 30,
               offsetX: 0,
@@ -90,78 +88,92 @@ export class MapManagerService {
           mtr: false,
         });
 
-        fabricCanvas.add(img);
         if (img.getSrc().includes('ball')) {
-          objects.set('ball', img);
+          this.objects.set('ball', img);
+          this.fabricCanvas.add(img).centerObject(img).renderAll();
         } else if (img.getSrc().includes('blue')) {
-          objects.set('blue' + index, img);
+          this.objects.set('blue' + index, img);
+          this.fabricCanvas.add(img).renderAll();
         } else if (img.getSrc().includes('orange')) {
-          objects.set('orange' + index, img);
+          this.objects.set('orange' + index, img);
+          this.fabricCanvas.add(img).renderAll();
         }
       });
-
-      fabricCanvas.renderAll();
     });
   }
 
-  toggleDrawingMode(fabricCanvas: fabric.Canvas, drawingMode: boolean) {
-    drawingMode = !drawingMode;
-    fabricCanvas.isDrawingMode = drawingMode;
+  toggleDrawingMode(drawingMode: boolean) {
+    this.fabricCanvas.isDrawingMode = !drawingMode;
+    this.ensureObjChanges();
   }
 
-  toggleGrid(
-    fabricCanvas: fabric.Canvas,
-    mapBackground: fabric.Image,
-    gridMode: boolean
-  ) {
-    gridMode = !gridMode;
-    mapBackground.set('visible', !gridMode);
-    fabricCanvas.renderAll();
-    // this.saveState();
+  toggleGrid(gridMode: boolean) {
+    this.objects.get('mapBackground')
+      ? this.objects.get('mapBackground')?.set('visible', gridMode)
+      : null;
+    this.ensureObjChanges();
   }
 
   addFrame(frames: number[]) {
     frames.push(frames.length);
-    // this.saveState();
   }
 
-  changeBrushColor(
-    color: string,
-    fabricCanvas: fabric.Canvas,
-    brushColor: string
-  ) {
-    fabricCanvas.freeDrawingBrush.color = color;
-    brushColor = color;
-    fabricCanvas.renderAll();
+  changeBrushColor(color: string) {
+    this.fabricCanvas.freeDrawingBrush.color = color;
+    this.fabricCanvas.renderAll();
   }
 
-  changeBrushWidth(
-    width: number,
-    fabricCanvas: fabric.Canvas,
-    brushSize: number
-  ) {
-    fabricCanvas.freeDrawingBrush.width = width;
-    brushSize = width;
-    fabricCanvas.renderAll();
-    // this.saveState();
+  changeBrushSize(width: number) {
+    this.fabricCanvas.freeDrawingBrush.width = width;
+    this.fabricCanvas.renderAll();
   }
 
-  centerBall(fabricCanvas: fabric.Canvas, objects: Map<string, fabric.Image>) {
-    objects.get('ball')?.set({
-      left: (fabricCanvas.width as number) / 2,
-      top: (fabricCanvas.height as number) / 2,
+  centerBall() {
+    this.objects.get('ball')?.set({
+      left: (this.fabricCanvas.width as number) / 2,
+      top: (this.fabricCanvas.height as number) / 2,
     });
-    fabricCanvas.renderAll();
+    this.fabricCanvas.renderAll();
   }
 
-  ensureObjChanges(
-    fabricCanvas: fabric.Canvas,
-    objects: Map<string, fabric.Image>
-  ) {
-    objects.forEach((obj) => {
+  ensureObjChanges() {
+    this.objects.forEach((obj) => {
       obj.setCoords();
     });
-    fabricCanvas.renderAll();
+    this.fabricCanvas.renderAll();
+  }
+
+  option1() {
+    this.centerBall();
+    this.objects.get('blue1')?.set('visible', true);
+    this.objects.get('blue2')?.set('visible', false);
+    this.objects.get('blue3')?.set('visible', false);
+    this.objects.get('orange4')?.set('visible', true);
+    this.objects.get('orange5')?.set('visible', false);
+    this.objects.get('orange6')?.set('visible', false);
+    this.ensureObjChanges();
+  }
+
+  option2() {
+    this.centerBall();
+    this.objects.get('blue1')?.set('visible', true);
+    this.objects.get('blue2')?.set('visible', true);
+    this.objects.get('blue3')?.set('visible', false);
+    this.objects.get('orange4')?.set('visible', true);
+    this.objects.get('orange5')?.set('visible', true);
+    this.objects.get('orange6')?.set('visible', false);
+    this.ensureObjChanges();
+  }
+
+  option3() {
+    this.centerBall();
+    this.objects.get('blue1')?.set('visible', true);
+    this.objects.get('blue2')?.set('visible', true);
+    this.objects.get('blue3')?.set('visible', true);
+    this.objects.get('orange4')?.set('visible', true);
+    this.objects.get('orange5')?.set('visible', true);
+    this.objects.get('orange6')?.set('visible', true);
+    this.ensureObjChanges();
   }
 
   private loadImage(url: string): Promise<fabric.Image> {

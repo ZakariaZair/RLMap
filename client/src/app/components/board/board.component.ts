@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { fabric } from 'fabric';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
@@ -9,13 +15,9 @@ import { MapManagerService } from 'src/app/services/map-manager-service/map-mana
 })
 export class BoardMapComponent implements AfterViewInit {
   @ViewChild('map', { static: true }) mapCanvas!: ElementRef<HTMLCanvasElement>;
-  private fabricCanvas!: fabric.Canvas;
-  private objects: Map<string, fabric.Image>;
   private mapPath: string = '../../../assets/q6NlCWk01.svg';
-  
-  constructor(private readonly mapManagerService: MapManagerService) {
-    this.objects = new Map<string, fabric.Image>();
-  }
+
+  constructor(private readonly mapManagerService: MapManagerService) {}
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -30,12 +32,11 @@ export class BoardMapComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.setUpCanvas();
-    this.mapManagerService.createMap(this.mapPath, this.fabricCanvas);
-    this.mapManagerService.createObjects(this.fabricCanvas, this.objects);
+    this.mapManagerService.createMap(this.mapPath);
+    this.mapManagerService.createObjects();
   }
 
-  private setUpCanvas(
-  ) {
+  private setUpCanvas() {
     const canvasEl: HTMLCanvasElement = this.mapCanvas.nativeElement;
     const parentDiv = canvasEl.parentElement
       ? canvasEl.parentElement
@@ -43,11 +44,13 @@ export class BoardMapComponent implements AfterViewInit {
     canvasEl.width = parentDiv.offsetWidth;
     canvasEl.height = parentDiv.offsetHeight;
 
-    this.fabricCanvas = new fabric.Canvas(canvasEl, {
+    this.mapManagerService.fabricCanvas = new fabric.Canvas(canvasEl, {
       renderOnAddRemove: false,
+      selection: false,
     });
-    this.fabricCanvas.freeDrawingBrush.color = 'red';
-    this.fabricCanvas.freeDrawingBrush.width = 2;
+    this.mapManagerService.fabricCanvas.freeDrawingBrush.color = 'red';
+    this.mapManagerService.fabricCanvas.freeDrawingBrush.width = 2;
+    this.secureBoudaries(canvasEl);
 
     // fabricCanvas.on('path:created', () => {
     //   this.saveState();
@@ -59,7 +62,8 @@ export class BoardMapComponent implements AfterViewInit {
   }
 
   private setupInputs(eventKey: string) {
-    const selectedObject = this.fabricCanvas.getActiveObject() as fabric.Image;
+    const selectedObject =
+      this.mapManagerService.fabricCanvas.getActiveObject() as fabric.Image;
     if (selectedObject) {
       let position = selectedObject.getCenterPoint();
       let currentAngle = selectedObject.angle || 0;
@@ -99,8 +103,38 @@ export class BoardMapComponent implements AfterViewInit {
         top: position.y + positionChange.y,
       });
 
-      this.fabricCanvas.renderAll();
+      this.mapManagerService.ensureObjChanges();
     }
+  }
+
+  private secureBoudaries(canvasEl: HTMLCanvasElement) {
+    this.mapManagerService.fabricCanvas.on('object:modified', function (e) {
+      if (e.target === undefined) return;
+      var obj = e.target;
+      var canvasTL = new fabric.Point(0, 0);
+      var canvasBR = new fabric.Point(
+        canvasEl.width,
+        canvasEl.height
+      );
+      //if object not totally contained in canvas, adjust position
+      if (!obj.isContainedWithinRect(canvasTL, canvasBR)) {
+        var objBounds = obj.getBoundingRect();
+        obj.setCoords();
+        var objTL = obj.getPointByOrigin('left', 'top');
+        var left = objTL.x;
+        var top = objTL.y;
+
+        if (objBounds.left < canvasTL.x) left = 0;
+        if (objBounds.top < canvasTL.y) top = 0;
+        if (objBounds.top + objBounds.height > canvasBR.y)
+          top = canvasBR.y - objBounds.height;
+        if (objBounds.left + objBounds.width > canvasBR.x)
+          left = canvasBR.x - objBounds.width;
+
+        obj.setPositionByOrigin(new fabric.Point(left, top), 'left', 'top');
+        obj.setCoords();
+      }
+    });
   }
 
 }
