@@ -25,39 +25,55 @@ export class MapPageComponent implements AfterViewInit {
   ngAfterViewInit() {}
 
   option1() {
-    if(!this.playersMode){
+    if (!this.playersMode) {
       this.mapManagerService.option1();
     }
     this.optionChosen = 1;
   }
 
   option2() {
-    if(!this.playersMode){
+    if (!this.playersMode) {
       this.mapManagerService.option2();
     }
     this.optionChosen = 2;
   }
 
   option3() {
-    if(!this.playersMode){
+    if (!this.playersMode) {
       this.mapManagerService.option3();
     }
     this.optionChosen = 3;
   }
 
   toggleBall() {
-    this.mapManagerService.objects.get('ball') ? this.mapManagerService.objects.get('ball')?.set('visible', this.ballMode) : null;
+    this.mapManagerService.objects.get('ball')
+      ? this.mapManagerService.objects
+          .get('ball')
+          ?.set('visible', this.ballMode)
+      : null;
     this.ballMode = !this.ballMode;
     this.mapManagerService.ensureObjChanges();
   }
 
   togglePlayers() {
-    this.mapManagerService.objects.get('blue1')?.set('visible', this.playersMode);
-    this.mapManagerService.objects.get('blue2')?.set('visible', this.playersMode);
-    this.mapManagerService.objects.get('blue3')?.set('visible', this.playersMode);
-    this.mapManagerService.objects.get('orange4')?.set('visible', this.playersMode);
-    this.mapManagerService.objects.get('orange5')?.set('visible', this.playersMode);
-    this.mapManagerService.objects.get('orange6')?.set('visible', this.playersMode);
+    this.mapManagerService.objects
+      .get('blue1')
+      ?.set('visible', this.playersMode);
+    this.mapManagerService.objects
+      .get('blue2')
+      ?.set('visible', this.playersMode);
+    this.mapManagerService.objects
+      .get('blue3')
+      ?.set('visible', this.playersMode);
+    this.mapManagerService.objects
+      .get('orange4')
+      ?.set('visible', this.playersMode);
+    this.mapManagerService.objects
+      .get('orange5')
+      ?.set('visible', this.playersMode);
+    this.mapManagerService.objects
+      .get('orange6')
+      ?.set('visible', this.playersMode);
     if (this.optionChosen === 1) {
       this.mapManagerService.objects.get('blue2')?.set('visible', false);
       this.mapManagerService.objects.get('blue3')?.set('visible', false);

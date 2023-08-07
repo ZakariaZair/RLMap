@@ -183,26 +183,31 @@ export class MapManagerService {
     if (!this.fabricCanvas.height) return;
     const fCW = this.fabricCanvas.width;
     const fCH = this.fabricCanvas.height;
-    const randomOrder = this.generateRandomOrder();
+    const k: keyof typeof START_POSITIONS = Math.floor(
+      Math.random() * 10
+    ) + 1 as keyof typeof START_POSITIONS ; // Random composition combination
+    console.log(k);
+    const randomOrder = this.generateRandomOrder(); // Random order combination
     const oppTeamOrder: number[] = [];
     this.objects.forEach((obj) => {
       if (obj.getSrc().includes('blue')) {
-        let i: keyof typeof START_POSITIONS =
-          randomOrder[0] as keyof typeof START_POSITIONS;
-        obj.set('left', (START_POSITIONS[i].x * fCW) / this.mapWidth);
-        obj.set('top', (START_POSITIONS[i].y * fCH) / this.mapHeight);
-        randomOrder.shift();
-        oppTeamOrder.push(i);
+        let i: keyof (typeof START_POSITIONS)[typeof k] =
+          randomOrder[0] as keyof (typeof START_POSITIONS)[typeof k];
+          obj.set('left', (START_POSITIONS[k][i].x * fCW) / this.mapWidth);
+          obj.set('top', (START_POSITIONS[k][i].y * fCH) / this.mapHeight);
+          obj.set('angle', START_POSITIONS[k][i].a );
+          randomOrder.shift();
+          oppTeamOrder.push(i);
       }
     });
-
     this.objects.forEach((obj) => {
       if (obj.getSrc().includes('orange')) {
-        let i: keyof typeof START_POSITIONS =
-          oppTeamOrder[0] as keyof typeof START_POSITIONS;
-        obj.set('left', ((this.mapWidth - START_POSITIONS[i].x) * fCW) / this.mapWidth);
-        obj.set('top', ((this.mapHeight - START_POSITIONS[i].y) * fCH) / this.mapHeight);
-        oppTeamOrder.shift();
+        let i: keyof (typeof START_POSITIONS)[typeof k] =
+          oppTeamOrder[0] as keyof (typeof START_POSITIONS)[typeof k];
+          obj.set('left', ((this.mapWidth - START_POSITIONS[k][i].x) * fCW) / this.mapWidth);
+          obj.set('top', ((this.mapHeight - START_POSITIONS[k][i].y) * fCH) / this.mapHeight);
+          obj.set('angle', START_POSITIONS[k][i].a + 180 );
+          oppTeamOrder.shift();
       }
     });
 
@@ -211,7 +216,7 @@ export class MapManagerService {
 
   private generateRandomOrder(): number[] {
     const array = [1, 2, 3];
-    const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
+    const shuffledArray = array.sort(() => 0.5 - Math.random());
     return shuffledArray;
   }
 
