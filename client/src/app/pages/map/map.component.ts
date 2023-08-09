@@ -11,18 +11,21 @@ export class MapPageComponent implements AfterViewInit {
   drawingMode: boolean = false;
   gridMode: boolean = false;
   playersMode: boolean = false;
-  optionChosen: number;
+  optionChosen: number = 4;
   ballMode: boolean = false;
   brushSize: number = 2;
   brushColor: string = 'red';
   frames: number[];
 
   constructor(public mapManagerService: MapManagerService) {
-    this.optionChosen = 3;
     this.frames = [0];
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.option3();
+    }, 1000);
+  }
 
   option1() {
     if (!this.playersMode) {

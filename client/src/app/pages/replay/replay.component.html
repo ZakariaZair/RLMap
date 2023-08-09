@@ -1,14 +1,17 @@
 <div>
-  <div class="replay-container">
-    <canvas #mapCanvas id="canvas" height="503" width="398"></canvas>
-  </div>
-  <ul> <h2>Player 1 Pos: </h2>
-    <li>x = {{ player1.position.x }}</li>
-    <li>y = {{ player1.position.y }}</li>
+  <app-board-map />
+  <ul>
+    <h2>Player 1 Pos:</h2>
   </ul>
-  <button class="replay-assessment" (click)="constructMap()">Construct !</button>
-  <span>{{ replayValue }}</span>
   <div class="slide-container">
-    <input type="range" min="1" [max]="getReplayLength()" value="0" class="slider" id="myRange" (input)="changeReplayValue($event)">
+    <input
+      type="range"
+      min="1"
+      [max]="getReplayLength()"
+      value="0"
+      class="slider"
+      id="myRange"
+      (input)="changeReplayValue($event)"
+    />
   </div>
 </div>

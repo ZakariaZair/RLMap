@@ -186,7 +186,6 @@ export class MapManagerService {
     const k: keyof typeof START_POSITIONS = Math.floor(
       Math.random() * 10
     ) + 1 as keyof typeof START_POSITIONS ; // Random composition combination
-    console.log(k);
     const randomOrder = this.generateRandomOrder(); // Random order combination
     const oppTeamOrder: number[] = [];
     this.objects.forEach((obj) => {
