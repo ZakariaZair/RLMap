@@ -7,7 +7,6 @@ import { ReplayData } from 'src/app/interfaces/interfaces';
 })
 export class ReplayFetcherService {
   replayData: ReplayData;
-  replayFrames: any;
 
   constructor(private http: HttpClient) {
     this.replayData = {} as ReplayData;
@@ -22,10 +21,6 @@ export class ReplayFetcherService {
     } catch (error) {
       console.error('Error executing script:', error);
     }
-  }
-
-  loadReplay() {
-    console.log(this.replayData.Part1Length);
   }
 
   readJsonFromAssets(filename: string = 'replayDataTest.json'): Promise<any> {

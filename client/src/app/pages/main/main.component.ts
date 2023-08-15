@@ -27,8 +27,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   async runReplay(): Promise<void> {
-    await this.replayFetcherService.runScript();
-    this.router.navigate(['/replay']);
+    // await this.replayFetcherService.runScript();
+    // this.router.navigate(['/replay']);
   }
 
   donate(): void {

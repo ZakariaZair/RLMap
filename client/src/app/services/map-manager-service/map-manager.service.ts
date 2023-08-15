@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { fabric } from 'fabric';
-import { START_POSITIONS } from 'src/app/interfaces/interfaces';
+import { Coord, START_POSITIONS } from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -183,33 +183,48 @@ export class MapManagerService {
     if (!this.fabricCanvas.height) return;
     const fCW = this.fabricCanvas.width;
     const fCH = this.fabricCanvas.height;
-    const k: keyof typeof START_POSITIONS = Math.floor(
-      Math.random() * 10
-    ) + 1 as keyof typeof START_POSITIONS ; // Random composition combination
+    const k: keyof typeof START_POSITIONS = (Math.floor(Math.random() * 10) +
+      1) as keyof typeof START_POSITIONS; // Random composition combination
     const randomOrder = this.generateRandomOrder(); // Random order combination
     const oppTeamOrder: number[] = [];
     this.objects.forEach((obj) => {
       if (obj.getSrc().includes('blue')) {
         let i: keyof (typeof START_POSITIONS)[typeof k] =
           randomOrder[0] as keyof (typeof START_POSITIONS)[typeof k];
-          obj.set('left', (START_POSITIONS[k][i].x * fCW) / this.mapWidth);
-          obj.set('top', (START_POSITIONS[k][i].y * fCH) / this.mapHeight);
-          obj.set('angle', START_POSITIONS[k][i].a );
-          randomOrder.shift();
-          oppTeamOrder.push(i);
+        obj.set('left', (START_POSITIONS[k][i].x * fCW) / this.mapWidth);
+        obj.set('top', (START_POSITIONS[k][i].y * fCH) / this.mapHeight);
+        obj.set('angle', START_POSITIONS[k][i].a);
+        randomOrder.shift();
+        oppTeamOrder.push(i);
       }
     });
     this.objects.forEach((obj) => {
       if (obj.getSrc().includes('orange')) {
         let i: keyof (typeof START_POSITIONS)[typeof k] =
           oppTeamOrder[0] as keyof (typeof START_POSITIONS)[typeof k];
-          obj.set('left', ((this.mapWidth - START_POSITIONS[k][i].x) * fCW) / this.mapWidth);
-          obj.set('top', ((this.mapHeight - START_POSITIONS[k][i].y) * fCH) / this.mapHeight);
-          obj.set('angle', START_POSITIONS[k][i].a + 180 );
-          oppTeamOrder.shift();
+        obj.set(
+          'left',
+          ((this.mapWidth - START_POSITIONS[k][i].x) * fCW) / this.mapWidth
+        );
+        obj.set(
+          'top',
+          ((this.mapHeight - START_POSITIONS[k][i].y) * fCH) / this.mapHeight
+        );
+        obj.set('angle', START_POSITIONS[k][i].a + 180);
+        oppTeamOrder.shift();
       }
     });
 
+    this.ensureObjChanges();
+  }
+
+  changePlayer(playerName: string, pos: Coord) {
+    const fCW = this.fabricCanvas.width;
+    const fCH = this.fabricCanvas.height;
+    this.objects.get(playerName)?.set({
+      left: ((this.mapWidth / 2 + pos.Y) * (fCW ? fCW : 0)) / this.mapWidth,
+      top: ((this.mapHeight / 2 + pos.X) * (fCH ? fCH : 0)) / this.mapHeight,
+    });
     this.ensureObjChanges();
   }
 

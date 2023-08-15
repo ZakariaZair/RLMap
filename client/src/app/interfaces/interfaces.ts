@@ -55,7 +55,7 @@ export interface ReplayData {
     }
   ];
   EngineVersion: number;
-  Frames: {};
+  Frames: Frame[];
   Levels: {};
   LicenseeVersion: number;
   Names: {};
@@ -70,12 +70,34 @@ export interface ReplayData {
   TickMarks: {};
 }
 
-export interface Frame {
+interface Frame {
   Time: number;
   Delta: number;
   ActorUpdates: ActorUpdate[];
   DeletedActorIds: number[];
 }
+
+interface ActorUpdate {
+  ClassName?: number;
+  Id: number;
+  NameId: number;
+  InitialPosition?: Coord; 
+  "TAGame.RBActor_TA:ReplicatedRBState": {
+    AngularVelocity: Coord;
+    LinearVelocity: Coord;
+    Position: Coord;
+    Rotation: Coord;
+  }
+  TypeName: string;
+
+}
+
+export interface Coord {
+  X: number;
+  Y: number;
+  Z: number;
+}
+
 
 export interface Player {
   position: {

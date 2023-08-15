@@ -1,33 +1,30 @@
 <div class="all-container">
   <div class="high-container">
-    <h1>RLMap</h1>
+    <h1>Rocket League Map</h1>
   </div>
   <div class="low-container">
     <div class="features">
       <div class="feature">
-        <button class="button" (click)="createNewMap()">
-          Create new map
-        </button>
-        <p>
-          * Strategize and create *
-        </p>  
+        <button class="button" (click)="createNewMap()">Create new map</button>
+        <p>* Strategize and create *</p>
       </div>
       <div class="feature">
-        <label for="file-upload" class="button" >
-          Upload your replay
-        </label>
-        <input (click)="runReplay()" id="file-upload" type="file" class="button"/> 
-        <p>
-          * Coming soon... *
-        </p>
+        <label for="file-upload" class="button"> Upload your replay </label>
+        <input
+          (click)="runReplay()"
+          id="file-upload"
+          type="file"
+          class="button"
+          [disabled]="true"
+        />
+        <p>* Coming soon... *</p>
       </div>
     </div>
     <div class="donate">
       <button class="donate-btn button" (click)="donate()">Donate</button>
       <p>
-        * All funds received through donations 
-        will be invested directly into the ongoing development
-        of our website *
+        * All funds received through donations will be invested directly into
+        the ongoing development of our website *
       </p>
     </div>
   </div>

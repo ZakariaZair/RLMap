@@ -34,10 +34,10 @@
   font-family: "Kanit", sans-serif;
   border: 1px solid black;
   background: #c7c7c7;
-  -webkit-transition: background-color .2s ease-out;
-  -moz-transition: background-color .2s ease-out;
-  -o-transition: background-color .2s ease-out;
-  transition: background-color .2s ease-out;
+  -webkit-transition: background-color 0.2s ease-out;
+  -moz-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
 }
 
 .high-container button:hover {
@@ -82,11 +82,11 @@
   border: 1px solid black;
   background-color: rgba(245, 245, 245, 0.875);
   margin-bottom: 0.6vh;
-  
-  -webkit-transition: background-color .2s ease-out;
-  -moz-transition: background-color .2s ease-out;
-  -o-transition: background-color .2s ease-out;
-  transition: background-color .2s ease-out;
+
+  -webkit-transition: background-color 0.2s ease-out;
+  -moz-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
 }
 
 .bar button:hover {
@@ -170,10 +170,10 @@
   letter-spacing: 0.3em;
   background-color: rgb(33, 31, 31);
   font-family: "Kanit", sans-serif;
-  -webkit-transition: background-color .2s ease-out;
-  -moz-transition: background-color .2s ease-out;
-  -o-transition: background-color .2s ease-out;
-  transition: background-color .2s ease-out;
+  -webkit-transition: background-color 0.2s ease-out;
+  -moz-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
 }
 
 .back {
@@ -190,10 +190,10 @@
   border: 1px solid black;
   background: #c7c7c7;
   height: 7vh;
-  -webkit-transition: background-color .2s ease-out;
-  -moz-transition: background-color .2s ease-out;
-  -o-transition: background-color .2s ease-out;
-  transition: background-color .2s ease-out;
+  -webkit-transition: background-color 0.2s ease-out;
+  -moz-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
 }
 
 .back button:hover {
