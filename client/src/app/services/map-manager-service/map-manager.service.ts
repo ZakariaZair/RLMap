@@ -97,10 +97,10 @@ export class MapManagerService {
           this.fabricCanvas.add(img).centerObject(img).renderAll();
         } else if (img.getSrc().includes('blue')) {
           this.objects.set('blue' + index, img);
-          this.fabricCanvas.add(img).renderAll();
+          this.fabricCanvas.add(img).centerObject(img).renderAll();
         } else if (img.getSrc().includes('orange')) {
           this.objects.set('orange' + index, img);
-          this.fabricCanvas.add(img).renderAll();
+          this.fabricCanvas.add(img).centerObject(img).renderAll();
         }
       });
     });

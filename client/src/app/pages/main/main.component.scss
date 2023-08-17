@@ -4,7 +4,28 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url(../../../assets/rlBack2.jpeg);
+  z-index: 1;
+}
+
+#myVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+#videoContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -900;
+  background-image: url(../../../assets/20230815183310_1.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -69,6 +90,11 @@ p {
   justify-content: space-evenly;
   width: 60%;
   padding-bottom: 10vh;
+}
+
+.feature p {
+  font-size: 170%;
+  font-style: oblique;
 }
 
 @media (max-width: 600px) {

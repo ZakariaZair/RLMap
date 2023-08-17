@@ -24,7 +24,7 @@ export class MapPageComponent implements AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.option3();
-    }, 1000);
+    }, 500);
   }
 
   option1() {
