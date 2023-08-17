@@ -113,7 +113,6 @@ export class BoardMapComponent implements AfterViewInit {
       var obj = e.target;
       var canvasTL = new fabric.Point(0, 0);
       var canvasBR = new fabric.Point(canvasEl.width, canvasEl.height);
-      //if object not totally contained in canvas, adjust position
       if (!obj.isContainedWithinRect(canvasTL, canvasBR)) {
         var objBounds = obj.getBoundingRect();
         obj.setCoords();

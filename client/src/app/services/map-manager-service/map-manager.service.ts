@@ -9,6 +9,7 @@ export class MapManagerService {
   mapWidth: number;
   mapHeight: number;
   objects: Map<string, fabric.Image>;
+  cloneObjects: Map<string, fabric.Image>;
   mapBackground!: fabric.Image;
   fabricCanvas!: fabric.Canvas;
   private imageUrls = [
@@ -23,6 +24,7 @@ export class MapManagerService {
 
   constructor() {
     this.objects = new Map<string, fabric.Image>();
+    this.cloneObjects = new Map<string, fabric.Image>();
     this.mapWidth = 5102 * 2;
     this.mapHeight = 4079 * 2;
   }
@@ -226,6 +228,21 @@ export class MapManagerService {
       top: ((this.mapHeight / 2 + pos.X) * (fCH ? fCH : 0)) / this.mapHeight,
     });
     this.ensureObjChanges();
+  }
+
+  clear(mapPath: string) {
+    this.cloneObj();
+    this.fabricCanvas.clear();
+    this.createMap(mapPath);
+    this.cloneObjects.forEach((value, key) => {
+      this.objects.get(key)?.set(value);
+      this.fabricCanvas.add(this.objects.get(key) as fabric.Image);
+    });
+    this.ensureObjChanges();
+  }
+
+  private cloneObj() {
+    this.cloneObjects = this.objects;
   }
 
   private generateRandomOrder(): number[] {

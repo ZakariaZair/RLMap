@@ -41,7 +41,6 @@
                 this.mapManagerService.changeBrushColor('red');
                 this.brushColor = 'red'
               "
-              class="draw-button"
               [ngClass]="{ selected: brushColor.includes('red') }"
             >
               🔴
@@ -51,7 +50,6 @@
                 this.mapManagerService.changeBrushColor('blue');
                 this.brushColor = 'blue'
               "
-              class="draw-button"
               [ngClass]="{ selected: brushColor.includes('blue') }"
             >
               🔵
@@ -61,7 +59,6 @@
                 this.mapManagerService.changeBrushColor('green');
                 this.brushColor = 'green'
               "
-              class="draw-button"
               [ngClass]="{ selected: brushColor.includes('green') }"
             >
               🟢
@@ -72,7 +69,6 @@
               (click)="
                 this.mapManagerService.changeBrushSize(2); this.brushSize = 2
               "
-              class="draw-button"
               [ngClass]="{ selected: brushSize === 2 }"
             >
               S
@@ -81,7 +77,6 @@
               (click)="
                 this.mapManagerService.changeBrushSize(8); this.brushSize = 8
               "
-              class="draw-button"
               [ngClass]="{ selected: brushSize === 8 }"
             >
               M
@@ -90,21 +85,23 @@
               (click)="
                 this.mapManagerService.changeBrushSize(16); this.brushSize = 16
               "
-              class="draw-button"
               [ngClass]="{ selected: brushSize === 16 }"
             >
               L
             </button>
           </div>
         </div>
+        <button class="eraser" (click)="clear()">⌫</button>
       </div>
-      <button
+      <div
         (click)="this.mapManagerService.toggleGrid(this.gridMode)"
         (click)="this.gridMode = !this.gridMode"
         [ngClass]="{ selected: gridMode }"
+        class="draw-button-container"
       >
-        ▒
-      </button>
+        <button>▒</button>
+      </div>
+
       <div (click)="toggleBall()" class="draw-button-container">
         <button [ngClass]="{ selected: ballMode }">
           <img src="../../../assets/ball1.png" />

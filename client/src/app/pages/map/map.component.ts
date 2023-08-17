@@ -1,5 +1,4 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { fabric } from 'fabric';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
 @Component({
@@ -16,6 +15,7 @@ export class MapPageComponent implements AfterViewInit {
   brushSize: number = 2;
   brushColor: string = 'red';
   frames: number[];
+  private mapPath: string = '../../../assets/q6NlCWk01.svg';
 
   constructor(public mapManagerService: MapManagerService) {
     this.frames = [0];
@@ -88,6 +88,10 @@ export class MapPageComponent implements AfterViewInit {
     }
     this.playersMode = !this.playersMode;
     this.mapManagerService.ensureObjChanges();
+  }
+
+  clear() {
+    this.mapManagerService.clear(this.mapPath);
   }
 
   // private saveState() {
