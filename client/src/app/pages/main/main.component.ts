@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -14,16 +15,28 @@ import { ReplayFetcherService } from 'src/app/services/replay-fetcher-service/re
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainPageComponent implements OnInit, OnDestroy {
+export class MainPageComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('myVideo') myVideo!: ElementRef;
+  videoPlayed: boolean = false;
+
   constructor(
     private readonly replayFetcherService: ReplayFetcherService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    this.myVideo.nativeElement.play();
+  }
 
   createNewMap(): void {
     this.router.navigate(['/map-editor']);
+  }
+
+  playVideo() {
+    if (!this.videoPlayed) {
+      this.myVideo.nativeElement.play();
+      this.videoPlayed = true;  
+    }
   }
 
   async runReplay(): Promise<void> {

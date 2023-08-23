@@ -12,6 +12,7 @@ export class MapManagerService {
   cloneObjects: Map<string, fabric.Image>;
   mapBackground!: fabric.Image;
   fabricCanvas!: fabric.Canvas;
+  frameObjects: Map<string, fabric.Image>[];
   private imageUrls = [
     '../../../assets/ball1.png',
     '../../../assets/blue1.png',
@@ -25,8 +26,27 @@ export class MapManagerService {
   constructor() {
     this.objects = new Map<string, fabric.Image>();
     this.cloneObjects = new Map<string, fabric.Image>();
+    this.frameObjects = [new Map<string, fabric.Image>()];
     this.mapWidth = 5102 * 2;
     this.mapHeight = 4079 * 2;
+  }
+
+  setOn() {
+    // this.fabricCanvas.on('path:created', () => {
+    //   this.saveState();
+    // });
+    // this.fabricCanvas.on('object:modified', () => {
+    //   this.saveState();
+    // });
+    this.fabricCanvas.on('object:modified', (options) => {
+      if (options.target) {
+        const movedObject = options.target as fabric.Image;
+        const objectName = movedObject.get('data').label;
+        if (this.objects.has(objectName)) {
+          
+        }
+      }
+    });
   }
 
   createMap(mapPath: string) {
@@ -60,6 +80,13 @@ export class MapManagerService {
           hasBorders: false,
           scaleX: img.getSrc().includes('ball') ? 0.15 : 0.1,
           scaleY: img.getSrc().includes('ball') ? 0.15 : 0.1,
+          data: {
+            label: img.getSrc().includes('ball')
+              ? 'ball'
+              : img.getSrc().includes('blue')
+              ? 'blue' + index
+              : 'orange' + index,
+          },
         });
 
         img.on('mouseover', () => {
@@ -71,7 +98,7 @@ export class MapManagerService {
                 : img.getSrc().includes('ball')
                 ? 'grey'
                 : 'blue',
-              blur: 30,
+              blur: 50,
               offsetX: 0,
               offsetY: 0,
             })
@@ -116,10 +143,6 @@ export class MapManagerService {
   toggleGrid(gridMode: boolean) {
     this.mapBackground.set('visible', gridMode);
     this.ensureObjChanges();
-  }
-
-  addFrame(frames: number[]) {
-    frames.push(frames.length);
   }
 
   changeBrushColor(color: string) {
@@ -186,8 +209,8 @@ export class MapManagerService {
     const fCW = this.fabricCanvas.width;
     const fCH = this.fabricCanvas.height;
     const k: keyof typeof START_POSITIONS = (Math.floor(Math.random() * 10) +
-      1) as keyof typeof START_POSITIONS; // Random composition combination
-    const randomOrder = this.generateRandomOrder(); // Random order combination
+      1) as keyof typeof START_POSITIONS;
+    const randomOrder = this.generateRandomOrder();
     const oppTeamOrder: number[] = [];
     this.objects.forEach((obj) => {
       if (obj.getSrc().includes('blue')) {
@@ -239,6 +262,33 @@ export class MapManagerService {
       this.fabricCanvas.add(this.objects.get(key) as fabric.Image);
     });
     this.ensureObjChanges();
+  }
+
+  lastFrame(index: number) {
+    const clonedObjects = new Map<string, fabric.Image>();
+    this.objects.forEach((value, key) => {
+      clonedObjects.set(key, fabric.util.object.clone(value));
+    });
+    this.frameObjects[index] = clonedObjects;
+  }
+
+  nextFrame(index: number) {
+    const recordedObjects = this.frameObjects[index];
+    if (recordedObjects) {
+      this.objects.forEach((obj) => {
+        this.fabricCanvas.remove(obj);
+      });
+      this.objects.clear();
+      recordedObjects.forEach((value, key) => {
+        this.objects.set(key, value);
+        this.fabricCanvas.add(value);
+      });
+    }
+    this.ensureObjChanges();
+  }
+
+  deleteFrame(index: number) {
+    this.frameObjects.splice(index, 1);
   }
 
   private cloneObj() {

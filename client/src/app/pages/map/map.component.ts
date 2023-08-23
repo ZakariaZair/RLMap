@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
 @Component({
@@ -14,16 +14,20 @@ export class MapPageComponent implements AfterViewInit {
   ballMode: boolean = false;
   brushSize: number = 2;
   brushColor: string = 'red';
-  frames: number[];
+  frames: string[] = ['Frame 1'];
+  frameSelected: number = 0;
+  isEditing: boolean[] = [];
+
   private mapPath: string = '../../../assets/q6NlCWk01.svg';
 
   constructor(public mapManagerService: MapManagerService) {
-    this.frames = [0];
+    this.frames.forEach(() => this.isEditing.push(false));
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.option3();
+      this.mapManagerService.lastFrame(this.frameSelected);
     }, 500);
   }
 
@@ -88,6 +92,32 @@ export class MapPageComponent implements AfterViewInit {
     }
     this.playersMode = !this.playersMode;
     this.mapManagerService.ensureObjChanges();
+  }
+
+  addFrame() {
+    this.frames.push('Frame ' + (this.frames.length + 1));
+    this.mapManagerService.lastFrame(this.frames.length - 1);
+  }
+
+  deleteFrame(index: number) {
+    this.frames.splice(index, 1);
+    this.mapManagerService.deleteFrame(index);
+    this.frameSelected = 0;
+    this.mapManagerService.nextFrame(0);
+  }
+
+  frame(index: number) {
+    this.mapManagerService.lastFrame(this.frameSelected);
+    this.frameSelected = index;
+    this.mapManagerService.nextFrame(this.frameSelected);
+  }
+
+  nameFrame(event: any, index: number) {
+    this.frames[index] = event.target.value;
+  }
+
+  toggleEdit(index: number) {
+    this.isEditing[index] = !this.isEditing[index];
   }
 
   clear() {

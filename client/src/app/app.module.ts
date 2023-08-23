@@ -9,6 +9,7 @@ import { ReplayPageComponent } from './pages/replay/replay.component';
 import { MapPageComponent } from './pages/map/map.component';
 import { BoardMapComponent } from './components/board/board.component';
 import { ReplayFetcherService } from './services/replay-fetcher-service/replay-fetcher.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ReplayFetcherService } from './services/replay-fetcher-service/replay-f
     MapPageComponent,
     BoardMapComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [ReplayFetcherService],
   bootstrap: [AppComponent],
 })

@@ -51,14 +51,7 @@ export class BoardMapComponent implements AfterViewInit {
     this.mapManagerService.fabricCanvas.freeDrawingBrush.color = 'red';
     this.mapManagerService.fabricCanvas.freeDrawingBrush.width = 2;
     this.secureBoudaries(canvasEl);
-
-    // fabricCanvas.on('path:created', () => {
-    //   this.saveState();
-    // });
-
-    // this.fabricCanvas.on('object:modified', () => {
-    //   this.saveState();
-    // });
+    this.mapManagerService.setOn();
   }
 
   private setupInputs(eventKey: string) {
@@ -84,16 +77,16 @@ export class BoardMapComponent implements AfterViewInit {
           currentAngle = 180;
           break;
         case 'a':
-          positionChange.x = -10; // Move left by 10 pixels
+          positionChange.x = -10;
           break;
         case 'd':
-          positionChange.x = 10; // Move right by 10 pixels
+          positionChange.x = 10;
           break;
         case 'w':
-          positionChange.y = -10; // Move up by 10 pixels
+          positionChange.y = -10;
           break;
         case 's':
-          positionChange.y = 10; // Move down by 10 pixels
+          positionChange.y = 10;
           break;
       }
 

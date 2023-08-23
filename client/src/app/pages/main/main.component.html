@@ -1,9 +1,9 @@
 <div id="videoContainer">
-  <video autoplay muted loop id="myVideo">
+  <video  #myVideo autoplay muted loop id="myVideo">
     <source src="assets/vidBackgroundSkyBlue_.mp4" type="video/mp4">
   </video>
 </div>
-<div class="all-container">
+<div (click)="playVideo()" class="all-container">
   <div class="high-container">
     <h1>Rocket League Map</h1>
   </div>

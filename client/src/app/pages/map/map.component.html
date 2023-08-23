@@ -17,8 +17,47 @@
   </div>
   <div class="middle-container">
     <div class="bar">
-      <button *ngFor="let item of frames; index as i">{{ i }}</button>
-      <button>✚</button>
+      <div
+        class="frame"
+        (click)="frame(i)"
+        *ngFor="let item of frames; index as i"
+      >
+        <button
+          class="frame-name"
+          (click)="toggleEdit(i)"
+          *ngIf="this.frameSelected === i"
+        >
+          ✎
+        </button>
+        <button
+          *ngIf="!isEditing[i]"
+          class="frame-item"
+          [ngClass]="{ selected: this.frameSelected === i }"
+        >
+          {{ item }}
+        </button>
+        <input
+          #nameEdit
+          *ngIf="isEditing[i]"
+          [ngClass]="{ selected: this.frameSelected === i }"
+          (blur)="toggleEdit(i); nameFrame($event, i)"
+          (keyup.enter)="toggleEdit(i); nameFrame($event, i)"
+        />
+        <button
+          class="frame-supress"
+          (click)="deleteFrame(i)"
+          *ngIf="i !== 0 && this.frameSelected === i"
+        >
+          ⌫
+        </button>
+      </div>
+      <button
+        class="add-frame"
+        (click)="addFrame()"
+        *ngIf="this.frames.length < 8"
+      >
+        ✚
+      </button>
     </div>
     <app-board-map />
     <div class="bar">
@@ -111,6 +150,9 @@
         <button (click)="togglePlayers()" [ngClass]="{ selected: playersMode }">
           <img src="../../../assets/car.png" />
         </button>
+      </div>
+      <div class="player-sheet">
+        
       </div>
     </div>
   </div>
