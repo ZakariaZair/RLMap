@@ -17,12 +17,11 @@ import { ReplayFetcherService } from 'src/app/services/replay-fetcher-service/re
 })
 export class MainPageComponent implements AfterViewInit, OnDestroy {
   @ViewChild('myVideo') myVideo!: ElementRef;
+  @ViewChild('ee') myEE!: ElementRef;
   videoPlayed: boolean = false;
+  isEe: boolean = false;
 
-  constructor(
-    private readonly replayFetcherService: ReplayFetcherService,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
     this.myVideo.nativeElement.play();
@@ -35,13 +34,23 @@ export class MainPageComponent implements AfterViewInit, OnDestroy {
   playVideo() {
     if (!this.videoPlayed) {
       this.myVideo.nativeElement.play();
-      this.videoPlayed = true;  
+      this.videoPlayed = true;
     }
   }
 
-  async runReplay(): Promise<void> {
+  runReplay(): void {
+    if (!this.isEe) {
+      this.isEe = true;
+      this.myEE.nativeElement.play();
+    }
     // await this.replayFetcherService.runScript();
     // this.router.navigate(['/replay']);
+  }
+
+  onVideoEnded() {
+    alert('https://www.youtube.com/shorts/u12od4njDZk');
+    alert('Bravo! You found the first easter egg!');
+    this.isEe = false;
   }
 
   donate(): void {

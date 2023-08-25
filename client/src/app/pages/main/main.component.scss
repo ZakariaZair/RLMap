@@ -7,6 +7,18 @@
   z-index: 1;
 }
 
+#ee {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -800;
+  transform: translateX(-50%) translateY(-50%);
+}
+
 #myVideo {
   position: absolute;
   top: 50%;
@@ -15,6 +27,7 @@
   min-height: 100%;
   width: auto;
   height: auto;
+  z-index: -900;
   transform: translateX(-50%) translateY(-50%);
 }
 
@@ -41,8 +54,8 @@
 .high-container h1 {
   font-size: 620%;
   color: rgb(255, 255, 255);
-  text-shadow: -2px -2px 0 #363636, 1px -1px 0 #000, -2px 1px 0 #000,
-    1px 2px 0 #000;
+  text-shadow: -1px -1px 10px #00000036, 1px -1px 10px #00000034, -1px 1px 10px #0000004b,
+    1px 1px 10px #ffffff49;
 }
 
 p {

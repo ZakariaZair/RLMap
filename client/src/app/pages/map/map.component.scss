@@ -104,7 +104,6 @@
   transition: background-color 0.2s ease-out;
 }
 
-
 .frame {
   position: relative;
 }
@@ -113,7 +112,6 @@
   font-size: 100%;
   margin: 6px;
 }
-
 
 .bar .frame .frame-item.selected {
   border: 3px solid rgba(245, 245, 220, 0.8);
@@ -146,15 +144,13 @@
 
 .bar .frame .frame-name:hover {
   border: 2px solid rgb(87, 104, 255);
-  background-color: rgba(41, 159, 255, 0.527)
+  background-color: rgba(41, 159, 255, 0.527);
 }
-
 
 .bar .frame .frame-supress:hover {
   border: 2px solid rgb(255, 87, 87);
-  background-color: rgba(255, 41, 41, 0.527)
+  background-color: rgba(255, 41, 41, 0.527);
 }
-
 
 .bar button:hover {
   border: 3px solid rgba(245, 245, 220, 0.8);
@@ -295,25 +291,52 @@
 .player-sheet {
   background-color: rgba(0, 0, 0, 0.356);
   width: 90%;
-  height: 100% ;
+  height: 50%;
   bottom: 10px;
-}
-
-.map-container {
-  position: relative;
-  height: 65vh;
-  width: 57vw;
+  margin-top: auto;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 
-.map {
-  background-color: rgba(245, 245, 220, 1);
+.player-sheet div {
   width: 100%;
   height: 100%;
-  border-radius: 10%;
-  overflow: hidden;
-  box-shadow: 15px 0px 30px 0px rgba(0, 0, 0, 0.75),
-    -15px 0px 30px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-image img {
+  width: 80%;
+}
+
+.player-attributes {
+  flex-direction: column;
+}
+
+.player-attributes div {
+  width: 100%;
+}
+
+.player-angle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+
+  svg {
+    position: absolute;
+  }
+
+  circle {
+    stroke: #00000059;
+    fill: #000000bd;
+  }
+
+  line {
+    stroke: #ff000059;
+    stroke-width: 2;
+  }
 }

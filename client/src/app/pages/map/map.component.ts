@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Renderer2,
+  ElementRef,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { PlayerUi } from 'src/app/interfaces/interfaces';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
 @Component({
@@ -7,6 +16,10 @@ import { MapManagerService } from 'src/app/services/map-manager-service/map-mana
   styleUrls: ['./map.component.scss'],
 })
 export class MapPageComponent implements AfterViewInit {
+  @ViewChild('angleLine', { static: true }) angleLine!: ElementRef;
+  @Output() angleChanged = new EventEmitter<number>();
+  dragging = false;
+
   drawingMode: boolean = false;
   gridMode: boolean = false;
   playersMode: boolean = false;
@@ -20,7 +33,11 @@ export class MapPageComponent implements AfterViewInit {
 
   private mapPath: string = '../../../assets/q6NlCWk01.svg';
 
-  constructor(public mapManagerService: MapManagerService) {
+  constructor(
+    public mapManagerService: MapManagerService,
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) {
     this.frames.forEach(() => this.isEditing.push(false));
   }
 
@@ -28,7 +45,83 @@ export class MapPageComponent implements AfterViewInit {
     setTimeout(() => {
       this.option3();
       this.mapManagerService.lastFrame(this.frameSelected);
+      this.initializeLine();
+      this.angleChanged.subscribe((newAngle: number) => {
+        this.onAngleChanged(newAngle);
+      });
     }, 500);
+  }
+
+  onMouseDown(event: MouseEvent): void {
+    this.dragging = true;
+  }
+
+  onMouseMove(event: MouseEvent): void {
+    if (this.dragging) {
+      const circleCenterX = 50;
+      const circleCenterY = 50;
+      const radius = 30;
+
+      const rect = this.el.nativeElement
+        .querySelector('svg')
+        .getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      const angle = Math.atan2(y - circleCenterY, x - circleCenterX);
+
+      const x2 = circleCenterX + radius * Math.cos(angle);
+      const y2 = circleCenterY + radius * Math.sin(angle);
+
+      this.renderer.setAttribute(
+        this.angleLine.nativeElement,
+        'x2',
+        x2.toString()
+      );
+      this.renderer.setAttribute(
+        this.angleLine.nativeElement,
+        'y2',
+        y2.toString()
+      );
+
+      this.angleChanged.emit((angle * 180) / Math.PI);
+    }
+  }
+
+  onMouseUp(): void {
+    this.dragging = false;
+  }
+
+  onAngleChanged(newAngle: number): void {
+    this.mapManagerService.playerSheet.angle = newAngle;
+    const selectedObject =
+      this.mapManagerService.fabricCanvas.getActiveObject() as fabric.Image;
+    selectedObject.set({
+      angle: newAngle + 90,
+    });
+    this.mapManagerService.ensureObjChanges();
+  }
+
+  initializeLine(): void {
+    const angle = this.mapManagerService.playerSheet.angle
+      ? this.mapManagerService.playerSheet.angle
+      : 0;
+    const circleCenterX = 50;
+    const circleCenterY = 50;
+    const radius = 30;
+    const x2 = circleCenterX + radius * Math.cos((angle * Math.PI) / 180);
+    const y2 = circleCenterY + radius * Math.sin((angle * Math.PI) / 180);
+
+    this.renderer.setAttribute(
+      this.angleLine.nativeElement,
+      'x2',
+      x2.toString()
+    );
+    this.renderer.setAttribute(
+      this.angleLine.nativeElement,
+      'y2',
+      y2.toString()
+    );
   }
 
   option1() {

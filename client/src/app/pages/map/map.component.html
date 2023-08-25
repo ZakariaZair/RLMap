@@ -41,7 +41,6 @@
           *ngIf="isEditing[i]"
           [ngClass]="{ selected: this.frameSelected === i }"
           (blur)="toggleEdit(i); nameFrame($event, i)"
-          (keyup.enter)="toggleEdit(i); nameFrame($event, i)"
         />
         <button
           class="frame-supress"
@@ -132,17 +131,17 @@
         </div>
         <button class="eraser" (click)="clear()">⌫</button>
       </div>
-      <div
-        (click)="this.mapManagerService.toggleGrid(this.gridMode)"
-        (click)="this.gridMode = !this.gridMode"
-        [ngClass]="{ selected: gridMode }"
-        class="draw-button-container"
-      >
-        <button>▒</button>
+      <div class="draw-button-container">
+        <button
+          (click)="this.mapManagerService.toggleGrid(this.gridMode)"
+          (click)="this.gridMode = !this.gridMode"
+          [ngClass]="{ selected: gridMode }"
+        >
+          ▒
+        </button>
       </div>
-
-      <div (click)="toggleBall()" class="draw-button-container">
-        <button [ngClass]="{ selected: ballMode }">
+      <div class="draw-button-container">
+        <button (click)="toggleBall()" [ngClass]="{ selected: ballMode }">
           <img src="../../../assets/ball1.png" />
         </button>
       </div>
@@ -151,8 +150,34 @@
           <img src="../../../assets/car.png" />
         </button>
       </div>
-      <div class="player-sheet">
-        
+      <div
+        [hidden]="mapManagerService.playerSheet.isSelected"
+        class="player-sheet"
+      >
+        <div class="player-image">
+          <img [src]="mapManagerService.playerSheet.image" />
+        </div>
+        <div class="player-attributes">
+          <div class="player-name">
+            {{ mapManagerService.playerSheet.name }}
+          </div>
+          <div class="player-color">
+            {{ mapManagerService.playerSheet.color }}
+          </div>
+          <div class="player-angle">
+            <svg
+              width="100"
+              height="100"
+              (mousedown)="onMouseDown($event)"
+              (mouseleave)="this.dragging = false"
+              (mousemove)="onMouseMove($event)"
+              (mouseup)="onMouseUp()"
+            >
+              <circle cx="50" cy="50" r="30" stroke="black" stroke-width="3" />
+              <line #angleLine x1="50" y1="50" x2="50" y2="20" />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   </div>

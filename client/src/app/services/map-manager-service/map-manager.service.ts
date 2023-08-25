@@ -1,6 +1,10 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { fabric } from 'fabric';
-import { Coord, START_POSITIONS } from 'src/app/interfaces/interfaces';
+import {
+  Coord,
+  PlayerUi,
+  START_POSITIONS,
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +17,8 @@ export class MapManagerService {
   mapBackground!: fabric.Image;
   fabricCanvas!: fabric.Canvas;
   frameObjects: Map<string, fabric.Image>[];
+  playerSheet: PlayerUi = { isSelected: false };
+  
   private imageUrls = [
     '../../../assets/ball1.png',
     '../../../assets/blue1.png',
@@ -38,13 +44,32 @@ export class MapManagerService {
     // this.fabricCanvas.on('object:modified', () => {
     //   this.saveState();
     // });
-    this.fabricCanvas.on('object:modified', (options) => {
-      if (options.target) {
-        const movedObject = options.target as fabric.Image;
-        const objectName = movedObject.get('data').label;
+
+    this.fabricCanvas.on('selection:created', (options) => {
+      if (options.selected && options.selected.length > 0) {
+        const selectedObject = options.selected[0] as fabric.Image;
+        const objectName = selectedObject.data.label;
+
         if (this.objects.has(objectName)) {
-          
+          this.changePlayerSheet(objectName);
         }
+      }
+    });
+
+    this.fabricCanvas.on('selection:updated', (options) => {
+      if (options.selected && options.selected.length > 0) {
+        const selectedObject = options.selected[0] as fabric.Image;
+        const objectName = selectedObject.data.label;
+
+        if (this.objects.has(objectName)) {
+          this.changePlayerSheet(objectName);
+        }
+      }
+    });
+
+    this.fabricCanvas.on('selection:cleared', () => {
+      this.playerSheet = {
+        isSelected: false,
       }
     });
   }
@@ -86,6 +111,16 @@ export class MapManagerService {
               : img.getSrc().includes('blue')
               ? 'blue' + index
               : 'orange' + index,
+            uiName: img.getSrc().includes('ball')
+              ? 'ball'
+              : img.getSrc().includes('blue')
+              ? 'blue'
+              : 'orange',
+            uiColor: img.getSrc().includes('ball')
+              ? 'grey'
+              : img.getSrc().includes('blue')
+              ? 'blue'
+              : 'orange',
           },
         });
 
@@ -289,6 +324,16 @@ export class MapManagerService {
 
   deleteFrame(index: number) {
     this.frameObjects.splice(index, 1);
+  }
+
+  private changePlayerSheet(objectName: string) {
+    this.playerSheet = {
+      name: this.objects.get(objectName)?.data.uiName,
+      color: this.objects.get(objectName)?.data.uiColor,
+      angle: this.objects.get(objectName)?.angle,
+      image: this.objects.get(objectName)?.getSrc(),
+      isSelected: true,
+    }
   }
 
   private cloneObj() {

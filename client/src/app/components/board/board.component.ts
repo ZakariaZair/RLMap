@@ -95,6 +95,7 @@ export class BoardMapComponent implements AfterViewInit {
         left: position.x + positionChange.x,
         top: position.y + positionChange.y,
       });
+      this.mapManagerService.playerSheet.angle = currentAngle + angleChange;
 
       this.mapManagerService.ensureObjChanges();
     }

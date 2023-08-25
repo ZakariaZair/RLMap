@@ -81,15 +81,14 @@ interface ActorUpdate {
   ClassName?: number;
   Id: number;
   NameId: number;
-  InitialPosition?: Coord; 
-  "TAGame.RBActor_TA:ReplicatedRBState": {
+  InitialPosition?: Coord;
+  'TAGame.RBActor_TA:ReplicatedRBState': {
     AngularVelocity: Coord;
     LinearVelocity: Coord;
     Position: Coord;
     Rotation: Coord;
-  }
+  };
   TypeName: string;
-
 }
 
 export interface Coord {
@@ -97,7 +96,6 @@ export interface Coord {
   Y: number;
   Z: number;
 }
-
 
 export interface Player {
   position: {
@@ -114,6 +112,14 @@ export interface Player {
     l: number;
     h: number;
   };
+}
+
+export interface PlayerUi {
+  image?: string;
+  name?: string;
+  angle?: number;
+  color?: string;
+  isSelected: boolean;
 }
 
 export const CORNERS = {

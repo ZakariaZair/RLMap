@@ -1,11 +1,14 @@
 <div id="videoContainer">
-  <video  #myVideo autoplay muted loop id="myVideo">
-    <source src="assets/vidBackgroundSkyBlue_.mp4" type="video/mp4">
+  <video [hidden]="!this.isEe" #ee muted (ended)="onVideoEnded()" id="ee">
+    <source src="assets/car_movingaround_EE.mp4" type="video/mp4" />
+  </video>
+  <video #myVideo autoplay muted loop id="myVideo">
+    <source src="assets/vidBackgroundSkyBlue_.mp4" type="video/mp4" />
   </video>
 </div>
 <div (click)="playVideo()" class="all-container">
   <div class="high-container">
-    <h1>Rocket League Map</h1>
+    <h1>Rocket League Bird View</h1>
   </div>
   <div class="low-container">
     <div class="features">
@@ -14,14 +17,14 @@
         <p>* Strategize and create *</p>
       </div>
       <div class="feature">
-        <label for="file-upload" class="button"> Upload your replay </label>
+        <button class="button" (click)="runReplay()">Upload your replay</button>
+        <!-- <label for="file-upload" class="button"> Upload your replay </label>
         <input
           (click)="runReplay()"
           id="file-upload"
           type="file"
           class="button"
-          [disabled]="true"
-        />
+        /> -->
         <p>* Coming soon... *</p>
       </div>
     </div>
