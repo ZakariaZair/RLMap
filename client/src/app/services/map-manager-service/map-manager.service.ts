@@ -18,7 +18,7 @@ export class MapManagerService {
   fabricCanvas!: fabric.Canvas;
   frameObjects: Map<string, fabric.Image>[];
   playerSheet: PlayerUi = { isSelected: false };
-  
+
   private imageUrls = [
     '../../../assets/ball1.png',
     '../../../assets/blue1.png',
@@ -70,7 +70,7 @@ export class MapManagerService {
     this.fabricCanvas.on('selection:cleared', () => {
       this.playerSheet = {
         isSelected: false,
-      }
+      };
     });
   }
 
@@ -133,7 +133,7 @@ export class MapManagerService {
                 : img.getSrc().includes('ball')
                 ? 'grey'
                 : 'blue',
-              blur: 50,
+              blur: img.getSrc().includes('orange') ? 150 : 50,
               offsetX: 0,
               offsetY: 0,
             })
@@ -153,7 +153,7 @@ export class MapManagerService {
           mt: false,
           tl: false,
           tr: false,
-          mtr: false,
+          mtr: true,
         });
 
         if (img.getSrc().includes('ball')) {
@@ -333,7 +333,7 @@ export class MapManagerService {
       angle: this.objects.get(objectName)?.angle,
       image: this.objects.get(objectName)?.getSrc(),
       isSelected: true,
-    }
+    };
   }
 
   private cloneObj() {
