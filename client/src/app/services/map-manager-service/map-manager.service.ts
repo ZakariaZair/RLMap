@@ -94,6 +94,11 @@ export class MapManagerService {
   }
 
   createObjects() {
+    let customIcon: any;
+    fabric.Image.fromURL('../../../assets/rotateIcon.png', function (img) {
+      customIcon = img;
+      console.log(img);
+    });
     const imagePromises = this.imageUrls.map((url) => this.loadImage(url));
 
     Promise.all(imagePromises).then((images) => {
@@ -153,7 +158,16 @@ export class MapManagerService {
           mt: false,
           tl: false,
           tr: false,
-          mtr: true,
+          mtr: img.getSrc().includes('ball') ? false : true,
+        });
+
+        (img as any).set({
+          cornerIcons: {
+            mtr: customIcon.getElement(),
+          },
+          cornerStyle: 'circle',
+          cornerColor: img.getSrc().includes('orange') ? 'orange' : 'blue',
+          cornerSize: 17,
         });
 
         if (img.getSrc().includes('ball')) {
