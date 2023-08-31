@@ -45,6 +45,7 @@
 }
 
 .high-container {
+  height: 25vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,7 +53,7 @@
 }
 
 .high-container h1 {
-  font-size: 620%;
+  font-size: 800%;
   color: rgb(255, 255, 255);
   text-shadow: -1px -1px 10px #00000036, 1px -1px 10px #00000034, -1px 1px 10px #0000004b,
     1px 1px 10px #ffffff49;
@@ -68,6 +69,7 @@ p {
   justify-content: center;
   border-style: solid;
   width: 20vw;
+  height: 15vh;
   padding: 40px 40px 40px 40px;
   color: aliceblue;
   background-color: rgb(33, 31, 31);
@@ -126,7 +128,8 @@ p {
 }
 
 .feature *:not(p) {
-  font-size: 200%;
+  font-size: 300%;
+  font-style: italic;
   text-align: center;
   box-shadow: 0px 0px 30px 0px #575757;
 }
@@ -148,5 +151,6 @@ input[type="file"] {
   font-size: 200%;
   width: 60%;
   text-align: center;
+  font-style: italic;
   box-shadow: 0px 0px 30px 0px;
 }

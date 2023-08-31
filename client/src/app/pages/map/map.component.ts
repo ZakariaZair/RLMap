@@ -7,7 +7,6 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { PlayerUi } from 'src/app/interfaces/interfaces';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
 @Component({
