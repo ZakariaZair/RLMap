@@ -363,7 +363,8 @@ export class MapManagerService {
     let canvas = this.fabricCanvas.getElement();
     let stream = canvas.captureStream(30);
     this.mediaRecorder = new MediaRecorder(stream);
-
+    this.chunks = [];
+    
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data && event.data.size > 0) {
         this.chunks.push(event.data);
@@ -379,7 +380,6 @@ export class MapManagerService {
 
   downloadRecording() {
     let blob = new Blob(this.chunks, { type: 'video/webm' });
-    this.chunks = [];
     let url = URL.createObjectURL(blob);
     let a = document.createElement('a');
     a.href = url;
