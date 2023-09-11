@@ -344,3 +344,15 @@
 .animate {
   margin-top: auto;
 }
+
+.animate button {
+  border: 1px solid black;
+  background-color: rgba(245, 245, 245, 0.875);
+  color: black;
+}
+
+.animate button:hover {
+  border: 1px solid rgb(74, 156, 160);
+  background-color: rgba(245, 245, 245, 0.875);
+  color: rgb(51, 158, 185);
+}

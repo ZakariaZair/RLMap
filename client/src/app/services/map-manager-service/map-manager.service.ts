@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { fabric } from 'fabric';
-import { CCapture } from 'ccapture.js';
+
 import {
   Coord,
   PlayerUi,
@@ -20,6 +20,9 @@ export class MapManagerService {
   frameObjects: Map<string, fabric.Image>[];
   playerSheet: PlayerUi = { isSelected: false };
   animSpeed: number;
+  private mediaRecorder?: MediaRecorder;
+  private chunks: any[] = [];
+  private videoName: string = 'Frame 1';
 
   private imageUrls = [
     '../../../assets/ball1.png',
@@ -303,6 +306,10 @@ export class MapManagerService {
     this.ensureObjChanges();
   }
 
+  changeVideoName(name: string) {
+    this.videoName = name;
+  }
+
   clear(mapPath: string) {
     this.cloneObj();
     this.fabricCanvas.clear();
@@ -352,6 +359,34 @@ export class MapManagerService {
     await this.animateFrame(this.cloneObjects);
   }
 
+  startRecording() {
+    let canvas = this.fabricCanvas.getElement();
+    let stream = canvas.captureStream(30);
+    this.mediaRecorder = new MediaRecorder(stream);
+
+    this.mediaRecorder.ondataavailable = (event) => {
+      if (event.data && event.data.size > 0) {
+        this.chunks.push(event.data);
+      }
+    };
+
+    this.mediaRecorder.start();
+  }
+
+  stopRecording() {
+    this.mediaRecorder?.stop();
+  }
+
+  downloadRecording() {
+    let blob = new Blob(this.chunks, { type: 'video/webm' });
+    this.chunks = [];
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = '[RLBV] ' + this.videoName.replace(/\s+/g, '_') + '.webm';
+    a.click();
+  }
+
   private async animateFrame(frame: Map<string, fabric.Image>) {
     await new Promise<void>((resolve) => {
       let animationsCompleted = 0;
@@ -365,9 +400,9 @@ export class MapManagerService {
               angle: frameObj.angle as number,
             },
             {
-              duration: 2000 / this.animSpeed,
+              duration: 1000 / this.animSpeed,
               onChange: this.fabricCanvas.renderAll.bind(this.fabricCanvas),
-              easing: fabric.util.ease.easeOutExpo,
+              // easing: fabric.util.ease.easeOutExpo,
               onComplete: () => {
                 animationsCompleted++;
                 if (animationsCompleted === this.objects.size) {

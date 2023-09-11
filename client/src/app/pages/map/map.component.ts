@@ -8,7 +8,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
-
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { GifDialogComponent } from 'src/app/components/gif-dialog/gif-dialog.component';
 @Component({
   selector: 'app-map-page',
   templateUrl: './map.component.html',
@@ -30,13 +31,15 @@ export class MapPageComponent implements AfterViewInit {
   frameSelected: number = 0;
   isEditing: boolean[] = [];
   isAnimated: boolean = false;
+  lastGif: boolean = false;
 
   private mapPath: string = '../../../assets/q6NlCWk01.svg';
 
   constructor(
     public mapManagerService: MapManagerService,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    public dialog: MatDialog
   ) {
     this.frames.forEach(() => this.isEditing.push(false));
   }
@@ -207,6 +210,9 @@ export class MapPageComponent implements AfterViewInit {
 
   nameFrame(event: any, index: number) {
     this.frames[index] = event.target.value;
+    if (index === 0) {
+      this.mapManagerService.changeVideoName(event.target.value);
+    }
   }
 
   toggleEdit(index: number) {
@@ -221,9 +227,12 @@ export class MapPageComponent implements AfterViewInit {
     this.mapManagerService.nextFrame(0);
     this.frameSelected = -1;
     this.isAnimated = true;
+    this.mapManagerService.startRecording();
     await this.mapManagerService.animate();
     this.isAnimated = false;
     this.frameSelected = 0;
+    this.mapManagerService.stopRecording();
+    this.lastGif = true;
   }
 
   // private saveState() {

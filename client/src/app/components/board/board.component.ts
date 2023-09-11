@@ -52,6 +52,13 @@ export class BoardMapComponent implements AfterViewInit {
     this.mapManagerService.fabricCanvas.freeDrawingBrush.width = 2;
     this.mapManagerService.setOn();
     fabric.Object.prototype.selectable = false;
+    this.mapManagerService.fabricCanvas.setBackgroundColor(
+      'white',
+      this.mapManagerService.fabricCanvas.renderAll.bind(
+        this.mapManagerService.fabricCanvas
+      )
+    );
+
     //this.secureBoudaries(canvasEl);
   }
 

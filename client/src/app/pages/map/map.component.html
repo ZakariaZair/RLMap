@@ -59,12 +59,13 @@
       >
         ✚
       </button>
-      <div class="animate">
+      <div class="animate draw-button-container">
+        <button (click)="this.animate()" [disabled]="isAnimated">▷</button>
         <button
-          (click)="this.animate()"
-          [disabled]="isAnimated"
+          (click)="this.mapManagerService.downloadRecording()"
+          *ngIf="!isAnimated && lastGif"
         >
-          ▷
+        ⇓
         </button>
       </div>
     </div>

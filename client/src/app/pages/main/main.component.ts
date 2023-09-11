@@ -24,7 +24,7 @@ export class MainPageComponent implements AfterViewInit, OnDestroy {
   constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
-    this.myVideo.nativeElement.play();
+    // this.myVideo.nativeElement.play();
   }
 
   createNewMap(): void {

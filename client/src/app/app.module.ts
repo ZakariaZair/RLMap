@@ -10,6 +10,10 @@ import { MapPageComponent } from './pages/map/map.component';
 import { BoardMapComponent } from './components/board/board.component';
 import { ReplayFetcherService } from './services/replay-fetcher-service/replay-fetcher.service';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSliderModule } from '@angular/material/slider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GifDialogComponent } from './components/gif-dialog/gif-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +22,17 @@ import { FormsModule } from '@angular/forms';
     ReplayPageComponent,
     MapPageComponent,
     BoardMapComponent,
+    GifDialogComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    MatDialogModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MatSliderModule,
+    FormsModule,
+    BrowserAnimationsModule,
+  ],
   providers: [ReplayFetcherService],
   bootstrap: [AppComponent],
 })
