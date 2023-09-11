@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'RLMap';
+  title = 'Rocket League Bird View';
 
   constructor(private router: Router, ) {}
 

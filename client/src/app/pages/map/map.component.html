@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="middle-container">
-    <div class="bar">
+    <div class="bar" [ngClass]="{ 'non-clickable-button': isAnimated }">
       <div
         class="frame"
         (click)="frame(i)"
@@ -31,6 +31,7 @@
         </button>
         <button
           *ngIf="!isEditing[i]"
+          [disabled]="isAnimated"
           class="frame-item"
           [ngClass]="{ selected: this.frameSelected === i }"
         >
@@ -39,6 +40,7 @@
         <input
           #nameEdit
           *ngIf="isEditing[i]"
+          [disabled]="isAnimated"
           [ngClass]="{ selected: this.frameSelected === i }"
           (blur)="toggleEdit(i); nameFrame($event, i)"
         />
@@ -53,10 +55,18 @@
       <button
         class="add-frame"
         (click)="addFrame()"
-        *ngIf="this.frames.length < 8"
+        *ngIf="this.frames.length < 8 && !isAnimated"
       >
         ✚
       </button>
+      <div class="animate">
+        <button
+          (click)="this.animate()"
+          [disabled]="isAnimated"
+        >
+          ▷
+        </button>
+      </div>
     </div>
     <app-board-map />
     <div class="bar">
@@ -183,7 +193,7 @@
   </div>
   <div class="low-container">
     <div class="donate">
-      <button class="donate-btn button" (click)="donate()">Donate</button>
+      <button class="donate-btn button" (click)="donate()">Arise</button>
       <p>
         * All funds received through donations will be invested directly into
         the ongoing development of our website *

@@ -29,6 +29,7 @@ export class MapPageComponent implements AfterViewInit {
   frames: string[] = ['Frame 1'];
   frameSelected: number = 0;
   isEditing: boolean[] = [];
+  isAnimated: boolean = false;
 
   private mapPath: string = '../../../assets/q6NlCWk01.svg';
 
@@ -214,6 +215,15 @@ export class MapPageComponent implements AfterViewInit {
 
   clear() {
     this.mapManagerService.clear(this.mapPath);
+  }
+
+  async animate() {
+    this.mapManagerService.nextFrame(0);
+    this.frameSelected = -1;
+    this.isAnimated = true;
+    await this.mapManagerService.animate();
+    this.isAnimated = false;
+    this.frameSelected = 0;
   }
 
   // private saveState() {

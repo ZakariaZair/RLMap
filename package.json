@@ -3,5 +3,9 @@
     "@angular/animations": "^16.0.2",
     "kute": "^1.0.0",
     "kute.js": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/ccapture.js": "^1.1.1",
+    "ccapture.js": "^1.1.0"
   }
 }

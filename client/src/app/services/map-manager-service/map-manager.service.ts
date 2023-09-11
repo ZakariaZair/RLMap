@@ -1,5 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { fabric } from 'fabric';
+import { CCapture } from 'ccapture.js';
 import {
   Coord,
   PlayerUi,
@@ -18,6 +19,7 @@ export class MapManagerService {
   fabricCanvas!: fabric.Canvas;
   frameObjects: Map<string, fabric.Image>[];
   playerSheet: PlayerUi = { isSelected: false };
+  animSpeed: number;
 
   private imageUrls = [
     '../../../assets/ball1.png',
@@ -35,6 +37,7 @@ export class MapManagerService {
     this.frameObjects = [new Map<string, fabric.Image>()];
     this.mapWidth = 5102 * 2;
     this.mapHeight = 4079 * 2;
+    this.animSpeed = 1;
   }
 
   setOn() {
@@ -94,11 +97,6 @@ export class MapManagerService {
   }
 
   createObjects() {
-    let customIcon: any;
-    fabric.Image.fromURL('../../../assets/rotateIcon.png', function (img) {
-      customIcon = img;
-      console.log(img);
-    });
     const imagePromises = this.imageUrls.map((url) => this.loadImage(url));
 
     Promise.all(imagePromises).then((images) => {
@@ -110,6 +108,7 @@ export class MapManagerService {
           hasBorders: false,
           scaleX: img.getSrc().includes('ball') ? 0.15 : 0.1,
           scaleY: img.getSrc().includes('ball') ? 0.15 : 0.1,
+          selectable: true,
           data: {
             label: img.getSrc().includes('ball')
               ? 'ball'
@@ -162,12 +161,9 @@ export class MapManagerService {
         });
 
         (img as any).set({
-          cornerIcons: {
-            mtr: customIcon.getElement(),
-          },
           cornerStyle: 'circle',
           cornerColor: img.getSrc().includes('orange') ? 'orange' : 'blue',
-          cornerSize: 17,
+          cornerSize: 25,
         });
 
         if (img.getSrc().includes('ball')) {
@@ -213,6 +209,11 @@ export class MapManagerService {
   }
 
   ensureObjChanges() {
+    //Juste pour faire en sorte d'enlever le selection avec le rond d'angle
+    this.changePlayerSheet('ball');
+    this.playerSheet = {
+      isSelected: false,
+    };
     this.objects.forEach((obj) => {
       obj.setCoords();
     });
@@ -340,6 +341,46 @@ export class MapManagerService {
     this.frameObjects.splice(index, 1);
   }
 
+  async animate() {
+    this.cloneObjects = new Map<string, fabric.Image>();
+    this.frameObjects[0].forEach((value, key) => {
+      this.cloneObjects.set(key, fabric.util.object.clone(value));
+    });
+    for (const frame of this.frameObjects) {
+      await this.animateFrame(frame);
+    }
+    await this.animateFrame(this.cloneObjects);
+  }
+
+  private async animateFrame(frame: Map<string, fabric.Image>) {
+    await new Promise<void>((resolve) => {
+      let animationsCompleted = 0;
+      this.objects.forEach((obj, key) => {
+        const frameObj = frame.get(key);
+        if (frameObj) {
+          obj.animate(
+            {
+              left: frameObj.left as number,
+              top: frameObj.top as number,
+              angle: frameObj.angle as number,
+            },
+            {
+              duration: 2000 / this.animSpeed,
+              onChange: this.fabricCanvas.renderAll.bind(this.fabricCanvas),
+              easing: fabric.util.ease.easeOutExpo,
+              onComplete: () => {
+                animationsCompleted++;
+                if (animationsCompleted === this.objects.size) {
+                  resolve();
+                }
+              },
+            }
+          );
+        }
+      });
+    });
+  }
+
   private changePlayerSheet(objectName: string) {
     this.playerSheet = {
       name: this.objects.get(objectName)?.data.uiName,
@@ -351,7 +392,10 @@ export class MapManagerService {
   }
 
   private cloneObj() {
-    this.cloneObjects = this.objects;
+    this.cloneObjects = new Map<string, fabric.Image>();
+    this.objects.forEach((value, key) => {
+      this.cloneObjects.set(key, fabric.util.object.clone(value));
+    });
   }
 
   private generateRandomOrder(): number[] {
