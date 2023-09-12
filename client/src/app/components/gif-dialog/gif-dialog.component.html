@@ -1,3 +1,17 @@
-<div>
-    <video controls [src]="data.url"></video>
+<div class="dialog-container">
+  <!-- <button class="leave-top-left"></button> -->
+  <video class="video" autoplay loop [src]="data"></video>
+  <div class="sharing">
+    <button (click)="download()">Download</button>
+    <p>
+      For now, only webm downloads are supported. You can use
+      <a
+        href="https://ezgif.com/video-to-gif"
+        target="_blank"
+        rel="noopener noreferrer"
+        >this link</a
+      >
+      to convert it into gif, and share the GIF link
+    </p>
+  </div>
 </div>

@@ -356,15 +356,16 @@ export class MapManagerService {
     for (const frame of this.frameObjects) {
       await this.animateFrame(frame);
     }
+    this.stopRecording();
     await this.animateFrame(this.cloneObjects);
   }
 
   startRecording() {
+    this.chunks = [];
     let canvas = this.fabricCanvas.getElement();
     let stream = canvas.captureStream(30);
     this.mediaRecorder = new MediaRecorder(stream);
-    this.chunks = [];
-    
+
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data && event.data.size > 0) {
         this.chunks.push(event.data);
@@ -383,8 +384,8 @@ export class MapManagerService {
     let url = URL.createObjectURL(blob);
     let a = document.createElement('a');
     a.href = url;
-    a.download = '[RLBV] ' + this.videoName.replace(/\s+/g, '_') + '.webm';
-    a.click();
+    a.download = this.videoName.replace(/\s+/g, '_') + '.webm';
+    return a;
   }
 
   private async animateFrame(frame: Map<string, fabric.Image>) {
@@ -402,7 +403,7 @@ export class MapManagerService {
             {
               duration: 1000 / this.animSpeed,
               onChange: this.fabricCanvas.renderAll.bind(this.fabricCanvas),
-              // easing: fabric.util.ease.easeOutExpo,
+              easing: fabric.util.ease.easeInOutSine,
               onComplete: () => {
                 animationsCompleted++;
                 if (animationsCompleted === this.objects.size) {

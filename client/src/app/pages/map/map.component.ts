@@ -193,6 +193,7 @@ export class MapPageComponent implements AfterViewInit {
   addFrame() {
     this.frames.push('Frame ' + (this.frames.length + 1));
     this.mapManagerService.lastFrame(this.frames.length - 1);
+    this.frame(this.frames.length - 1);
   }
 
   deleteFrame(index: number) {
@@ -223,6 +224,11 @@ export class MapPageComponent implements AfterViewInit {
     this.mapManagerService.clear(this.mapPath);
   }
 
+  back() {
+    this.mapManagerService.frameObjects.length = 0;
+    this.mapManagerService.frameObjects.push(new Map<string, fabric.Image>());
+  }
+
   async animate() {
     this.mapManagerService.nextFrame(0);
     this.frameSelected = -1;
@@ -231,8 +237,13 @@ export class MapPageComponent implements AfterViewInit {
     await this.mapManagerService.animate();
     this.isAnimated = false;
     this.frameSelected = 0;
-    this.mapManagerService.stopRecording();
     this.lastGif = true;
+  }
+
+  openAnimeDialog() {
+    this.dialog.open(GifDialogComponent, {
+      data: this.mapManagerService.downloadRecording(),
+    });
   }
 
   // private saveState() {

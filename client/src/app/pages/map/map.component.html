@@ -1,5 +1,10 @@
 <div class="back">
-  <button routerLink="/home">Back</button>
+  <button
+    routerLink="/home"
+    (click)="back()"
+  >
+    Back
+  </button>
 </div>
 <div class="container">
   <div class="high-container">
@@ -61,11 +66,8 @@
       </button>
       <div class="animate draw-button-container">
         <button (click)="this.animate()" [disabled]="isAnimated">▷</button>
-        <button
-          (click)="this.mapManagerService.downloadRecording()"
-          *ngIf="!isAnimated && lastGif"
-        >
-        ⇓
+        <button (click)="this.openAnimeDialog()" *ngIf="!isAnimated && lastGif">
+          ⇓
         </button>
       </div>
     </div>
@@ -197,7 +199,7 @@
       <button class="donate-btn button" (click)="donate()">Arise</button>
       <p>
         * All funds received through donations will be invested directly into
-        the ongoing development of our website *
+        the ongoing development of the tool *
       </p>
     </div>
   </div>
