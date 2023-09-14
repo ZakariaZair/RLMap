@@ -19,7 +19,8 @@ export class MapManagerService {
   fabricCanvas!: fabric.Canvas;
   frameObjects: Map<string, fabric.Image>[];
   playerSheet: PlayerUi = { isSelected: false };
-  animSpeed: number;
+  animSpeed: number = 1;
+  frameSelected: number = 0;
   private mediaRecorder?: MediaRecorder;
   private chunks: any[] = [];
   private videoName: string = 'Frame 1';
@@ -40,7 +41,6 @@ export class MapManagerService {
     this.frameObjects = [new Map<string, fabric.Image>()];
     this.mapWidth = 5102 * 2;
     this.mapHeight = 4079 * 2;
-    this.animSpeed = 1;
   }
 
   setOn() {
@@ -310,14 +310,13 @@ export class MapManagerService {
     this.videoName = name;
   }
 
-  clear(mapPath: string) {
-    this.cloneObj();
-    this.fabricCanvas.clear();
-    this.createMap(mapPath);
-    this.cloneObjects.forEach((value, key) => {
-      this.objects.get(key)?.set(value);
-      this.fabricCanvas.add(this.objects.get(key) as fabric.Image);
+  clear() {
+    this.fabricCanvas.forEachObject((obj) => {
+      if (obj instanceof fabric.Path || obj instanceof fabric.PencilBrush) {
+        this.fabricCanvas.remove(obj);
+      }
     });
+    this.fabricCanvas.renderAll(); // Refresh the canvas
     this.ensureObjChanges();
   }
 
@@ -408,6 +407,7 @@ export class MapManagerService {
                 animationsCompleted++;
                 if (animationsCompleted === this.objects.size) {
                   resolve();
+                  this.frameSelected++;
                 }
               },
             }

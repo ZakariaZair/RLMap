@@ -356,3 +356,35 @@
   background-color: rgba(245, 245, 245, 0.875);
   color: rgb(51, 158, 185);
 }
+
+.slider-container {
+  position: relative;
+  margin-top: auto;
+  font-family: "Kanit", sans-serif;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+
+  .slider {
+    flex-grow: 1;
+  }
+
+  .slider-value {
+    width: 0;
+    text-align: right;
+    font-size: 14px;
+  }
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+}

@@ -8,7 +8,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GifDialogComponent } from 'src/app/components/gif-dialog/gif-dialog.component';
 @Component({
   selector: 'app-map-page',
@@ -28,12 +28,9 @@ export class MapPageComponent implements AfterViewInit {
   brushSize: number = 2;
   brushColor: string = 'red';
   frames: string[] = ['Frame 1'];
-  frameSelected: number = 0;
   isEditing: boolean[] = [];
   isAnimated: boolean = false;
   lastGif: boolean = false;
-
-  private mapPath: string = '../../../assets/q6NlCWk01.svg';
 
   constructor(
     public mapManagerService: MapManagerService,
@@ -47,7 +44,7 @@ export class MapPageComponent implements AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.option3();
-      this.mapManagerService.lastFrame(this.frameSelected);
+      this.mapManagerService.lastFrame(this.mapManagerService.frameSelected);
       this.initializeLine();
       this.angleChanged.subscribe((newAngle: number) => {
         this.onAngleChanged(newAngle);
@@ -199,14 +196,14 @@ export class MapPageComponent implements AfterViewInit {
   deleteFrame(index: number) {
     this.frames.splice(index, 1);
     this.mapManagerService.deleteFrame(index);
-    this.frameSelected = 0;
+    this.mapManagerService.frameSelected = 0;
     this.mapManagerService.nextFrame(0);
   }
 
   frame(index: number) {
-    this.mapManagerService.lastFrame(this.frameSelected);
-    this.frameSelected = index;
-    this.mapManagerService.nextFrame(this.frameSelected);
+    this.mapManagerService.lastFrame(this.mapManagerService.frameSelected);
+    this.mapManagerService.frameSelected = index;
+    this.mapManagerService.nextFrame(this.mapManagerService.frameSelected);
   }
 
   nameFrame(event: any, index: number) {
@@ -221,7 +218,7 @@ export class MapPageComponent implements AfterViewInit {
   }
 
   clear() {
-    this.mapManagerService.clear(this.mapPath);
+    this.mapManagerService.clear();
   }
 
   back() {
@@ -231,12 +228,12 @@ export class MapPageComponent implements AfterViewInit {
 
   async animate() {
     this.mapManagerService.nextFrame(0);
-    this.frameSelected = -1;
+    this.mapManagerService.frameSelected = 0;
     this.isAnimated = true;
     this.mapManagerService.startRecording();
     await this.mapManagerService.animate();
     this.isAnimated = false;
-    this.frameSelected = 0;
+    this.mapManagerService.frameSelected = 0;
     this.lastGif = true;
   }
 
