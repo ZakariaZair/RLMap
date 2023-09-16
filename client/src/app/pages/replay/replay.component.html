@@ -2,25 +2,12 @@
   <div class="replay-container">
     <app-board-map />
     <div class="replay-buttons-container">
-      <button (click)="play(); this.replayPaused = false">▷</button>
-      <button (click)="this.replayPaused = !this.replayPaused">||</button>
-      <button></button>
+      <!-- <button (click)="play(); this.replayPaused = false">▷</button>
+      <button (click)="this.replayPaused = !this.replayPaused">||</button> -->
+      <button routerLink="/home">Back</button>
+      <button>▷</button>
+      <button>▷▷</button>
     </div>
   </div>
 
-  <ul>
-    <h2>Player 1 Pos:</h2>
-    <h1>Frame Index : {{ this.replayValue }}</h1>
-  </ul>
-  <div class="slide-container">
-    <input
-      type="range"
-      min="0"
-      [max]="getReplayLength()"
-      value="0"
-      class="slider"
-      id="myRange"
-      (change)="changeReplayTime($event)"
-    />
-  </div>
 </div>

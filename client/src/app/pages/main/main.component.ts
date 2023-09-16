@@ -32,25 +32,25 @@ export class MainPageComponent implements AfterViewInit, OnDestroy {
   }
 
   playVideo() {
-    if (!this.videoPlayed) {
-      this.myVideo.nativeElement.play();
-      this.videoPlayed = true;
-    }
+    // if (!this.videoPlayed) {
+    //   this.myVideo.nativeElement.play();
+    //   this.videoPlayed = true;
+    // }
   }
 
   runReplay(): void {
-    if (!this.isEe) {
-      this.isEe = true;
-      this.myEE.nativeElement.play();
-    }
+    // if (!this.isEe) {
+    //   this.isEe = true;
+    //   this.myEE.nativeElement.play();
+    // }
     // await this.replayFetcherService.runScript();
-    // this.router.navigate(['/replay']);
+    this.router.navigate(['/replay']);
   }
 
   onVideoEnded() {
-    alert('https://www.youtube.com/shorts/u12od4njDZk');
-    alert('Bravo! You found the first easter egg!');
-    this.isEe = false;
+    // alert('https://www.youtube.com/shorts/u12od4njDZk');
+    // alert('Bravo! You found the first easter egg!');
+    // this.isEe = false;
   }
 
   donate(): void {

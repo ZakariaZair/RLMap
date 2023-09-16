@@ -296,14 +296,22 @@ export class MapManagerService {
     this.ensureObjChanges();
   }
 
-  changePlayer(playerName: string, pos: Coord) {
-    const fCW = this.fabricCanvas.width;
-    const fCH = this.fabricCanvas.height;
+  changePlayer(playerName: string, pos: Coord, angle: number) {
     this.objects.get(playerName)?.set({
-      left: ((this.mapWidth / 2 + pos.Y) * (fCW ? fCW : 0)) / this.mapWidth,
-      top: ((this.mapHeight / 2 + pos.X) * (fCH ? fCH : 0)) / this.mapHeight,
+      left: this.filterPos(pos)[0],
+      top: this.filterPos(pos)[1],
+      angle: ((angle / 200) * 360) / 325,
     });
     this.ensureObjChanges();
+  }
+
+  private filterPos(pos: Coord): number[] {
+    const fCW = this.fabricCanvas.width;
+    const fCH = this.fabricCanvas.height;
+    return [
+      ((this.mapWidth / 2 + pos.Y) * (fCW ? fCW : 0)) / this.mapWidth,
+      ((this.mapHeight / 2 + -pos.X) * (fCH ? fCH : 0)) / this.mapHeight,
+    ];
   }
 
   changeVideoName(name: string) {
