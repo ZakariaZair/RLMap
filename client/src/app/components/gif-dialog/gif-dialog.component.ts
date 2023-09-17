@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
 @Component({
   selector: 'app-gif-dialog',
