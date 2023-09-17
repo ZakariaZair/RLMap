@@ -2,13 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ReplayFetcherService } from 'src/app/services/replay-fetcher-service/replay-fetcher.service';
+import { BakkesInfoDialogComponent } from 'src/app/components/bakkes-info-dialog/bakkes-info-dialog.component';
+import { WebSocketCommService } from 'src/app/services/web-socket-service/web-socket-comm.service';
 
 @Component({
   selector: 'app-main-page',
@@ -18,13 +18,45 @@ import { ReplayFetcherService } from 'src/app/services/replay-fetcher-service/re
 export class MainPageComponent implements AfterViewInit, OnDestroy {
   @ViewChild('myVideo') myVideo!: ElementRef;
   @ViewChild('ee') myEE!: ElementRef;
+  @ViewChild('buttonRef', { static: true }) buttonRef!: ElementRef;
   videoPlayed: boolean = false;
   isEe: boolean = false;
+  isConnected: number = 0;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private readonly WS: WebSocketCommService,
+    public dialog: MatDialog
+  ) {}
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
+    this.checkConnection();
     // this.myVideo.nativeElement.play();
+  }
+
+  openInfo() {
+    const rect = this.buttonRef.nativeElement.getBoundingClientRect();
+    this.dialog.open(BakkesInfoDialogComponent, {
+      data: {},
+      position: {
+        top: `${rect.top - 200}px`,
+        left: `${rect.right + 10}px`
+      },
+    });
+  }
+
+  checkConnection() {
+    this.isConnected = 0; // Connecting
+    this.WS.connect('ws://localhost:49152');
+    this.WS.ws.addEventListener('open', () => {
+      this.isConnected = 1; // Connection is open
+    });
+    this.WS.ws.addEventListener('close', () => {
+      this.isConnected = 2; // Connection is closed
+    });
+    this.WS.ws.addEventListener('error', () => {
+      this.isConnected = 2; // An error occurred
+    });
   }
 
   createNewMap(): void {

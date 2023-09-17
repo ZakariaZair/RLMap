@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GifDialogComponent } from './components/gif-dialog/gif-dialog.component';
+import { BakkesInfoDialogComponent } from './components/bakkes-info-dialog/bakkes-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { GifDialogComponent } from './components/gif-dialog/gif-dialog.component
     MapPageComponent,
     BoardMapComponent,
     GifDialogComponent,
+    BakkesInfoDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Coord, Player } from 'src/app/interfaces/interfaces';
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
@@ -10,11 +16,7 @@ import { WebSocketCommService } from 'src/app/services/web-socket-service/web-so
   templateUrl: './replay.component.html',
   styleUrls: ['./replay.component.scss'],
 })
-export class ReplayPageComponent implements OnInit {
-  replayValue: number;
-  replayDelta: number;
-  replayPaused: boolean;
-  replayLength: number;
+export class ReplayPageComponent implements AfterViewInit {
   replayData: any;
   playerRelations: Map<string, Player>;
   private wsSubscription: Subscription;
@@ -24,33 +26,75 @@ export class ReplayPageComponent implements OnInit {
     private readonly mapManagerService: MapManagerService,
     private readonly WS: WebSocketCommService
   ) {
-    this.replayValue = 0;
-    this.replayDelta = 0;
-    this.replayLength = 0;
-    this.replayPaused = false;
     this.wsSubscription = new Subscription();
     this.playerRelations = new Map<string, Player>();
   }
 
-  ngOnInit(): void {
-    const ws = this.WS.connect('ws://localhost:49152');
-    this.wsSubscription = ws.subscribe((event: MessageEvent) => {
-      this.update(event.data);
-    });
+  ngAfterViewInit(): void {
+    this.setReplay();
+    this.wsSubscription = this.WS.connection.subscribe(
+      (event: MessageEvent) => {
+        const parsedData = JSON.parse(event.data);
+        if (parsedData.type === 'update') {
+          this.replayData = parsedData.data;
+          this.update();
+        } else if (parsedData.type === 'gameStart') {
+          this.setReplay();
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.wsSubscription.unsubscribe();
   }
 
-  update(data: any) {
-    this.replayData = JSON.parse(data);
+  setReplay() {
+    setTimeout(() => {
+      this.mapManagerService.hideEverything();
+      let blueIndex: number = 1;
+      let orangeIndex: number = 4;
+      for (const index in this.replayData) {
+        const team = this.replayData[index].team;
+        let key = 'ball';
+        if (team !== undefined && team == 0) {
+          key = 'blue' + blueIndex;
+          blueIndex++;
+        } else if (team !== undefined && team == 1) {
+          key = 'orange' + orangeIndex;
+          orangeIndex++;
+        }
+        this.mapManagerService.objects.get(key)?.set({
+          visible: true,
+        });
+        this.mapManagerService.ensureObjChanges();
+      }
+    }, 1000);
+  }
 
-    const x = this.replayData['zwflU'].x;
-    const y = this.replayData['zwflU'].y;
-    const angle = this.replayData['zwflU'].angle;
-    const coord: Coord = { X: x, Y: y, Z: 0 };
-    this.mapManagerService.changePlayer('blue1', coord, angle);
+  update() {
+    let blueIndex: number = 1;
+    let orangeIndex: number = 4;
+    for (const index in this.replayData) {
+      const x = this.replayData[index].x;
+      const y = this.replayData[index].y;
+      const angle = this.replayData[index].angle;
+      const team = this.replayData[index].team;
+      const coord: Coord = { X: x, Y: y, Z: 0 };
+      if (team !== undefined && team == 0) {
+        this.mapManagerService.changePlayer('blue' + blueIndex, coord, angle);
+        blueIndex++;
+      } else if (team !== undefined && team == 1) {
+        this.mapManagerService.changePlayer(
+          'orange' + orangeIndex,
+          coord,
+          angle
+        );
+        orangeIndex++;
+      } else {
+        this.mapManagerService.changePlayer('ball', coord, 0);
+      }
+    }
   }
 
   // async ngOnInit(): Promise<void> {

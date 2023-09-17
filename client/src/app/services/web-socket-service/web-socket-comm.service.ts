@@ -5,10 +5,13 @@ import { Subject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WebSocketCommService {
-  private ws!: WebSocket;
+  ws!: WebSocket;
+  connection: Subject<MessageEvent>;
   private subject!: Subject<MessageEvent>;
 
-  constructor() {}
+  constructor() {
+    this.connection = new Subject<MessageEvent>();
+  }
 
   public connect(url: string): Subject<MessageEvent> {
     this.ws = new WebSocket(url);
@@ -18,6 +21,7 @@ export class WebSocketCommService {
     this.ws.addEventListener('message', (event) => {
       this.subject.next(event);
     });
+    this.connection = this.subject;
 
     return this.subject;
   }

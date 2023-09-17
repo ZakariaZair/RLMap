@@ -296,8 +296,15 @@ export class MapManagerService {
     this.ensureObjChanges();
   }
 
-  changePlayer(playerName: string, pos: Coord, angle: number) {
-    this.objects.get(playerName)?.set({
+  hideEverything() {
+    this.objects.forEach((obj) => {
+      obj.set('visible', false);
+    });
+    this.ensureObjChanges();
+  }
+
+  changePlayer(key: string, pos: Coord, angle: number) {
+    this.objects.get(key)?.set({
       left: this.filterPos(pos)[0],
       top: this.filterPos(pos)[1],
       angle: ((angle / 200) * 360) / 325,

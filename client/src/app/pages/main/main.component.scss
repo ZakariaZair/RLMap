@@ -1,11 +1,16 @@
 .all-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  z-index: 1;
-  background-image: url(../../../assets/20230815183310_1.jpg);
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100vh;
+z-index: 1;
+font-family: "Kanit", sans-serif;
+background-image: url(../../../assets/20230815183310_1.jpg);
+background-attachment: fixed; /* This will fix your background image */
+background-size: cover; /* This will make sure the image covers the entire container */
+background-position: center; 
+
 }
 
 #ee {
@@ -56,8 +61,8 @@
 .high-container h1 {
   font-size: 800%;
   color: rgb(255, 255, 255);
-  text-shadow: -1px -1px 10px #00000036, 1px -1px 10px #00000034, -1px 1px 10px #0000004b,
-    1px 1px 10px #ffffff49;
+  text-shadow: -1px -1px 10px #00000036, 1px -1px 10px #00000034,
+    -1px 1px 10px #0000004b, 1px 1px 10px #ffffff49;
 }
 
 p {
@@ -75,7 +80,7 @@ p {
   color: aliceblue;
   background-color: rgb(33, 31, 31);
   font-family: "Kanit", sans-serif;
-  
+
   -webkit-transition: background-color 0.1s ease-out;
   -moz-transition: background-color 0.1s ease-out;
   -o-transition: background-color 0.1s ease-out;
@@ -83,11 +88,8 @@ p {
 }
 
 .button:hover {
-  background-color: #575757;
-}
-
-.button:active {
-  background-color: #fad269;
+  border-color: #000000;
+  background-color: #3d3d3d;
 }
 
 .low-container {
@@ -106,11 +108,6 @@ p {
   justify-content: space-evenly;
   width: 60%;
   padding-bottom: 10vh;
-}
-
-.feature p {
-  font-size: 170%;
-  font-style: oblique;
 }
 
 @media (max-width: 600px) {
@@ -135,23 +132,51 @@ p {
   box-shadow: 0px 0px 30px 0px #575757;
 }
 
-input[type="file"] {
-  display: none;
+.title {
+  font-size: 170%;
+  font-style: oblique;
 }
 
-.donate {
-  height: 20vh;
+.warning {
+  color: rgb(255, 255, 255);
+  position: absolute;
+  font-style: italic;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 70%;
+}
+
+.connected {
+  background-color: green;
+  color: white;
+}
+
+.disconnected {
+  background-color: rgb(148, 0, 0);
+  color: white;
+}
+
+.bakkes {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  z-index: 2;
+  flex-direction: row;
 }
 
-.donate-btn {
-  font-size: 200%;
-  width: 60%;
-  text-align: center;
-  font-style: italic;
-  box-shadow: 0px 0px 30px 0px;
+.check {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  flex-direction: column;
+}
+
+.check button {
+  font-size: large;
+  width: 2vw;
+  height: 5vh;
+  padding: 0;
+  margin: 0;
+}
+
+.bakkes .feature {
+  margin-right: 0;
 }

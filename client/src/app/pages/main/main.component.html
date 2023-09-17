@@ -14,18 +14,44 @@
     <div class="features">
       <div class="feature">
         <button class="button" (click)="createNewMap()">Fly</button>
-        <p>* Strategize and create *</p>
+        <p class="title">* Strategize and create *</p>
       </div>
-      <div class="feature">
-        <button class="button" (click)="runReplay()">Leap</button>
-        <!-- <label for="file-upload" class="button"> Upload your replay </label>
-        <input
-          (click)="runReplay()"
-          id="file-upload"
-          type="file"
-          class="button"
-        /> -->
-        <p>* Coming soon... *</p>
+      <div class="bakkes">
+        <div class="feature">
+          <p *ngIf="isConnected == 0" class="warning">Connecting...</p>
+          <p *ngIf="isConnected == 1" class="warning">Connected !</p>
+          <p *ngIf="isConnected == 2" class="warning">
+            Please check if Bakkesmod plugin is installed and running
+          </p>
+          <button
+            [ngClass]="{
+              pending: isConnected == 0,
+              connected: isConnected == 1,
+              disconnected: isConnected == 2
+            }"
+            class="button"
+            (click)="
+              isConnected == 1
+                ? runReplay()
+                : isConnected == 2
+                ? checkConnection()
+                : null
+            "
+          >
+            Leap
+          </button>
+          <p class="title">* BETA: BakkesMod's plugin | RLBV *</p>
+        </div>
+        <div class="check">
+          <button #buttonRef class="button" (click)="openInfo()">🛈</button>
+          <button
+            class="button"
+            *ngIf="isConnected == 2"
+            (click)="checkConnection()"
+          >
+            🗘
+          </button>
+        </div>
       </div>
     </div>
   </div>
