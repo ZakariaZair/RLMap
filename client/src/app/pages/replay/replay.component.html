@@ -1,13 +1,72 @@
-<div>
+<div class="all-container">
+  <div class="backdrop"></div>
+  <button routerLink="/home" class="back">Back</button>
   <div class="replay-container">
+    <div class="rack">
+      <button
+        (click)="
+          this.mapManagerService.toggleDrawingMode(this.drawingMode);
+          this.drawingMode = !this.drawingMode
+        "
+        [ngClass]="{ selected: drawingMode }"
+      >
+        ✎
+      </button>
+      <button
+        (click)="
+          this.mapManagerService.changeBrushColor('red');
+          this.brushColor = 'red'
+        "
+        [ngClass]="{ selected: brushColor.includes('red') }"
+      >
+        🔴
+      </button>
+      <button
+        (click)="
+          this.mapManagerService.changeBrushColor('blue');
+          this.brushColor = 'blue'
+        "
+        [ngClass]="{ selected: brushColor.includes('blue') }"
+      >
+        🔵
+      </button>
+      <button
+        (click)="
+          this.mapManagerService.changeBrushColor('green');
+          this.brushColor = 'green'
+        "
+        [ngClass]="{ selected: brushColor.includes('green') }"
+      >
+        🟢
+      </button>
+      <button
+        (click)="this.mapManagerService.changeBrushSize(2); this.brushSize = 2"
+        [ngClass]="{ selected: brushSize === 2 }"
+      >
+        S
+      </button>
+      <button
+        (click)="this.mapManagerService.changeBrushSize(8); this.brushSize = 8"
+        [ngClass]="{ selected: brushSize === 8 }"
+      >
+        M
+      </button>
+      <button
+        (click)="
+          this.mapManagerService.changeBrushSize(16); this.brushSize = 16
+        "
+        [ngClass]="{ selected: brushSize === 16 }"
+      >
+        L
+      </button>
+      <button (click)="this.mapManagerService.clear()">⌦</button>
+    </div>
     <app-board-map />
-    <div class="replay-buttons-container">
-      <!-- <button (click)="play(); this.replayPaused = false">▷</button>
-      <button (click)="this.replayPaused = !this.replayPaused">||</button> -->
-      <button routerLink="/home">Back</button>
-      <button>▷</button>
-      <button>▷▷</button>
+    <div class="rack">
+      <!-- <button (click)="isPads = !isPads" [ngClass]="{ selected: isPads }">
+        Pads
+      </button> -->
+       <button [ngClass]="{ selected: isNameTag }">Tags</button>
     </div>
   </div>
-
 </div>

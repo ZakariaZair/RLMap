@@ -24,6 +24,8 @@ export class MapManagerService {
   private mediaRecorder?: MediaRecorder;
   private chunks: any[] = [];
   private videoName: string = 'Frame 1';
+  labels: Map<string, fabric.Text>;
+  isTags: boolean = false;
 
   private imageUrls = [
     '../../../assets/ball1.png',
@@ -41,6 +43,7 @@ export class MapManagerService {
     this.frameObjects = [new Map<string, fabric.Image>()];
     this.mapWidth = 5102 * 2;
     this.mapHeight = 4079 * 2;
+    this.labels = new Map<string, fabric.Text>();
   }
 
   setOn() {
@@ -50,6 +53,23 @@ export class MapManagerService {
     // this.fabricCanvas.on('object:modified', () => {
     //   this.saveState();
     // });
+
+    this.fabricCanvas.on('object:moving', (e) => {
+      const object: any = e.target;
+      const label = this.labels.get(object.data.label);
+      if (label && this.isTags && !label.data?.path) {
+        label.set({
+          left:
+            (object as any).left +
+            ((object as any).width * (object as any).scaleX) / 2,
+          top:
+            (object as any).top -
+            ((object as any).height * (object as any).scaleY) / 2 +
+            50,
+        });
+        this.fabricCanvas.renderAll();
+      }
+    });
 
     this.fabricCanvas.on('selection:created', (options) => {
       if (options.selected && options.selected.length > 0) {
@@ -83,14 +103,17 @@ export class MapManagerService {
   createMap(mapPath: string) {
     fabric.loadSVGFromURL(mapPath, (objects, options) => {
       const obj = fabric.util.groupSVGElements(objects, options);
-      obj.scaleToHeight(this.fabricCanvas.height as number);
+      obj.scaleToHeight((this.fabricCanvas.height as number) - 10);
       obj.set({
         opacity: 0.08,
         originX: 'center',
         originY: 'center',
         selectable: false,
         evented: false,
-        scaleX: 3.1,
+        scaleX: 0.42,
+        data: {
+          path: true,
+        },
       });
       const img = obj as fabric.Image;
       this.mapBackground = img;
@@ -109,8 +132,8 @@ export class MapManagerService {
           originY: 'center',
           hasRotatingPoint: true,
           hasBorders: false,
-          scaleX: img.getSrc().includes('ball') ? 0.15 : 0.1,
-          scaleY: img.getSrc().includes('ball') ? 0.15 : 0.1,
+          scaleX: img.getSrc().includes('ball') ? 0.12 : 0.1,
+          scaleY: img.getSrc().includes('ball') ? 0.12 : 0.1,
           selectable: true,
           data: {
             label: img.getSrc().includes('ball')
@@ -169,16 +192,43 @@ export class MapManagerService {
           cornerSize: 25,
         });
 
+        const text = new fabric.Text('Label', {
+          fontSize: 16,
+          textAlign: 'center',
+          fontFamily: 'Kanit',
+        });
+        let textLabel;
+
         if (img.getSrc().includes('ball')) {
+          textLabel = 'ball';
           this.objects.set('ball', img);
-          this.fabricCanvas.add(img).centerObject(img).renderAll();
         } else if (img.getSrc().includes('blue')) {
+          textLabel = 'blue';
           this.objects.set('blue' + index, img);
-          this.fabricCanvas.add(img).centerObject(img).renderAll();
         } else if (img.getSrc().includes('orange')) {
+          textLabel = 'orange';
           this.objects.set('orange' + index, img);
-          this.fabricCanvas.add(img).centerObject(img).renderAll();
         }
+        this.fabricCanvas.add(img).centerObject(img).renderAll();
+
+        text.set({
+          text: textLabel,
+          left:
+            (img as any).left + ((img as any).width * (img as any).scaleX) / 2,
+          top:
+            (img as any).top -
+            ((img as any).height * (img as any).scaleY) / 2 +
+            50,
+          visible: false,
+        });
+        if (img.getSrc().includes('ball')) {
+          this.labels.set('ball', text);
+        } else if (img.getSrc().includes('blue')) {
+          this.labels.set('blue' + index, text);
+        } else if (img.getSrc().includes('orange')) {
+          this.labels.set('orange' + index, text);
+        }
+        this.fabricCanvas.add(text).renderAll();
       });
     });
   }
@@ -220,10 +270,14 @@ export class MapManagerService {
     this.objects.forEach((obj) => {
       obj.setCoords();
     });
+    this.labels.forEach((obj) => {
+      obj.setCoords();
+    });
     this.fabricCanvas.renderAll();
   }
 
   option1() {
+    this.updateTagPosition();
     this.centerBall();
     this.objects.get('blue1')?.set('visible', true);
     this.objects.get('blue2')?.set('visible', false);
@@ -231,11 +285,22 @@ export class MapManagerService {
     this.objects.get('orange4')?.set('visible', true);
     this.objects.get('orange5')?.set('visible', false);
     this.objects.get('orange6')?.set('visible', false);
+
+    if (this.isTags) {
+      this.labels.get('blue1')?.set('visible', true);
+      this.labels.get('blue2')?.set('visible', false);
+      this.labels.get('blue3')?.set('visible', false);
+      this.labels.get('orange4')?.set('visible', true);
+      this.labels.get('orange5')?.set('visible', false);
+      this.labels.get('orange6')?.set('visible', false);
+    }
     this.changeStartPositions();
+    this.updateTagPosition();
     this.ensureObjChanges();
   }
 
   option2() {
+    this.updateTagPosition();
     this.centerBall();
     this.objects.get('blue1')?.set('visible', true);
     this.objects.get('blue2')?.set('visible', true);
@@ -243,7 +308,17 @@ export class MapManagerService {
     this.objects.get('orange4')?.set('visible', true);
     this.objects.get('orange5')?.set('visible', true);
     this.objects.get('orange6')?.set('visible', false);
+
+    if (this.isTags) {
+      this.labels.get('blue1')?.set('visible', true);
+      this.labels.get('blue2')?.set('visible', true);
+      this.labels.get('blue3')?.set('visible', false);
+      this.labels.get('orange4')?.set('visible', true);
+      this.labels.get('orange5')?.set('visible', true);
+      this.labels.get('orange6')?.set('visible', false);
+    }
     this.changeStartPositions();
+    this.updateTagPosition();
     this.ensureObjChanges();
   }
 
@@ -252,7 +327,13 @@ export class MapManagerService {
     this.objects.forEach((obj) => {
       obj.set('visible', true);
     });
+    if (this.isTags) {
+      this.labels.forEach((obj) => {
+        obj.set('visible', true);
+      });
+    }
     this.changeStartPositions();
+    this.updateTagPosition();
     this.ensureObjChanges();
   }
 
@@ -327,7 +408,10 @@ export class MapManagerService {
 
   clear() {
     this.fabricCanvas.forEachObject((obj) => {
-      if (obj instanceof fabric.Path || obj instanceof fabric.PencilBrush) {
+      if (
+        (obj instanceof fabric.Path || obj instanceof fabric.PencilBrush) &&
+        !obj.data?.path
+      ) {
         this.fabricCanvas.remove(obj);
       }
     });
@@ -391,6 +475,43 @@ export class MapManagerService {
 
   stopRecording() {
     this.mediaRecorder?.stop();
+  }
+
+  changeTag(label: string, tag: string) {
+    // const labelObj = this.labels.get(label);
+    // if (labelObj) {
+    //   labelObj.set('text', tag);
+    //   this.fabricCanvas.renderAll();
+    // }
+  }
+
+  toggleTags() {
+    this.isTags = !this.isTags;
+    this.labels.forEach((label) => {
+      label.set('visible', this.isTags);
+    });
+    this.updateTagPosition();
+    this.ensureObjChanges();
+  }
+
+  updateTagPosition() {
+    if (!this.isTags) {
+      return;
+    }
+    this.objects.forEach((obj) => {
+      const label = this.labels.get(obj.data.label);
+      if (label && !label.data?.path) {
+        label.set({
+          left:
+            (obj as any).left +
+            ((obj as any).width * (obj as any).scaleX) / 2 +
+            5,
+          top:
+            (obj as any).top - ((obj as any).height * (obj as any).scaleY) / 2,
+        });
+        this.fabricCanvas.renderAll();
+      }
+    });
   }
 
   downloadRecording() {

@@ -10,7 +10,6 @@ background-image: url(../../../assets/20230815183310_1.jpg);
 background-attachment: fixed; /* This will fix your background image */
 background-size: cover; /* This will make sure the image covers the entire container */
 background-position: center; 
-
 }
 
 #ee {
@@ -146,12 +145,12 @@ p {
 }
 
 .connected {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.829);
   color: white;
 }
 
 .disconnected {
-  background-color: rgb(148, 0, 0);
+  background-color: rgba(255, 0, 0, 0.274);
   color: white;
 }
 

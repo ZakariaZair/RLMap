@@ -20,10 +20,14 @@ export class ReplayPageComponent implements AfterViewInit {
   replayData: any;
   playerRelations: Map<string, Player>;
   private wsSubscription: Subscription;
+  drawingMode: boolean = false;
+  brushSize: number = 2;
+  brushColor: string = 'red';
+  isNameTag: boolean = false;
 
   constructor(
     private readonly replayFetcherService: ReplayFetcherService,
-    private readonly mapManagerService: MapManagerService,
+    public mapManagerService: MapManagerService,
     private readonly WS: WebSocketCommService
   ) {
     this.wsSubscription = new Subscription();
@@ -35,8 +39,8 @@ export class ReplayPageComponent implements AfterViewInit {
     this.wsSubscription = this.WS.connection.subscribe(
       (event: MessageEvent) => {
         const parsedData = JSON.parse(event.data);
+        this.replayData = parsedData.data;
         if (parsedData.type === 'update') {
-          this.replayData = parsedData.data;
           this.update();
         } else if (parsedData.type === 'gameStart') {
           this.setReplay();

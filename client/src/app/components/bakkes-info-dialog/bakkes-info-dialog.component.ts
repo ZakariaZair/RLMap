@@ -7,7 +7,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./bakkes-info-dialog.component.scss'],
 })
 export class BakkesInfoDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+
+  openLink(link: string) {
+    window.open(link, '_blank');
   }
 }

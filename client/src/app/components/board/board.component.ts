@@ -15,7 +15,7 @@ import { MapManagerService } from 'src/app/services/map-manager-service/map-mana
 })
 export class BoardMapComponent implements AfterViewInit {
   @ViewChild('map', { static: true }) mapCanvas!: ElementRef<HTMLCanvasElement>;
-  private mapPath: string = '../../../assets/q6NlCWk01.svg';
+  private mapPath: string = '../../../assets/LEloe101.svg';
 
   constructor(private readonly mapManagerService: MapManagerService) {}
 

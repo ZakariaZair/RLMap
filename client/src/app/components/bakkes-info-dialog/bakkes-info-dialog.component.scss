@@ -1,12 +1,30 @@
 .info-container {
-    width: 17vw;
-    height: 50vh;
+  width: 17vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
 }
 
-h1, p, h2 {
-    width: 100%;
-    text-align: center;
-    color: white;
+h1,
+p,
+h2 {
+  width: 100%;
+  text-align: center;
+  color: white;
 }
 
+span {
+  text-align: center;
+  color: white;
+}
 
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  color: aliceblue;
+  background-color: rgba(122, 122, 122, 0.404);
+  font-family: "Kanit", sans-serif;
+}
