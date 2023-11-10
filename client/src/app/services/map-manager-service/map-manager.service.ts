@@ -26,6 +26,9 @@ export class MapManagerService {
   private videoName: string = 'Frame 1';
   labels: Map<string, fabric.Text>;
   isTags: boolean = false;
+  FOVs: Map<string, fabric.Polygon>;
+  isFOVs: boolean = false;
+  distanceFOV: number = 1500;
 
   private imageUrls = [
     '../../../assets/ball1.png',
@@ -44,6 +47,7 @@ export class MapManagerService {
     this.mapWidth = 5102 * 2;
     this.mapHeight = 4079 * 2;
     this.labels = new Map<string, fabric.Text>();
+    this.FOVs = new Map<string, fabric.Polygon>();
   }
 
   setOn() {
@@ -56,19 +60,11 @@ export class MapManagerService {
 
     this.fabricCanvas.on('object:moving', (e) => {
       const object: any = e.target;
-      const label = this.labels.get(object.data.label);
-      if (label && this.isTags && !label.data?.path) {
-        label.set({
-          left:
-            (object as any).left +
-            ((object as any).width * (object as any).scaleX) / 2,
-          top:
-            (object as any).top -
-            ((object as any).height * (object as any).scaleY) / 2 +
-            50,
-        });
-        this.fabricCanvas.renderAll();
-      }
+      this.FOVs.get(object.data.label)?.set({
+        left: object?.getCenterPoint().x,
+        top: object?.getCenterPoint().y,
+        angle: object?.angle,
+      });
     });
 
     this.fabricCanvas.on('selection:created', (options) => {
@@ -192,6 +188,27 @@ export class MapManagerService {
           cornerSize: 25,
         });
 
+        
+        // Calculate the points for the field of view triangle based on the player's center
+        const centerPoint = img.getCenterPoint();
+
+        const FOV = new fabric.Polygon([
+          centerPoint,
+          { x: img.getCenterPoint().x + this.distanceFOV, 
+            y: img.getCenterPoint().y - Math.tan( (90 - 110/2) * Math.PI / 180 ) * this.distanceFOV },
+          { x: img.getCenterPoint().x - this.distanceFOV, 
+            y: img.getCenterPoint().y - Math.tan( (90 - 110/2) * Math.PI / 180 ) * this.distanceFOV },
+        ],
+        {
+          fill: 'rgba(0,0,0,0.2)',
+          opacity: 0.3,
+          selectable: false,
+          evented: false,
+          visible: false,
+          originX: 'center',
+          originY: 'bottom'
+        });
+
         const text = new fabric.Text('Label', {
           fontSize: 16,
           textAlign: 'center',
@@ -211,6 +228,18 @@ export class MapManagerService {
         }
         this.fabricCanvas.add(img).centerObject(img).renderAll();
 
+        if (img.getSrc().includes('blue')) {
+          this.FOVs.set('blue' + index, FOV);
+        } else if (img.getSrc().includes('orange')) {
+          this.FOVs.set('orange' + index, FOV);
+        }
+        this.fabricCanvas.add(FOV).renderAll();
+
+        FOV.set({
+          left: img.left,
+          top: img.top
+        });
+
         text.set({
           text: textLabel,
           left:
@@ -229,6 +258,7 @@ export class MapManagerService {
           this.labels.set('orange' + index, text);
         }
         this.fabricCanvas.add(text).renderAll();
+
       });
     });
   }
@@ -277,7 +307,6 @@ export class MapManagerService {
   }
 
   option1() {
-    this.updateTagPosition();
     this.centerBall();
     this.objects.get('blue1')?.set('visible', true);
     this.objects.get('blue2')?.set('visible', false);
@@ -296,11 +325,13 @@ export class MapManagerService {
     }
     this.changeStartPositions();
     this.updateTagPosition();
+    this.updateFOVsPosition();
     this.ensureObjChanges();
   }
 
   option2() {
     this.updateTagPosition();
+    this.updateFOVsPosition();
     this.centerBall();
     this.objects.get('blue1')?.set('visible', true);
     this.objects.get('blue2')?.set('visible', true);
@@ -319,6 +350,7 @@ export class MapManagerService {
     }
     this.changeStartPositions();
     this.updateTagPosition();
+    this.updateFOVsPosition();
     this.ensureObjChanges();
   }
 
@@ -334,6 +366,7 @@ export class MapManagerService {
     }
     this.changeStartPositions();
     this.updateTagPosition();
+    this.updateFOVsPosition();
     this.ensureObjChanges();
   }
 
@@ -478,17 +511,53 @@ export class MapManagerService {
   }
 
   changeTag(label: string, tag: string) {
-    // const labelObj = this.labels.get(label);
-    // if (labelObj) {
-    //   labelObj.set('text', tag);
-    //   this.fabricCanvas.renderAll();
-    // }
+    const labelObj = this.labels.get(label);
+    if (labelObj) {
+      labelObj.set('text', tag);
+      this.fabricCanvas.renderAll();
+    }
   }
 
-  toggleTags() {
+  toggleFOVs(index: number) {
+    let playerKeys : string[] = ["blue1", "orange4", "blue2", "orange5", "blue3", "orange6"];
+    playerKeys = playerKeys.slice(0, index);
+    this.isFOVs = !this.isFOVs;
+    this.FOVs.forEach((fov, key) => {
+      if( playerKeys.includes(key) ) {
+        fov.set('visible', this.isFOVs);
+      } else if (!this.isFOVs) {
+        fov.set('visible', false);
+      }
+    });
+    this.updateFOVsPosition();
+    this.ensureObjChanges();
+  }
+
+  updateFOVsPosition() {
+    if (!this.isFOVs) {
+      return;
+    }
+    this.objects.forEach((obj) => {
+      const fov = this.FOVs.get(obj.data.label);
+      if (fov && !obj.data?.path && fov.height) {
+        this.FOVs.get(obj.data.label)?.set({
+          left: obj?.getCenterPoint().x,
+          top: obj?.getCenterPoint().y,
+          angle: obj?.angle,
+        });
+        this.fabricCanvas.renderAll();
+      }
+    });
+  }
+
+  toggleTags(index: number) {
+    let playerKeys : string[] = ["blue1", "orange4", "blue2", "orange5", "blue3", "orange6"];
+    playerKeys = playerKeys.slice(0, index);
     this.isTags = !this.isTags;
-    this.labels.forEach((label) => {
-      label.set('visible', this.isTags);
+    this.labels.forEach((label, key) => {
+      if( playerKeys.includes(key) ) {
+        label.set('visible', this.isTags);
+      }
     });
     this.updateTagPosition();
     this.ensureObjChanges();

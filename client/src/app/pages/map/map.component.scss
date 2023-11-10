@@ -12,7 +12,7 @@
 }
 
 .high-container {
-  height: 13vh;
+  height: 14vh;
   font-size: 200%;
   display: flex;
   margin-bottom: 1vh;
@@ -24,8 +24,8 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-end;
-  height: 100%;
+  align-items: center;
+  height: 40%;
 }
 
 .high-container button {
@@ -64,7 +64,7 @@
 .bar {
   padding: 0.5%;
   height: 60vh;
-  width: 13.5vw;
+  width: 12vw;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -181,8 +181,8 @@
 .draw-button-container button {
   font-size: 200%;
   font-style: bold;
-  width: 6vh;
-  height: 5vh;
+  width: 11vh;
+  height: 10vh;
   border: 1px solid black;
   background-color: rgba(245, 245, 245, 0.875);
 }
@@ -219,13 +219,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30%;
+  font-size: 50%;
   margin-left: 0.2vw;
 }
 
 .extra-buttons button {
   width: 2vw;
-  height: 2vh;
+  height: 4vh;
+  font-style: oblique;
+  font-weight: bolder;
 }
 
 .low-container {
@@ -269,14 +271,14 @@
 
 .back button {
   position: absolute;
-  top: 2vh;
-  left: 6vw;
-  width: 11vw;
+  top: 1vh;
+  left: 1vw;
+  width: 5.5vw;
+  height: 5vh;
   font-size: 100%;
   font-family: "Kanit", sans-serif;
   border: 1px solid black;
-  background: #f1f1f1;
-  height: 7vh;
+  background: #e2e2e29d;
   -webkit-transition: background-color 0.2s ease-out;
   -moz-transition: background-color 0.2s ease-out;
   -o-transition: background-color 0.2s ease-out;
@@ -359,7 +361,6 @@
 
 .slider-container {
   position: relative;
-  margin-top: auto;
   font-family: "Kanit", sans-serif;
   -webkit-user-select: none;
   -ms-user-select: none;

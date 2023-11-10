@@ -61,6 +61,12 @@
       >
         ✚
       </button>
+      <div class="animate draw-button-container">
+        <button (click)="this.animate()" [disabled]="isAnimated">▷</button>
+        <button (click)="this.openAnimeDialog()" *ngIf="!isAnimated && lastGif">
+          ⇓
+        </button>
+      </div>
       <div class="slider-container">
         <div class="slider">
           <div class="slider-labels">
@@ -70,7 +76,7 @@
           <input
             type="range"
             min="0.2"
-            max="5"
+            max="3"
             value="1"
             step="0.1"
             id="mySlider"
@@ -78,12 +84,6 @@
           />
         </div>
         <span class="slider-value">{{ mapManagerService.animSpeed }}</span>
-      </div>
-      <div class="animate draw-button-container">
-        <button (click)="this.animate()" [disabled]="isAnimated">▷</button>
-        <button (click)="this.openAnimeDialog()" *ngIf="!isAnimated && lastGif">
-          ⇓
-        </button>
       </div>
     </div>
     <app-board-map />
@@ -178,7 +178,12 @@
           <img src="../../../assets/car.png" />
         </button>
       </div>
-      <div
+      <div class="draw-button-container">
+        <button (click)="this.mapManagerService.toggleFOVs(optionChosen*2);" [ngClass]="{ selected: playersMode }">
+          <img src="../../../assets/Angle_RLBV.png" />
+        </button>
+      </div>
+      <!-- <div
         [hidden]="mapManagerService.playerSheet.isSelected"
         class="player-sheet"
       >
@@ -186,7 +191,7 @@
           <img [src]="mapManagerService.playerSheet.image" />
         </div>
         <div class="player-attributes">
-          <div class="player-name">
+          <div class="player-name"> 
             {{ mapManagerService.playerSheet.name }}
           </div>
           <div class="player-color">
@@ -206,10 +211,10 @@
             </svg>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
-  <div class="low-container">
+  <!-- <div class="low-container">
     <div class="donate">
       <button class="donate-btn button" (click)="donate()">Arise</button>
       <p>
@@ -217,5 +222,5 @@
         the ongoing development of the tool *
       </p>
     </div>
-  </div>
+  </div> -->
 </div>

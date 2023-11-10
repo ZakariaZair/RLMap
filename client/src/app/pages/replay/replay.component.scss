@@ -21,11 +21,11 @@
 
 button.back {
   position: absolute;
-  top: 2.9vh;
-  left: 5vw;
-  height: 9vh;
-  width: 12vw;
-  font-size: 300%;
+  top: 1vh;
+  left: 1vw;
+  height: 5vh;
+  width: 5.5vw;
+  font-size: 180%;
 }
 
 button:hover {
@@ -43,6 +43,11 @@ button {
   -moz-transition: background-color 0.2s ease-out;
   -o-transition: background-color 0.2s ease-out;
   transition: background-color 0.2s ease-out;
+}
+
+button img {
+  height: 100%;
+  width: 100%;
 }
 
 .rack {

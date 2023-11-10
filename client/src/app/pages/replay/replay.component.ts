@@ -18,12 +18,13 @@ import { WebSocketCommService } from 'src/app/services/web-socket-service/web-so
 })
 export class ReplayPageComponent implements AfterViewInit {
   replayData: any;
-  playerRelations: Map<string, Player>;
   private wsSubscription: Subscription;
   drawingMode: boolean = false;
   brushSize: number = 2;
   brushColor: string = 'red';
   isNameTag: boolean = false;
+  isFOVs: boolean = false;
+  numberOfPlayers: number = 6;
 
   constructor(
     private readonly replayFetcherService: ReplayFetcherService,
@@ -31,7 +32,7 @@ export class ReplayPageComponent implements AfterViewInit {
     private readonly WS: WebSocketCommService
   ) {
     this.wsSubscription = new Subscription();
-    this.playerRelations = new Map<string, Player>();
+    this.mapManagerService.isTags = false;
   }
 
   ngAfterViewInit(): void {
@@ -58,21 +59,25 @@ export class ReplayPageComponent implements AfterViewInit {
       this.mapManagerService.hideEverything();
       let blueIndex: number = 1;
       let orangeIndex: number = 4;
+      console.log(this.replayData);
       for (const index in this.replayData) {
         const team = this.replayData[index].team;
         let key = 'ball';
         if (team !== undefined && team == 0) {
           key = 'blue' + blueIndex;
           blueIndex++;
+          this.mapManagerService.changeTag(key, this.replayData[index].name);
         } else if (team !== undefined && team == 1) {
           key = 'orange' + orangeIndex;
           orangeIndex++;
+          this.mapManagerService.changeTag(key, this.replayData[index].name);
         }
         this.mapManagerService.objects.get(key)?.set({
           visible: true,
         });
         this.mapManagerService.ensureObjChanges();
       }
+      this.numberOfPlayers = blueIndex + orangeIndex - 5;
     }, 1000);
   }
 
@@ -85,6 +90,8 @@ export class ReplayPageComponent implements AfterViewInit {
       const angle = this.replayData[index].angle;
       const team = this.replayData[index].team;
       const coord: Coord = { X: x, Y: y, Z: 0 };
+      this.mapManagerService.updateTagPosition();
+      this.mapManagerService.updateFOVsPosition();
       if (team !== undefined && team == 0) {
         this.mapManagerService.changePlayer('blue' + blueIndex, coord, angle);
         blueIndex++;
@@ -99,6 +106,16 @@ export class ReplayPageComponent implements AfterViewInit {
         this.mapManagerService.changePlayer('ball', coord, 0);
       }
     }
+  }
+
+  toggleTags() {
+    this.isNameTag = !this.isNameTag;
+    this.mapManagerService.toggleTags(this.numberOfPlayers);
+  }
+
+  toggleFOVs() {
+    this.isFOVs = !this.isFOVs;
+    this.mapManagerService.toggleFOVs(this.numberOfPlayers);
   }
 
   // async ngOnInit(): Promise<void> {
