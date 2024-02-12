@@ -171,6 +171,12 @@ export class MapManagerService {
     });
   }
 
+  updateTraceForReplay() {
+    this.objects.forEach((obj) => {
+      this.addTraceForObject(obj, obj.left as number, obj.top as number);
+    });
+  }
+
   createObjects() {
     const imagePromises = this.imageUrls.map((url) => this.loadImage(url));
 

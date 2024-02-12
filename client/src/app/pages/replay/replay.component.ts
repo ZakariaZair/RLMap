@@ -92,6 +92,7 @@ export class ReplayPageComponent implements AfterViewInit {
       const coord: Coord = { X: x, Y: y, Z: 0 };
       this.mapManagerService.updateTagPosition();
       this.mapManagerService.updateFOVsPosition();
+      this.mapManagerService.updateTraceForReplay();
       if (team !== undefined && team == 0) {
         this.mapManagerService.changePlayer('blue' + blueIndex, coord, angle);
         blueIndex++;
