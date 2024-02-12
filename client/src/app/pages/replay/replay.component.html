@@ -63,16 +63,22 @@
     </div>
     <app-board-map />
     <div class="rack">
-      <!-- <button (click)="isPads = !isPads" [ngClass]="{ selected: isPads }">
-        Pads
-      </button> -->
-      <button (click)="this.toggleTags()"
-       [ngClass]="{ selected: isNameTag }">
-       Tags
-      </button>
+        <!-- <button (click)="isPads = !isPads" [ngClass]="{ selected: isPads }">
+          Pads
+        </button> -->
+        <button (click)="this.toggleTags()"
+        [ngClass]="{ selected: isNameTag }">
+        Tags
+        </button>
         <button (click)="this.toggleFOVs()"
         [ngClass]="{ selected: isFOVs }">
           <img src="../../../assets/Angle_RLBV.png" />
+        </button>
+        <button (click)="this.mapManagerService.toggleTracing();" [ngClass]="{ selected: this.mapManagerService.traceEnabled }">
+          ToggleTrace
+        </button>
+        <button (click)="this.mapManagerService.clearTraces();">
+          ClearTrace
         </button>
     </div>
   </div>

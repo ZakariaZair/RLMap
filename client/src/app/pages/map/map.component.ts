@@ -31,6 +31,7 @@ export class MapPageComponent implements AfterViewInit {
   isEditing: boolean[] = [];
   isAnimated: boolean = false;
   lastGif: boolean = false;
+  
 
   constructor(
     public mapManagerService: MapManagerService,

@@ -29,6 +29,8 @@ export class MapManagerService {
   FOVs: Map<string, fabric.Polygon>;
   isFOVs: boolean = false;
   distanceFOV: number = 1500;
+  traceEnabled: boolean = false;
+
 
   private imageUrls = [
     '../../../assets/ball1.png',
@@ -51,6 +53,7 @@ export class MapManagerService {
   }
 
   setOn() {
+    
     // this.fabricCanvas.on('path:created', () => {
     //   this.saveState();
     // });
@@ -65,6 +68,8 @@ export class MapManagerService {
         top: object?.getCenterPoint().y,
         angle: object?.angle,
       });
+
+      this.addTraceForObject(object, object.left, object.top);
     });
 
     this.fabricCanvas.on('selection:created', (options) => {
@@ -117,6 +122,53 @@ export class MapManagerService {
       this.fabricCanvas.add(img).centerObject(img).renderAll();
     });
   }
+  
+
+  addTraceForObject(object: any, newX: number, newY: number) {
+    if (!this.traceEnabled || !object.data.lastPosX || !object.data.lastPosY) return;
+    console.log("trace");
+    
+    const line = new fabric.Line([object.data.lastPosX, object.data.lastPosY, newX, newY], {
+      stroke: (object as fabric.Image).getSrc().includes('ball')
+          ? 'ball'
+          : (object as fabric.Image).getSrc().includes('blue')
+          ? 'blue'
+          : 'orange',
+      strokeWidth: 2,
+      selectable: false,
+      evented: false,
+    });
+  
+    this.fabricCanvas.add(line).renderAll();
+  
+    this.changeLastTracePosition(object, newX, newY);
+  }
+  
+  toggleTracing() {
+    this.traceEnabled = !this.traceEnabled;
+  }
+  
+  clearTraces() {
+    const objectsToRemove = [] as fabric.Object[];
+    this.fabricCanvas.forEachObject((obj) => {
+      if (obj instanceof fabric.Line) {
+        objectsToRemove.push(obj);
+      }
+    });
+    objectsToRemove.forEach((obj) => this.fabricCanvas.remove(obj));
+    this.fabricCanvas.renderAll();
+  }
+
+  changeLastTracePosition(object: any, newX: number, newY: number) {
+    object.data.lastPosX = newX;
+    object.data.lastPosY = newY;
+  }
+
+  updateLastTracePosition() {
+    this.objects.forEach((obj) => {
+      this.changeLastTracePosition(obj, obj.left as number, obj.top as number);
+    });
+  }
 
   createObjects() {
     const imagePromises = this.imageUrls.map((url) => this.loadImage(url));
@@ -147,6 +199,8 @@ export class MapManagerService {
               : img.getSrc().includes('blue')
               ? 'blue'
               : 'orange',
+              lastPosX: img.getCenterPoint().x,
+              lastPosY: img.getCenterPoint().y,
           },
         });
 
@@ -406,7 +460,7 @@ export class MapManagerService {
         oppTeamOrder.shift();
       }
     });
-
+    this.updateLastTracePosition();
     this.ensureObjChanges();
   }
 
