@@ -146,6 +146,7 @@ export class MapManagerService {
   
   toggleTracing() {
     this.traceEnabled = !this.traceEnabled;
+    this.updateLastTracePosition();
   }
   
   clearTraces() {
@@ -660,7 +661,10 @@ export class MapManagerService {
             },
             {
               duration: 1000 / this.animSpeed,
-              onChange: this.fabricCanvas.renderAll.bind(this.fabricCanvas),
+              onChange: () => {
+                this.fabricCanvas.renderAll();
+                this.addTraceForObject(obj, obj.left as number, obj.top as number);
+              },
               easing: fabric.util.ease.easeInOutSine,
               onComplete: () => {
                 animationsCompleted++;
