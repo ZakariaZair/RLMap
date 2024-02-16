@@ -6,6 +6,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { fabric } from 'fabric';
+fabric.Object.prototype.objectCaching = false;
+(fabric as any).perfLimitSizeTotal = 25000000;
+(fabric as any).maxCacheSideLimit = 5000;
+
 import { MapManagerService } from 'src/app/services/map-manager-service/map-manager.service';
 
 @Component({

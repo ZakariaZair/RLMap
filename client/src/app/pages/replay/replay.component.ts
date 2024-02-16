@@ -91,8 +91,6 @@ export class ReplayPageComponent implements AfterViewInit {
       const angle = this.replayData[index].angle;
       const team = this.replayData[index].team;
       const coord: Coord = { X: x, Y: y, Z: 0 };
-      this.mapManagerService.updateTagPosition();
-      this.mapManagerService.updateFOVsPosition();
       if (team !== undefined && team == 0) {
         this.mapManagerService.changePlayer('blue' + blueIndex, coord, angle);
         blueIndex++;
@@ -105,7 +103,9 @@ export class ReplayPageComponent implements AfterViewInit {
         orangeIndex++;
       } else {
         this.timeTrace++;
-        if (this.timeTrace >= 20) {
+        this.mapManagerService.updateTagPosition();
+        this.mapManagerService.updateFOVsPosition();
+        if (this.timeTrace >= 5) {
           this.mapManagerService.updateTraceForReplay();
           this.timeTrace = 0;
         }
