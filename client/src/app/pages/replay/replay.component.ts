@@ -25,6 +25,7 @@ export class ReplayPageComponent implements AfterViewInit {
   isNameTag: boolean = false;
   isFOVs: boolean = false;
   numberOfPlayers: number = 6;
+  timeTrace: number = 0;
 
   constructor(
     private readonly replayFetcherService: ReplayFetcherService,
@@ -92,7 +93,6 @@ export class ReplayPageComponent implements AfterViewInit {
       const coord: Coord = { X: x, Y: y, Z: 0 };
       this.mapManagerService.updateTagPosition();
       this.mapManagerService.updateFOVsPosition();
-      this.mapManagerService.updateTraceForReplay();
       if (team !== undefined && team == 0) {
         this.mapManagerService.changePlayer('blue' + blueIndex, coord, angle);
         blueIndex++;
@@ -104,9 +104,14 @@ export class ReplayPageComponent implements AfterViewInit {
         );
         orangeIndex++;
       } else {
+        this.timeTrace++;
+        if (this.timeTrace >= 20) {
+          this.mapManagerService.updateTraceForReplay();
+          this.timeTrace = 0;
+        }
         this.mapManagerService.changePlayer('ball', coord, 0);
       }
-    }
+    } 
   }
 
   toggleTags() {
