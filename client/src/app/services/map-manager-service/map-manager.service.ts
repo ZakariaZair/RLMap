@@ -33,13 +33,13 @@ export class MapManagerService {
 
 
   private imageUrls = [
-    '../../../assets/ball1.png',
-    '../../../assets/blue1.png',
-    '../../../assets/blue1.png',
-    '../../../assets/blue1.png',
-    '../../../assets/orange1.png',
-    '../../../assets/orange1.png',
-    '../../../assets/orange1.png',
+    'assets/ball1.png',
+    'assets/blue1.png',
+    'assets/blue1.png',
+    'assets/blue1.png',
+    'assets/orange1.png',
+    'assets/orange1.png',
+    'assets/orange1.png',
   ];
 
   constructor() {
