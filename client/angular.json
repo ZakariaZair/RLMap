@@ -31,6 +31,10 @@
             "scripts": []
           },
           "configurations": {
+            "gh-pages": {
+              "baseHref": "/RLMap/",
+              "outputPath": "docs"
+            },
             "production": {
               "budgets": [
                 {
@@ -88,6 +92,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
