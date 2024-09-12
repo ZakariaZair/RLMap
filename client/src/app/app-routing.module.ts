@@ -9,8 +9,8 @@ import { BoardMapComponent } from './components/board/board.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: MainPageComponent },
-  { path: 'replay', component: ReplayPageComponent },
   { path: 'map-editor', component: MapPageComponent },
+  { path: 'replay', component: ReplayPageComponent },
   { path: 'map', component: BoardMapComponent },
 ];
 
